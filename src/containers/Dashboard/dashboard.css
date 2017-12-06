@@ -1,0 +1,86 @@
+.dashboard {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.app_main {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.app_header {
+    height: 60px;
+    line-height: 60px;
+    background-image: -webkit-linear-gradient(45deg, #f35626, #feab3a);
+    -webkit-animation: hue 6s infinite linear;
+}
+
+.app_body {
+    height: calc(100% - 60px);
+}
+
+.app_panel {
+    height: 400px;
+}
+
+.app_operation {
+    height: calc(100% - 400px);
+    background: cadetblue;
+}
+
+.app_panel > div {
+    float: left;
+    height: 100%;
+}
+
+.app_panel .left_panel {
+    width: 40%;
+    background: coral;
+}
+
+.app_panel .center_panel {
+    width: 40%;
+    background: crimson;
+}
+
+.canvas_video_box canvas {
+    width: 100%;
+}
+
+.app_panel .right_panel {
+    width: 20%;
+    background: chartreuse;
+}
+
+.operation_panel {
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background-color: black;
+    color: chartreuse;
+}
+
+@-webkit-keyframes hue {
+    from {
+        -webkit-filter: hue-rotate(0deg);
+    }
+    to {
+        -webkit-filter: hue-rotate(-360deg);
+    }
+}
+
+.video {
+    width: 1200px;
+    /*display: none;*/
+    position: absolute;
+    top:0;
+    left: 0;
+    z-index: -1;
+}
