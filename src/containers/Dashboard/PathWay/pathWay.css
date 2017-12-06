@@ -1,10 +1,16 @@
 .pathWay{
-    overflow-x: scroll;
-    overflow-y: hidden;
+    height: calc(100% - 40px);
+}
+.pathWay_inner{
+    /*margin-left: 60px;*/
+    padding-bottom: 10px;
+    overflow-x: auto;
+    /*overflow-y: auto;*/
 }
 .time_axis_box{
     height: 60px;
     background: cornflowerblue;
+    position: relative
 }
 .time_axis_box>div{
     height: 100%;
@@ -13,34 +19,42 @@
     width: 60px;
     line-height: 60px;
     float: left;
+    /*position: absolute;*/
+    /*left: -60px;*/
+    /*top: 0;*/
+    z-index: 1;
+    background: cornsilk;
 }
 .time_axis{
-    margin-left: 60px;
-    background: cornsilk;
+    /*background: cornsilk;*/
     position: relative;
-    min-width: calc(100% - 60px);
+    margin-left: 60px;
 }
-.needle{
-    width: 2px;
-    height: 120px;
-    position: absolute;
-    top:0;
-    left: 0;
-    background: rebeccapurple;
-}
-.pathWay_item{
+.track{
     height: 50px;
 }
-.pathWay_item > div{
+.track > div{
     height: 100%;
 }
-.pathWay_item .pathWay_type{
+.track .track_type{
     float: left;
 }
-.pathWay_item .pathWay_item_body{
+.track .track_body{
     margin-left: 60px;
     border: 1px  solid #333;
+    box-sizing: border-box;
+    position: relative;
 }
-.activeDrag.pathWay_item_body{
+.activeDrag.track_body{
     border-color: chartreuse;
+}
+
+
+/*===============================*/
+
+.element_obj{
+    position: absolute;
+    top:0;
+    height: 100%;
+    background: #13ce66;
 }

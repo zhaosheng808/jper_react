@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<footer class="footer relative">
+    <div class="toolbar">
+        <div class="cont">
+            <div class="block icon VoiceOver relative active" title="配音"></div>
+            <div class="block icon Volume relative active" title="调节音量"></div>
+            <div class="line" title=""></div>
+            <div class="block icon undoButton relative active" title="后退   Ctrl+Z"></div>
+            <div class="block icon redoButton relative" title="恢复   Ctrl+Y"></div>
+            <div class="line" title=""></div>
+            <div class="block icon inButton relative active" title="打入点   ["></div>
+            <div class="block icon outButton relative active" title="打出点   ]"></div>
+            <div class="block icon clipPointButton relative" title="选中素材设置入出点   H"></div>
+            <div class="block icon toInButton relative active" title="游标到入点   Ctrl+["></div>
+            <div class="block icon toOutButton relative active" title="游标到出点   Ctrl+["></div>
+            <div class="line" title=""></div>
+            <div class="block icon delInButton relative active" title="删除入点   Alt+["></div>
+            <div class="block icon delOutButton relative active" title="删除出点   Alt+["></div>
+            <div class="line" title=""></div>
+            <div class="block text" title="当前时间"><span class="input">00:00:53:09</span></div>
+            <div class="line" title=""></div>
+            <div class="block icon prevFrameButton relative active" title="上一帧   Left"></div>
+            <div class="block icon playButton relative" title="播放   Space"></div>
+            <div class="block icon nextFrameButton relative active" title="下一帧   Right"></div>
+            <div class="line" title=""></div>
+            <div class="block icon toStartButton relative" title="设置素材入点   Shift+["></div>
+            <div class="block icon toEndButton relative" title="设置素材出点   Shift+]"></div>
+            <div class="block icon prevMarkButton relative" title="上一个标记点   <"></div>
+            <div class="block icon markButton relative active" title="设置标记点   M"></div>
+            <div class="block icon nextMarkButton relative" title="下一个标记点   >"></div>
+            <div class="line" title=""></div>
+            <div class="block icon cutButton relative" title="切割   /"></div>
+            <div class="block icon saveButton relative active" title="保存   Ctrl+S">
+                <ul class="dropDownlist">
+                    <li class="dropDown">保存时间线</li>
+                    <li class="dropDown">时间线另存为</li>
+                    <li class="dropDown">发送合成</li>
+                </ul>
+            </div>
+            <div class="block icon Clean relative active" title="新建/清空时间线"></div>
+            <div class="block icon TVLogo relative active" title="添加台标"></div>
+        </div>
+    </div>
+    <div class="timeline">
+        <div class="Scalling left">
+            <div class="icon Small left"></div>
+            <div class="label left">14.5%</div>
+            <div class="icon Large right"></div>
+        </div>
+        <div class="canvas right relative">
+            <canvas width="1820" height="30"></canvas>
+        </div>
+    </div>
+    <div class="mediaKeys">
+        <div class="panel left">
+            <div class="block">
+                <div class="title">Keys</div>
+            </div>
+        </div>
+        <div class="cont left relative">
+            <div class="track"></div>
+        </div>
+    </div>
+    <div class="tracklist">
+        <div class="panel left">
+            <div class="block CG">
+                <div class="title">Text</div>
+                <div class="trackTool">
+                    <div class="delTrack"></div>
+                    <div class="addTrack"></div>
+                </div>
+            </div>
+            <div class="block CG">
+                <div class="title">Text</div>
+                <div class="trackTool">
+                    <div class="delTrack"></div>
+                    <div class="addTrack"></div>
+                </div>
+            </div>
+            <div class="block Video">
+                <div class="title">VA</div>
+                <div class="trackTool">
+                    <div class="delTrack"></div>
+                    <div class="addTrack"></div>
+                    <div class="muteTrack"></div>
+                </div>
+            </div>
+            <div class="block Video">
+                <div class="title">VA</div>
+                <div class="trackTool">
+                    <div class="delTrack"></div>
+                    <div class="addTrack"></div>
+                    <div class="muteTrack"></div>
+                </div>
+            </div>
+            <div class="block Audio">
+                <div class="title">Audio</div>
+                <div class="trackTool">
+                    <div class="delTrack"></div>
+                    <div class="addTrack"></div>
+                    <div class="muteTrack"></div>
+                </div>
+            </div>
+        </div>
+        <div class="cont left relative" style="overflow-x: scroll;">
+            <div class="time_pointer fixed" style="top: 648px; display: block; left: 774.24px;">
+                <div class="trangle"></div>
+                <div class="line absolute"></div>
+                <div class="line line1 absolute hide"></div>
+            </div>
+            <div class="track CG" id="B9DB1A39636B773CE3B98EF28E412BFC" style="width: 1324px;">
+                <div class="clip" style="width: 193.84px; left: 119.42px; z-index: 0;">
+                    <div class="desc ellipsis">asdadasdgfh</div>
+                    <div class="effect absolute Templet"></div>
+                    <div class="move absolute"></div>
+                    <div class="move absolute"></div>
+                </div>
+                <div class="clip" style="width: 158.42px; left: 445px; z-index: 0;">
+                    <div class="desc ellipsis">双击添加字幕</div>
+                    <div class="effect absolute Templet"></div>
+                    <div class="move absolute"></div>
+                    <div class="move absolute"></div>
+                </div>
+            </div>
+            <div class="track CG" id="93368B991F59146D4AC2A37561DE1C6D" style="width: 1324px;">
+                <div class="clip" style="width: 182px; left: 218px; z-index: 0;">
+                    <div class="desc ellipsis">双击添加字幕</div>
+                    <div class="effect absolute Templet"></div>
+                    <div class="move absolute"></div>
+                    <div class="move absolute"></div>
+                </div>
+            </div>
+            <div class="track Video" id="3C829BC4D9B9C174BB8F3ABD6A4C5389" style="width: 1324px;">
+                <div class="clip" style="width: 654.82px; left: 119.42px; z-index: 0;">
+                    <div class="transition left hide relative">
+                        <div class="top absolute"></div>
+                        <img class="img1" src="img/theme1/material/effect/FadeIn.png">
+                        <div class="bottom absolute"></div>
+                    </div>
+                    <div class="desc left"><img class="iconBase" crossorigin="anonymous"
+                                                src="data:image/png;base64,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"><span>11-20_中国新闻_0800_（首发）世界首例遗体“换头术”完成：1、 三维动画展示“换头术”如何进行_08:19:30-08:20:15</span>
+                    </div>
+                    <div class="transition right hide relative">
+                        <div class="top absolute"></div>
+                        <div class="bottom absolute"></div>
+                        <img class="img2" src="img/theme1/material/effect/FadeIn.png"></div>
+                    <div class="effect right"></div>
+                    <div class="volume absolute hide" style="top: 0px;">
+                        <div class="line absolute"></div>
+                        <input type="radio" name="volume" id="761E571A333EDB8E1CB184334EB41338"><label
+                            for="761E571A333EDB8E1CB184334EB41338" class="radio"></label>
+                        <div class="tip fixed hide"></div>
+                    </div>
+                    <div class="move absolute"></div>
+                    <div class="move absolute"></div>
+                </div>
+            </div>
+            <div class="track Video" id="51DEFBE66BFC41977BBA1D62BE793DE4" style="width: 1324px;">
+                <div class="clip" style="width: 257.58px; left: 46.4199px; z-index: 0;">
+                    <div class="transition left hide relative">
+                        <div class="top absolute"></div>
+                        <img class="img1" src="img/theme1/material/effect/FadeIn.png">
+                        <div class="bottom absolute"></div>
+                    </div>
+                    <div class="desc left"><img class="iconBase" crossorigin="anonymous"
+                                                src="data:image/png;base64,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"><span>11-20_中国新闻_0800_（首发）首例遗体“换头术”完成：1、任晓平：手术适合不治之症者 2、手术招致医学争议3、“换头”后如何定义新个体有待明确_08:20:15-08:22:09</span>
+                    </div>
+                    <div class="transition right hide relative">
+                        <div class="top absolute"></div>
+                        <div class="bottom absolute"></div>
+                        <img class="img2" src="img/theme1/material/effect/FadeIn.png"></div>
+                    <div class="effect right"></div>
+                    <div class="volume absolute hide" style="top: 0px;">
+                        <div class="line absolute"></div>
+                        <input type="radio" name="volume" id="78A9D64EC571EF93391B7A5FA245F81A"><label
+                            for="78A9D64EC571EF93391B7A5FA245F81A" class="radio"></label>
+                        <div class="tip fixed hide"></div>
+                    </div>
+                    <div class="move absolute"></div>
+                    <div class="move absolute"></div>
+                </div>
+                <div class="clip" style="width: 152px; left: 672px; z-index: 0;">
+                    <div class="transition left hide relative">
+                        <div class="top absolute"></div>
+                        <img class="img1" src="img/theme1/material/effect/FadeIn.png">
+                        <div class="bottom absolute"></div>
+                    </div>
+                    <div class="desc left"><img class="iconBase" crossorigin="anonymous"
+                                                src="data:image/png;base64,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"><span>11-20_中国新闻_0800_（首发）首例遗体“换头术”完成：1、任晓平：手术适合不治之症者 2、手术招致医学争议3、“换头”后如何定义新个体有待明确_08:20:15-08:22:09</span>
+                    </div>
+                    <div class="transition right hide relative">
+                        <div class="top absolute"></div>
+                        <div class="bottom absolute"></div>
+                        <img class="img2" src="img/theme1/material/effect/FadeIn.png"></div>
+                    <div class="effect right"></div>
+                    <div class="volume absolute hide" style="top: 0px;">
+                        <div class="line absolute"></div>
+                        <input type="radio" name="volume" id="7D28F1583EDA31C59B3B4D895F31E936"><label
+                            for="7D28F1583EDA31C59B3B4D895F31E936" class="radio"></label>
+                        <div class="tip fixed hide"></div>
+                    </div>
+                    <div class="move absolute"></div>
+                    <div class="move absolute"></div>
+                </div>
+            </div>
+            <div class="track Audio" id="5E4CC5FFC73A926359D85B26DC2836B8" style="width: 1324px;">
+                <div class="clip" style="width: 654.82px; left: 119.42px; z-index: 0;">
+                    <div class="transition left hide relative">
+                        <div class="top absolute"></div>
+                        <img class="img1" src="img/theme1/material/effect/FadeIn.png">
+                        <div class="bottom absolute"></div>
+                    </div>
+                    <div class="effect absolute"></div>
+                    <div class="desc left">
+                        <span>11-20_中国新闻_0800_（首发）世界首例遗体“换头术”完成：1、 三维动画展示“换头术”如何进行_08:19:30-08:20:15</span></div>
+                    <div class="transition right hide relative">
+                        <div class="top absolute"></div>
+                        <div class="bottom absolute"></div>
+                        <img class="img2" src="img/theme1/material/effect/FadeIn.png"></div>
+                    <div class="volume absolute hide" style="top: 0px;">
+                        <div class="line absolute"></div>
+                        <input type="radio" name="volume" id="733399352F1BB16A3417C769781EAFC7"><label
+                            for="733399352F1BB16A3417C769781EAFC7" class="radio"></label>
+                        <div class="tip fixed hide"></div>
+                    </div>
+                    <div class="move absolute"></div>
+                    <div class="move absolute"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="absolute justify-line" style="display: none; left: 119.42px;"></div>
+    <div class="in-out">
+        <div class="inPoint absolute point" style="left: 653px; display: block;"></div>
+        <div class="outPoint absolute point" style="left: 930.58px; display: block;"></div>
+    </div>
+</footer>
+</body>
+</html>

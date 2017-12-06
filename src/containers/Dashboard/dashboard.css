@@ -4,62 +4,79 @@
     left: 0;
     bottom: 0;
     right: 0;
+    z-index: 0;
+    background: #fff;
+    overflow: hidden;
 }
-
-.app_main {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
-}
-
 .app_header {
     height: 60px;
     line-height: 60px;
     background-image: -webkit-linear-gradient(45deg, #f35626, #feab3a);
-    -webkit-animation: hue 6s infinite linear;
+    -webkit-animation: hue 60s infinite linear;
 }
 
 .app_body {
     height: calc(100% - 60px);
 }
 
-.app_panel {
-    height: 400px;
-}
 
 .app_operation {
     height: calc(100% - 400px);
     background: cadetblue;
+    position: relative;
+}
+.app_panel {
+    /*height: 400px;*/
+    position: relative;
+}
+.app_panel .right_panel {
+    width: 400px;
+    height: 100%;
+    background: chartreuse;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.app_panel .left_panel {
+    margin-right: 400px;
+    background: coral;
+    position: relative;
+}
+.file_panel {
+    width: 50%;
+    height: 100%;
+    /*float: left;*/
+    /*padding-bottom: 60px;*/
+    background: cornsilk;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.video_panel{
+    width: 50%;
+    height: 0;
+    float: right;
+    padding-bottom: 37.5%;
+    background: cornflowerblue;
+    overflow: hidden;
+    position: relative;
 }
 
-.app_panel > div {
-    float: left;
+.canvas_video_box{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.canvas_video_box canvas {
+    object-fit: contain;
+    width: 100%;
     height: 100%;
 }
 
-.app_panel .left_panel {
-    width: 40%;
-    background: coral;
-}
 
-.app_panel .center_panel {
-    width: 40%;
-    background: crimson;
-}
-
-.canvas_video_box canvas {
-    width: 100%;
-}
-
-.app_panel .right_panel {
-    width: 20%;
-    background: chartreuse;
-}
-
-.operation_panel {
+.toolbar {
     height: 40px;
     line-height: 40px;
     text-align: center;
@@ -83,4 +100,24 @@
     top:0;
     left: 0;
     z-index: -1;
+}
+.needle{
+    width: 2px;
+    height: 100%;
+    margin-left: 60px;
+    margin-top: 40px;
+    position: absolute;
+    top:0;
+    left: 0;
+    background: rebeccapurple;
+    cursor: move;
+}
+.needle:before{
+    content: '';
+    width: 10px;
+    height: 20px;
+    background: rebeccapurple;
+    position: absolute;
+    top: 0;
+    left: -4px;
 }

@@ -34,17 +34,17 @@ class App extends Component {
   };
   render() {
     const contentStyle = {
-      boxSizing: 'border-box',
-      padding: '10px'
+      // boxSizing: 'border-box',
+      // padding: '10px'
     };
-    const {number} = this.props;
+    // const {number} = this.props;
     // const { name = '未定义' } = this.props;
     return (
       <div className="App">
         <div className="app-content" style={contentStyle}>
-          <h1 style={{borderBottom:'1px solid #333'}}>app-content</h1>
-          <h2>number: {number}</h2>
-          <button onClick={this._changeName}>add 1</button>
+          {/*<h1 style={{borderBottom:'1px solid #333'}}>app-content</h1>*/}
+          {/*<h2>number: {number}</h2>*/}
+          {/*<button onClick={this._changeName}>add 1</button>*/}
           <Switch>
             <Route exact path="/" component={Dashboard}/>
             <Route path="/dashboard" component={Dashboard}/>

@@ -13,7 +13,7 @@ class File extends Component {
   }
   _dragStart = (type, event) => {
     console.log(type, 'type');
-    event.dataTransfer.setData("data", JSON.stringify({type: 'video', id: 20}));
+    event.dataTransfer.setData("data", JSON.stringify({type: type, id: 20}));
     this.props.changeActiveDrag(type);
   }
   _dragEnd = () => {

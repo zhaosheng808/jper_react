@@ -1,16 +1,19 @@
 /**
  * Created by DELL on 2017/11/10.
  */
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 // import logo from '../../logo.svg';
 import File  from './File';
+import TimeLine  from './TimeLine';
+import Needle  from './Needle';
 import PathWay  from './PathWay';
+import InOut  from './InOut';
 import OperateMessage  from './OperateMessage';
 import './dashboard.css';
 import mp4 from '@/assets/media/VID_20171123_124935.mp4';
 export default
 class Dashboard extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       canvas: null,
@@ -18,11 +21,25 @@ class Dashboard extends Component {
       Width: '',
       Height: '',
       video: '',
+      app_operation_height: '',      // app_operation height
       timer: null                   // 定时器
     };
   }
-  componentDidMount () {
+
+  componentDidMount() {
     this.createCanvas();
+    this.windows_resize();
+    window.onresize = () => {
+      this.windows_resize()
+    }
+  }
+
+  windows_resize = () => {
+    const app_panel_height = this.refs.app_panel.clientHeight;
+    const app_operation_height = `calc(100% - ${app_panel_height + 1}px)`;
+    this.setState({
+      app_operation_height
+    })
   }
   _fullScreen = () => {
     document.querySelector('html').webkitRequestFullScreen();
@@ -50,7 +67,7 @@ class Dashboard extends Component {
       });
     }
   }
-   // 创建canvas
+  // 创建canvas
   createCanvas = () => {
     const canvas = document.createElement('canvas'),
       Width = this.refs.video.clientWidth || 400 / 2,
@@ -104,9 +121,13 @@ class Dashboard extends Component {
   }
   // 指针移动
   needle_move = () => {
-    this.refs.pathWay.needle_move();
+    this.refs.needle.needle_move();
   }
-  // 改变脱脂可放的类型
+  // 点击改变指针位置
+  changeNeedle = (left) => {
+    this.refs.needle.changeNeedle(left);
+  }
+  // 改变拖拽可放的类型
   changeActiveDrag = (type) => {
     this.refs.pathWay.changeActiveDrag(type);
   }
@@ -115,44 +136,49 @@ class Dashboard extends Component {
     const {ctx, video, Width, Height} = this.state;
     ctx.drawImage(video, 0, 0, Width, Height);
   }
+
   render() {
+    const {app_operation_height} = this.state;
     return (
       <div className="dashboard">
-        <div className="app_main">
-          <div className="app_header">
-            <h2>123t头部</h2>
-          </div>
-          <div className="app_body">
-            {/*<!-- 信息展示-->*/}
-            <div className="app_panel">
+        <div className="app_header">
+          <h2>123t头部</h2>
+        </div>
+        <div className="app_body">
+          {/*<!-- 信息展示-->*/}
+          <div className="app_panel" ref='app_panel'>
+            {/*<!--具体操作信息展示-->*/}
+            <div className="right_panel">
+              <OperateMessage/>
+            </div>
+            <div className="left_panel clear">
               {/*<!--文件展示-->*/}
-              <div className="left_panel">
-                <File changeActiveDrag={this.changeActiveDrag} />
+              <div className="file_panel">
+                <File changeActiveDrag={this.changeActiveDrag}/>
               </div>
               {/*<!--video展示-->*/}
-              <div className="center_panel">
+              <div className="video_panel">
                 <div ref='canvas_video_box' className="canvas_video_box"/>
               </div>
-              {/*<!--具体操作信息展示-->*/}
-              <div className="right_panel">
-                <OperateMessage/>
-              </div>
-            </div>
-            {/*<!-- 操作区域-->*/}
-            <div className="app_operation">
-              {/*<!-- 操作面板-->*/}
-              <div className="operation_panel">
-                <button id="btn_play" onClick={this.play_video}>播放</button>
-                <button id="btn_paused" onClick={this.pause_video}>暂停</button>
-                <button onClick={this._fullScreen}>全屏</button>
-                <button id="btn_tips" onClick={this._handel_notice}>通知</button>
-              </div>
-              {/*<!-- 轨道-->*/}
-              <PathWay ref='pathWay' />
             </div>
           </div>
-          <video ref='video' className="video" muted controls loop id="video" src={mp4}>你的浏览器不支持video</video>
+          {/*<!-- 操作区域-->*/}
+          <div className="app_operation" style={{height: app_operation_height}}>
+            {/*<!-- 操作面板-->*/}
+            <div className="toolbar">
+              <button id="btn_play" onClick={this.play_video}>播放</button>
+              <button id="btn_paused" onClick={this.pause_video}>暂停</button>
+              <button onClick={this._fullScreen}>全屏</button>
+              <button id="btn_tips" onClick={this._handel_notice}>通知</button>
+            </div>
+            <TimeLine changeNeedle={this.changeNeedle} ref='timeLine'/>
+            {/*<!-- 轨道-->*/}
+            <PathWay ref='pathWay'/>
+            <Needle ref='needle'/>
+            <InOut />
+          </div>
         </div>
+        <video ref='video' className="video" muted controls loop id="video" src={mp4}>你的浏览器不支持video</video>
       </div>
     );
   }
