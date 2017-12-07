@@ -2,12 +2,12 @@
  * Created by DELL on 2017/12/5.
  */
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import './pathWay.css';
 import TrackYt from './TrackYt';
 import TrackVideo from './TrackVideo';
 import TrackAudio from './TrackAudio';
 
-export default
 class PathWay extends Component {
   constructor(props){
     super(props);
@@ -22,6 +22,9 @@ class PathWay extends Component {
         ],
       ytTrackList: [{type: 'text', child: []}],         //  所有压条轨道列表
     };
+  }
+  componentDidMount () {
+    // console.log(this.props.videoTrackList, 'videoTrackList');
   }
   changeActiveDrag = (type) => {
     this.setState({
@@ -52,7 +55,8 @@ class PathWay extends Component {
     })
   }
   render() {
-    const {activeDrag, ytTrackList , videoTrackList, audioTrackList} = this.state;
+    const {ytTrackList , audioTrackList} = this.state;
+    const {videoTrackList, activeDrag} = this.props;
     return (
       <div className="pathWay">
        <div className="pathWay_inner">
@@ -64,7 +68,7 @@ class PathWay extends Component {
            }
            {
              videoTrackList.map((item, index) => {
-               return <TrackVideo key={index} index={index} activeDrag={activeDrag} item={item} addNewChild={this.addNewChild_video} />
+               return <TrackVideo key={index} type="video" index={index} activeDrag={activeDrag} item={item} addNewChild={this.addNewChild_video} />
              })
            }
            {
@@ -78,3 +82,4 @@ class PathWay extends Component {
     );
   }
 }
+export default connect(state => ({videoTrackList: state.videoTrackList.data, activeDrag: state.activeDrag }))(PathWay);

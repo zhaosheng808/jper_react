@@ -5,13 +5,16 @@
  * Created by DELL on 2017/12/5.
  */
 import React, {Component} from 'react';
+import VideoItem from './VideoItem';
+import { connect } from 'react-redux';
+import {videoTrackList_add} from '@/redux/models/videoTrackList';
+import {active_element_change} from '@/redux/models/activeTruckElement';
 
-
-export default
 class TrackVideo extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      type: 'video'
     };
   }
   componentDidMount () {
@@ -28,9 +31,13 @@ class TrackVideo extends Component {
     }
   }
   _drop = (event) => {
+    const left = event.clientX - 60;
     event.preventDefault();
     const dropData = JSON.parse(event.dataTransfer.getData("data"));
-    this.props.addNewChild(dropData, this.props.index);
+    dropData.start = left;
+    // dropData.time = 100;
+
+    this.props.videoTrackList_add(dropData, this.props.index);
   }
 
   render() {
@@ -44,13 +51,18 @@ class TrackVideo extends Component {
       <div className="track Video">
         <div className='track_type'>{item.type}</div>
         <div className={isActiveDrag ? 'track_body activeDrag' : 'track_body'} onDragOver={this._dragover} onDrop={this._drop} ref='drop'>
-          {child.map((childItem, index) => {
-            return <div className="element_obj" style={{width: `${childItem.time}px`, left: `${childItem.start}px`}} key={index}>
-              <div>{childItem.name}</div>
-            </div>
+          {child.map((itemData, index) => {
+            return <VideoItem key={index} itemData={itemData} itemIndex={index} trunkIndex={this.props.index} />
+
+            // <div className="element_obj" style={{width: `${childItem.time}px`, left: `${childItem.start}px`}} key={index} onClick={this.activeTruckElement.bind(this, index)}>
+            //   <div>{childItem.name}</div>
+            // </div>
           })}
         </div>
       </div>
     )
   }
 }
+export default  connect(state => ({admin: state.admin, activeElement: state.activeElement}),
+  {videoTrackList_add,
+  active_element_change})(TrackVideo);

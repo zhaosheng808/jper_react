@@ -129,7 +129,13 @@ class Dashboard extends Component {
   }
   // 改变拖拽可放的类型
   changeActiveDrag = (type) => {
-    this.refs.pathWay.changeActiveDrag(type);
+    // this.refs.pathWay.changeActiveDrag(type);
+    // console.log(this.refs.pathWay)
+    // console.log(this.refs.pathWay.changeActiveDrag)
+  }
+  // 改变展示信息
+  changeShowMessage = (data) => {
+
   }
   // 定时将video画在画布上
   drawVideoToCanvas = () => {

@@ -5,6 +5,9 @@ import { combineReducers } from 'redux'
 
 import admin from './models/admin';
 import other from './models/other';
+import videoTrackList from './models/videoTrackList';  // video轨道
+import activeDrag from './models/dragActive';  // 拖拽的类型
+import activeElement from './models/activeTruckElement';  // 轨道激活元素
 
 // reducer 就是一个纯函数，接收旧的 state 和 action，返回新的 state。
 
@@ -34,7 +37,10 @@ reducer首先用action中传入的type属性来判断我们要做的是哪种操
 
 const reducers = combineReducers({
   other,
-  admin
+  admin,
+  videoTrackList,
+  activeDrag,
+  activeElement
   // more state
 });
 

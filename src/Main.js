@@ -19,7 +19,7 @@ class Main extends Component {
     };
   }
   _authLogin = () => {
-    console.log(this.props.admin, 'admin');
+    // console.log(this.props.admin, 'admin');
     const { username = 'aaa' } = this.props.admin;
     if (username) {
       return <App />

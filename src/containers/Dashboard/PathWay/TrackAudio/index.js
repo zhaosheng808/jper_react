@@ -33,6 +33,9 @@ class TrackAudio extends Component {
     this.props.addNewChild(dropData, this.props.index);
     // this.refs.drop.innerHTML = `<div class="drug">${dropData.type}</div>`;
   }
+  showMessage = (itemObject, scope) => {
+    console.log(itemObject);
+  }
 
   render() {
     const {item, activeDrag} = this.props;   // item 每一条轨道对象的数组
@@ -46,7 +49,7 @@ class TrackAudio extends Component {
         <div className='track_type'>{item.type}</div>
         <div className={isActiveDrag ? 'track_body activeDrag' : 'track_body'} onDragOver={this._dragover} onDrop={this._drop} ref='drop'>
           {child.map((childItem, index) => {
-            return <div className="element_obj" style={{width: `${childItem.time}px`}} key={index}>
+            return <div className="element_obj" onClick={this.showMessage.bind(this, childItem)} style={{width: `${childItem.time}px`}} key={index}>
               <div>{childItem.name}</div>
             </div>
           })}

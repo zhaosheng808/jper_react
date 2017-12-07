@@ -19,7 +19,7 @@ class TimeLine extends Component {
   }
   changeNeedle = (event) => {
     event.stopPropagation();
-    console.log(event.clientX);
+    // console.log(event.clientX);
     const left = event.clientX - 60;
     this.props.changeNeedle(left);
   }
