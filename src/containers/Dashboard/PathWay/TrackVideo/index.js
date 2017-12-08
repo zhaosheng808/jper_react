@@ -31,10 +31,12 @@ class TrackVideo extends Component {
     }
   }
   _drop = (event) => {
+    const {zoom_scale} = this.props;
     const left = event.clientX - 60;
     event.preventDefault();
     const dropData = JSON.parse(event.dataTransfer.getData("data"));
-    dropData.start = left;
+    dropData.start = left / zoom_scale;
+    console.log(left / zoom_scale)
     // dropData.time = 100;
 
     this.props.videoTrackList_add(dropData, this.props.index);
@@ -63,6 +65,6 @@ class TrackVideo extends Component {
     )
   }
 }
-export default  connect(state => ({admin: state.admin, activeElement: state.activeElement}),
+export default  connect(state => ({admin: state.admin, activeElement: state.activeElement, zoom_scale: state.zoom_scale.scale}),
   {videoTrackList_add,
   active_element_change})(TrackVideo);

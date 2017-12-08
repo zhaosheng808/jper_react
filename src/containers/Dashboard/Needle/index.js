@@ -2,10 +2,10 @@
  * Created by DELL on 2017/12/6.
  */
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux';
+import {change_needleState} from '@/redux/models/needle';
 import tools from '@/utils/tools';
 
-export default
 class Needle extends Component {
   constructor(props){
     super(props);
@@ -17,24 +17,13 @@ class Needle extends Component {
   }
   componentDidMount () {
     tools.addEventHandler(document.body, 'mouseup', this.needle_mouseUp);
+    console.log('mounted');
   }
-  needle_move = () => {
-    const { left, isMoseDown } = this.state;
-    if(!isMoseDown) {
-      this.setState({
-        left: left + 1
-      })
-    }
-  }
-  changeNeedle = (left) => {
-    this.setState({
-      left: left + 1
-    })
-  };
   needle_mouseMove = (event) => {
     tools.addEventHandler(document.body, 'mousemove', this.changechangeNeedle_move);
   };
   changechangeNeedle_move = (event) => {
+    document.getElementById('video').pause();
     const {startX, startLeft} = this.state;
     const endX = event.clientX;
     const moveX =  endX - startX;
@@ -42,15 +31,15 @@ class Needle extends Component {
     if (nowLeft < 0) {
       nowLeft = 0
     }
-    this.setState({
-      left: nowLeft
-    })
+    this.props.change_needleState(nowLeft);
+    document.getElementById('video').currentTime = nowLeft;
+    this.checkAllItemInNeedle();
   };
   needle_mouseDown = (event) => {
-    const {left} = this.state;
+    const startLeft = this.props.needleLeft;
     this.setState({
       startX: event.clientX,
-      startLeft: left,
+      startLeft: startLeft,
       isMoseDown: true
     });
     this.needle_mouseMove();
@@ -59,12 +48,31 @@ class Needle extends Component {
     tools.removeEventHandler(document.body, 'mousemove', this.changechangeNeedle_move);
     this.setState({
       isMoseDown: false
+    });
+    this.checkAllItemInNeedle();
+  };
+  checkAllItemInNeedle = () => {
+    const {videoTrackList} = this.props;
+    const {needleLeft, zoom_scale} = this.props;
+    console.log(needleLeft, 'needleLeft');
+    console.log(zoom_scale, 'zoom_scale');
+    videoTrackList.forEach((item, index) => {
+      if (item.child) {
+        item.child.forEach((childItem, childIndex) => {
+          const {start, time} = childItem;
+          if (needleLeft >= start * zoom_scale && needleLeft <= parseFloat(start * zoom_scale) + parseFloat(time * zoom_scale)) {
+            console.log(needleLeft - start * zoom_scale , '差值-->name  __ ', childItem.name);
+          }
+        })
+      }
     })
   };
   render() {
-    const {left} = this.state;
+    const {needleLeft} = this.props;
     return (
-      <div className="needle" ref='needle' onMouseDown={this.needle_mouseDown.bind(this)} style={{'left': `${left}px`}}/>
+      <div className="needle" ref='needle' onMouseDown={this.needle_mouseDown.bind(this)} style={{'left': `${needleLeft}px`}}/>
     );
   }
 }
+export default connect(state => ({needleLeft: state.needle.currentTime, videoTrackList: state.videoTrackList.data, zoom_scale: state.zoom_scale.scale}),
+  {change_needleState})(Needle);

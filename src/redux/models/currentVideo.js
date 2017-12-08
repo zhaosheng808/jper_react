@@ -4,7 +4,7 @@
 export const CHANGE_VIDEO_STATE = 'CHANGE_VIDEO_STATE';
 
 const defaultState = {
-  isStop: true,
+  isPlay: false,
   currentTime: 0,
 };
 

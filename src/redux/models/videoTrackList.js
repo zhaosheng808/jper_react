@@ -7,7 +7,7 @@ export const ADD_NEW_CHILD = 'ADD_NEW_CHILD';
 const defaultState = {
   name: 'videoTrackList',
   data: [         // 所有视频轨道列表
-    {type: 'video' , child: [{time: '50', start: 10, name: 'video1'},{time: '60', start: 80, name: 'video3'}]},
+    {type: 'video' , child: [{time: '116', start: 10, name: 'video1'},{time: '90', start: 200, name: 'video3'}]},
     {type: 'video', child: []}
     ]
 };

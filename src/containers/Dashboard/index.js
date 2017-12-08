@@ -2,6 +2,8 @@
  * Created by DELL on 2017/11/10.
  */
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import {change_needleState} from '@/redux/models/needle';
 // import logo from '../../logo.svg';
 import File  from './File';
 import TimeLine  from './TimeLine';
@@ -11,7 +13,7 @@ import InOut  from './InOut';
 import OperateMessage  from './OperateMessage';
 import './dashboard.css';
 import mp4 from '@/assets/media/VID_20171123_124935.mp4';
-export default
+
 class Dashboard extends Component {
   constructor(props) {
     super(props);
@@ -31,6 +33,14 @@ class Dashboard extends Component {
     this.windows_resize();
     window.onresize = () => {
       this.windows_resize()
+    }
+    this.refs.video.onpause = () => {
+      console.log('暂停了pause');
+      this.pause_video();
+    }
+    this.refs.video.oncanplaythrough = () => {
+      console.log('缓冲完毕');
+      this.drawVideoToCanvas();
     }
   }
 
@@ -88,10 +98,16 @@ class Dashboard extends Component {
   play_video = () => {
     this.refs.video.play();
     this.startInterval();
+    this.time_add();
+    this.refs.video.ontimeupdate = (e) => {
+      // console.log(e, 'e');
+      // this.time_add();
+    }
   }
   // pause
   pause_video = () => {
     this.refs.video.pause();
+    // document.getElementById('video').pause();
     this.stopInterval();
   }
   // 轮询
@@ -121,11 +137,26 @@ class Dashboard extends Component {
   }
   // 指针移动
   needle_move = () => {
-    this.refs.needle.needle_move();
+    const {needleLeft, zoom_scale} = this.props;
+    this.props.change_needleState(needleLeft + 1);
+    const {videoTrackList, } = this.props; // video轨道对象
+    const needleLeft_now = needleLeft;
+    videoTrackList.forEach((item, index) => {
+      if (item.child) {
+        item.child.forEach((childItem, childIndex) => {
+          const {start, time} = childItem;
+          if (needleLeft_now >= start * zoom_scale && needleLeft_now <= parseFloat(start * zoom_scale) + parseFloat(time * zoom_scale)) {
+            console.log((needleLeft_now - start * zoom_scale) / zoom_scale , '播放时间-->name  __ ', childItem.name);
+          }
+        })
+      }
+    })
   }
   // 点击改变指针位置
   changeNeedle = (left) => {
-    this.refs.needle.changeNeedle(left);
+    // this.refs.needle.changeNeedle(left);
+    console.log(left);
+    this.props.change_needleState(left);
   }
   // 改变拖拽可放的类型
   changeActiveDrag = (type) => {
@@ -189,3 +220,6 @@ class Dashboard extends Component {
     );
   }
 }
+
+export default connect(state => ({needleLeft: state.needle.currentTime, videoTrackList: state.videoTrackList.data, zoom_scale: state.zoom_scale.scale}),
+  {change_needleState})(Dashboard);

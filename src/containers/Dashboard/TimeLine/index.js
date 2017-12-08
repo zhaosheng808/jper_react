@@ -2,26 +2,23 @@
  * Created by DELL on 2017/12/6.
  */
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import {change_needleState} from '@/redux/models/needle';
 
-export default
 class TimeLine extends Component {
   constructor(props){
     super(props);
     this.state = {
-      left: 0
     };
-  }
-  needle_move = () => {
-    const { left } = this.state;
-    this.setState({
-      left: left + 1
-    })
   }
   changeNeedle = (event) => {
     event.stopPropagation();
+    document.getElementById('video').pause();
     // console.log(event.clientX);
     const left = event.clientX - 60;
-    this.props.changeNeedle(left);
+    // this.props.changeNeedle(left);
+    this.props.change_needleState(left)
+    document.getElementById('video').currentTime = left;
   }
   render() {
     return (
@@ -34,3 +31,4 @@ class TimeLine extends Component {
     );
   }
 }
+export default connect(state => ({}), {change_needleState})(TimeLine);

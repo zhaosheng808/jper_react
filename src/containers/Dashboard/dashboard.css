@@ -99,12 +99,12 @@
 }
 
 .video {
-    width: 1200px;
+    width: 400px;
     /*display: none;*/
-    position: absolute;
-    top:0;
-    left: 0;
-    z-index: -1;
+    position: fixed;
+    top: 150px;
+    right: 0;
+    /*z-index: -1;*/
 }
 .needle{
     width: 2px;
@@ -114,6 +114,7 @@
     position: absolute;
     top:0;
     left: 0;
+    z-index: 100;
     background: rebeccapurple;
     cursor: move;
 }
