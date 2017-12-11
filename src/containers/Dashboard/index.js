@@ -8,7 +8,7 @@ import {change_needleState} from '@/redux/models/needle';
 import File  from './File';
 import CanvasVideo  from './CanvasVideo';
 import VideoPlayers  from './VideoPlayers';
-// import ToolBar  from './ToolBar';
+import ToolBar  from './ToolBar';
 
 // import Needle  from './Needle';
 import PathWay  from './PathWay';
@@ -67,14 +67,14 @@ class Dashboard extends Component {
               </div>
               {/*<!--video展示-->*/}
               <div className="video_panel">
-                {/*<CanvasVideo />*/}
+                <CanvasVideo />
                 {/*<div ref='canvas_video_box' className="canvas_video_box"/>*/}
               </div>
             </div>
           </div>
           {/*<!-- 操作区域-->*/}
           <div className="app_operation" style={{height: app_operation_height}}>
-            {/*<ToolBar/>*/}
+            <ToolBar/>
             {/*<!-- 操作面板-->*/}
             {/*<!-- 轨道-->*/}
             <PathWay ref='pathWay'/>

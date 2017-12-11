@@ -11,7 +11,7 @@ const defaultState = {
       {
         id: '1234',                                         // id               id为当前时间戳
         videoPlayer: 'videoPlayer' + 1234,                // video播放器       播放器id格式 -- videoPlayer + 时间戳
-        src: '',                                                   // src              视频源
+        src: '/static/media/video01.38aa2aab.mp4',                                                   // src              视频源
         cover: '',                                                 // cover            封面
         title: 'video01',                                                 // title            描述
         origin_time: '',                                           // origin_time      原video时间

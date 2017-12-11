@@ -17,11 +17,25 @@ class VideoPlayers extends Component {
   };
 
   render() {
+    const {videoTrackList = []} = this.props;
+    const videoArray = [];
+    videoTrackList.forEach((item, index) => {
+      if (item.child) {
+        item.child.forEach((childItem, childIndex) => {
+          videoArray.push(childItem);
+        })
+      }
+    });
+    console.log(videoArray, 'videoArray');
     return (
       <div className="videoPlayers_wrapper">
-        <VideoPlayerItem/>
+        {
+          videoArray.map((item, index) => {
+            return <VideoPlayerItem key={index} itemData={item} />
+          })
+        }
       </div>
     );
   }
 }
-export default  connect(state => ({videoTrackList: state.videoTrackList.data, activeDrag: state.activeDrag }), {})(VideoPlayers);
+export default  connect(state => ({videoTrackList: state.videoTrackList.data}), {})(VideoPlayers);

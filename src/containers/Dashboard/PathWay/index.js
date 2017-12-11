@@ -33,7 +33,7 @@ class PathWay extends Component {
     this.setState({
       activeDrag: type
     })
-  }
+  };
   addNewChild_video = (childData, index) => {
     console.log(childData);
     const videoTrackList = [...this.state.videoTrackList];
@@ -67,7 +67,6 @@ class PathWay extends Component {
          <Needle ref='needle'/>
          <InOut />
          <TrackList />
-
        </div>
       </div>
     );

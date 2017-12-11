@@ -29,7 +29,7 @@ class TrackVideo extends Component {
     if (isActiveDrag) {
       event.preventDefault();
     }
-  }
+  };
   _drop = (event) => {
     const timestamp = Date.parse(new Date());
     const {zoom_scale} = this.props;
@@ -39,6 +39,7 @@ class TrackVideo extends Component {
     const start_time = left / zoom_scale;
 
     const {src, cover, title, origin_time, width, height}  = dropData;
+    console.log(src, 'src');
     const videoItem = {
       id: timestamp,                                         // id               id为当前时间戳
       videoPlayer: 'videoPlayer' + timestamp,                // video播放器       播放器id格式 -- videoPlayer + 时间戳

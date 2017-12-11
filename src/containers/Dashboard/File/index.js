@@ -5,14 +5,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './index.css';
 import {change_dragActive} from '@/redux/models/dragActive';
+import video01 from '@/assets/media/video01.mp4';
 
 class File extends Component {
   constructor(props) {
     super(props);
     this.state = {
       list: [
-        {type: 'video', name: 'video4', src: '', cover: '', title: 'video444', origin_time: 116, width: '', height: ''},
-        {type: 'video', name: 'video4copy', src: '', cover: '', title: 'video4copytitle', origin_time: 116, width: '', height: ''},
+        {type: 'video', name: 'video4', src: video01, cover: '', title: 'video444', origin_time: 116, width: '', height: ''},
+        {type: 'video', name: 'video4copy', src: video01, cover: '', title: 'video4copytitle', origin_time: 116, width: '', height: ''},
       ]
     };
   }

@@ -13,24 +13,24 @@ class CanvasVideo extends Component {
   };
   componentDidMount () {
     this.createCanvas();
-    this.refs.video.onpause = () => {
-      console.log('暂停了pause');
-      this.pause_video();
-    };
-    this.refs.video.oncanplaythrough = () => {
-      console.log('缓冲完毕');
-      this.drawVideoToCanvas();
-    }
+    // this.refs.video.onpause = () => {
+    //   console.log('暂停了pause');
+    //   this.pause_video();
+    // };
+    // this.refs.video.oncanplaythrough = () => {
+    //   console.log('缓冲完毕');
+    //   this.drawVideoToCanvas();
+    // }
   };
   // 创建canvas
   createCanvas = () => {
+    const video = document.getElementById('videoPlayer1234');
     const canvas = document.createElement('canvas'),
-      Width = this.refs.video.clientWidth || 400 / 2,
-      Height = this.refs.video.clientHeight || 711 / 2;
+      Width = video.clientWidth || 400 / 2,
+      Height = video.clientHeight || 711 / 2;
     canvas.width = Width;
     canvas.height = Height;
     this.refs.canvas_video_box.appendChild(canvas);
-    const video = this.refs.video;
     this.setState({
       ctx: canvas.getContext('2d'),
       Width,
@@ -42,9 +42,7 @@ class CanvasVideo extends Component {
 
   render() {
     return (
-      <div>
-        <div ref='canvas_video_box' className="canvas_video_box"/>
-      </div>
+      <div ref='canvas_video_box' className="canvas_video_box"/>
     );
   }
 }
