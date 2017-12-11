@@ -4,10 +4,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './pathWay.css';
-import TrackYt from './TrackYt';
-import TrackVideo from './TrackVideo';
-import TrackAudio from './TrackAudio';
+// import TrackYt from './TrackYt';
 
+import TimeLine  from './TimeLine';
+import InOut  from './InOut';
+// import TrackAudio from './TrackAudio';
+import Needle  from './Needle';
+import TrackList  from './TrackList';
 class PathWay extends Component {
   constructor(props){
     super(props);
@@ -55,28 +58,16 @@ class PathWay extends Component {
     })
   }
   render() {
-    const {ytTrackList , audioTrackList} = this.state;
-    const {videoTrackList, activeDrag} = this.props;
+    // const {ytTrackList , audioTrackList} = this.state;
+
     return (
       <div className="pathWay">
        <div className="pathWay_inner">
-         <div className="track_list">
-           {
-             ytTrackList.map((item, index) => {
-               return <TrackYt key={index} index={index} activeDrag={activeDrag} item={item}/>
-             })
-           }
-           {
-             videoTrackList.map((item, index) => {
-               return <TrackVideo key={index} type="video" index={index} activeDrag={activeDrag} item={item} addNewChild={this.addNewChild_video} />
-             })
-           }
-           {
-             audioTrackList.map((item, index) => {
-               return <TrackAudio key={index} index={index} activeDrag={activeDrag} item={item} addNewChild={this.addNewChild_audio} />
-             })
-           }
-         </div>
+         <TimeLine changeNeedle={this.changeNeedle} ref='timeLine'/>
+         <Needle ref='needle'/>
+         <InOut />
+         <TrackList />
+
        </div>
       </div>
     );

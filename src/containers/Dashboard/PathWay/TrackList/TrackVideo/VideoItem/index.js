@@ -21,7 +21,7 @@ class VideoItem extends Component {
       trunkIndex: trunkIndex,
       itemIndex: itemIndex
     })
-  }
+  };
   render() {
     const {itemData, activeElement} = this.props;
     const {zoom_scale} = this.state;
@@ -30,7 +30,7 @@ class VideoItem extends Component {
       isActive = true;
     }
     return (
-      <div className={isActive ? 'truck_inlineBlock slide_active' : 'truck_inlineBlock'} style={{width: `${itemData.time * zoom_scale}px`, left: `${itemData.start * zoom_scale}px`}} onClick={this.activeTruckElement}>
+      <div className={isActive ? 'truck_inlineBlock slide_active' : 'truck_inlineBlock'} style={{width: `${itemData.time * zoom_scale}px`, left: `${itemData.start_time * zoom_scale}px`}} onClick={this.activeTruckElement}>
         <div className="element_obj">
           <div>{itemData.name}</div>
         </div>

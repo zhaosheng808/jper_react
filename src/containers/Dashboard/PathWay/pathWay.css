@@ -4,7 +4,8 @@
 .pathWay_inner{
     /*margin-left: 60px;*/
     padding-bottom: 10px;
-    overflow-x: auto;
+    overflow-x: scroll;
+    position: relative;
     /*overflow-y: auto;*/
 }
 .time_axis_box{
@@ -40,6 +41,7 @@
     float: left;
 }
 .track .track_body{
+    /*width: 100%;*/
     margin-left: 60px;
     border: 1px  solid #333;
     box-sizing: border-box;

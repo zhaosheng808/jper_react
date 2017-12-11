@@ -59,9 +59,11 @@ class Needle extends Component {
     videoTrackList.forEach((item, index) => {
       if (item.child) {
         item.child.forEach((childItem, childIndex) => {
-          const {start, time} = childItem;
-          if (needleLeft >= start * zoom_scale && needleLeft <= parseFloat(start * zoom_scale) + parseFloat(time * zoom_scale)) {
-            console.log(needleLeft - start * zoom_scale , '差值-->name  __ ', childItem.name);
+          const {start_time, time, videoPlayer} = childItem;
+          const videoPlayerNode = document.getElementById(videoPlayer);
+          if (needleLeft >= start_time * zoom_scale && needleLeft <= parseFloat(start_time * zoom_scale) + parseFloat(time * zoom_scale)) {
+            // video在指针播放区域
+            videoPlayerNode.play();
           }
         })
       }

@@ -11,11 +11,8 @@ class File extends Component {
     super(props);
     this.state = {
       list: [
-        {type: 'video', name: 'video4', start: 250, time: 60},
-        {type: 'video', name: 'video5', start: 450, time: 70},
-        {type: 'video', name: 'video6', start: 650, time: 90},
-        {type: 'audio', name: 'audionew', start: 250, time: 60},
-        {type: 'text', name: 'textnew', start: 250, time: 60},
+        {type: 'video', name: 'video4', src: '', cover: '', title: 'video444', origin_time: 116, width: '', height: ''},
+        {type: 'video', name: 'video4copy', src: '', cover: '', title: 'video4copytitle', origin_time: 116, width: '', height: ''},
       ]
     };
   }

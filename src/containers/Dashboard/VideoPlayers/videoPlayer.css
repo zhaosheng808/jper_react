@@ -1,0 +1,11 @@
+.videoPlayers_wrapper{
+    position: fixed;
+    top: 160px;
+    right: 0;
+    z-index: 2;
+    width: 400px;
+    background: rebeccapurple;
+}
+.video_wrapper video{
+    width: 100%;
+}
