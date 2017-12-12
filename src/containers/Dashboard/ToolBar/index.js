@@ -4,7 +4,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import {change_needleState} from '@/redux/models/needle';
 
 class ToolBar extends Component {
   constructor(props) {
@@ -13,7 +13,15 @@ class ToolBar extends Component {
     };
   }
   componentDidMount () {
-
+    this.getCanvas();
+  };
+  getCanvas = () => {
+    const canvas = document.getElementsByClassName('video_panel')[0].getElementsByTagName('canvas')[0];
+    const ctx = canvas.getContext('2d');
+    this.setState({
+      canvas,
+      ctx
+    })
   };
   _fullScreen = () => {
     document.querySelector('html').webkitRequestFullScreen();
@@ -41,13 +49,67 @@ class ToolBar extends Component {
       });
     }
   };
+
   play_video = () => {
-    const videoPlayer = document.getElementById('videoPlayer1234');
-    videoPlayer.play();
+    // const videoPlayer = document.getElementById('videoPlayer1234');
+    // videoPlayer.play();
+    this.startInterval();
+    this.time_add();
   };
   pause_video = () => {
-    const videoPlayer = document.getElementById('videoPlayer1234');
-    videoPlayer.pause();
+    // const videoPlayer = document.getElementById('videoPlayer1234');
+    // videoPlayer.pause();
+  };
+  // 轮询时间增加
+  time_add = () => {
+    this.needle_move();
+    this.drawVideoToCanvas();
+  };
+  // 指针移动
+  needle_move = () => {
+    const {needleLeft, zoom_scale} = this.props;
+    this.props.change_needleState(needleLeft + 1);
+    const {videoTrackList, } = this.props; // video轨道对象
+    const needleLeft_now = needleLeft;
+    console.log(needleLeft_now, 'needleLeft_now');
+    videoTrackList.forEach((item, index) => {
+      if (item.child) {
+        item.child.forEach((childItem, childIndex) => {
+          // console.log(childItem, 'childItem');
+          // const videoPlayer = document.getElementById('');
+          const {start_time, time, videoPlayer} = childItem;
+          if (needleLeft_now >= start_time * zoom_scale && needleLeft_now <= parseFloat(start_time * zoom_scale) + parseFloat(time * zoom_scale)) {
+            console.log((needleLeft_now - start_time * zoom_scale) / zoom_scale , '播放时间-->name  __ ', childItem.name);
+            // this.refs.video.play();
+            document.getElementById(videoPlayer).play();
+          } else {
+            // this.refs.video.pause();
+          }
+        })
+      }
+    })
+  };
+  // 定时将video画在画布上
+  drawVideoToCanvas = () => {
+    const {ctx} = this.state;
+    const video = document.getElementById('videoPlayer1234');
+    ctx.drawImage(video, 0, 0, video.clientWidth, video.clientHeight);
+  };
+  // 轮询
+  startInterval = () => {
+    let {timer} = this.state;
+    if (!timer) {
+      timer = setInterval(() => {
+        this.time_add();
+      }, 100);
+      this.setState({
+        timer
+      })
+    }
+  };
+  // 点击改变指针位置
+  changeNeedle = (left) => {
+    this.props.change_needleState(left);
   };
   render() {
     return (
@@ -60,4 +122,9 @@ class ToolBar extends Component {
     );
   }
 }
-export default  connect(state => ({videoTrackList: state.videoTrackList.data, activeDrag: state.activeDrag }), {})(ToolBar);
+export default  connect(state => ({
+  videoTrackList: state.videoTrackList.data,
+  needleLeft: state.needle.currentTime,
+  zoom_scale: state.zoom_scale.scale}),
+  {change_needleState}
+  )(ToolBar);

@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './index.css';
 import {change_dragActive} from '@/redux/models/dragActive';
-import video01 from '@/assets/media/video01.mp4';
+import video01 from '@/assets/media/VID_20171123_124935.mp4';
 
 class File extends Component {
   constructor(props) {

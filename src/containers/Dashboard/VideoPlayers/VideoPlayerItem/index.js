@@ -18,18 +18,18 @@ class VodeoPlayerItem extends Component {
   }
 
   componentDidMount() {
-    this.getCanvas();
-    this.refs.video.onpause = () => {
-      console.log('暂停了pause');
-      this.pause_video();
-    };
-    this.refs.video.oncanplaythrough = () => {
-      console.log('缓冲完毕');
-      this.drawVideoToCanvas();
-    };
-    this.refs.video.onplay = () => {
-      this.play_video();
-    }
+    // this.getCanvas();
+    // this.refs.video.onpause = () => {
+    //   console.log('暂停了pause');
+    //   this.pause_video();
+    // };
+    // this.refs.video.oncanplaythrough = () => {
+    //   console.log('缓冲完毕');
+    //   this.drawVideoToCanvas();
+    // };
+    // this.refs.video.onplay = () => {
+    //   this.play_video();
+    // }
   };
   getCanvas = () => {
     const canvas = document.getElementsByClassName('video_panel')[0].getElementsByTagName('canvas')[0];
@@ -105,7 +105,6 @@ class VodeoPlayerItem extends Component {
 
   // 点击改变指针位置
   changeNeedle = (left) => {
-
     this.props.change_needleState(left);
   };
   // 定时将video画在画布上
@@ -117,7 +116,7 @@ class VodeoPlayerItem extends Component {
 
   render() {
     const {itemData} = this.props;
-    console.log(itemData, 'itemDataVideo');
+    // console.log(itemData, 'itemDataVideo');
     return (
       <div className="video_wrapper">
         <video ref='video' controls preload="true" id={itemData.videoPlayer} src={itemData.src}>你的播放器不支持video</video>
