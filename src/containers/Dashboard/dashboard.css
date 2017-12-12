@@ -1,18 +1,52 @@
 .dashboard {
+    width: 100%;
+    height: 100%;
+    min-width: 1344px;
     position: absolute;
     top: 0;
     left: 0;
-    bottom: 0;
-    right: 0;
     z-index: 0;
-    background: #fff;
+    color: #919191;
+    background: #1b1b1b;
     overflow: hidden;
+    font-size: 14px;
+    font-family: "PingFang SC", '微软雅黑', Arial,sans-serif;
 }
 .app_header {
-    height: 60px;
-    line-height: 60px;
-    background-image: -webkit-linear-gradient(45deg, #f35626, #feab3a);
-    -webkit-animation: hue 60s infinite linear;
+    color: #fbfbfb;
+    padding: 0 20px;
+    height: 36px;
+    line-height: 36px;
+    background: #303030;
+    /*background-image: -webkit-linear-gradient(45deg, #f35626, #feab3a);*/
+    /*-webkit-animation: hue 60s infinite linear;*/
+}
+.header_title{
+    height: 100%;
+    display: inline-block;
+}
+.header_tips{
+    height: 100%;
+    display: block;
+    float: right;
+}
+.shortcut, .help{
+    float: left;
+    margin-left: 20px;
+    margin-top: 9px;
+    background-size: contain;
+}
+.help.menu_icon{
+    background-image: url('../../assets/images/FAQ.png');
+}
+.help:hover{
+    background-image: url('../../assets/images/FAQ-hover.png');
+}
+.shortcut.menu_icon{
+    background-image: url('../../assets/images/shortcut.png');
+}
+.shortcut:hover{
+    background-image: url('../../assets/images/shortcut-hover.png');
 }
 
 .app_body {
@@ -35,7 +69,7 @@
     position: relative;
 }
 .app_panel .right_panel {
-    width: 400px;
+    width: 384px;
     height: 100%;
     background: chartreuse;
     position: absolute;
@@ -43,20 +77,172 @@
     top: 0;
 }
 .app_panel .left_panel {
-    margin-right: 400px;
+    margin-right: 384px;
     background: coral;
     position: relative;
 }
+.panel_header{
+    height: 30px;
+    line-height: 30px;
+    padding: 0 20px;
+    color: #fbfbfb;
+    background: #1b1b1b;
+    box-sizing: border-box;
+    border-bottom: 1px solid #000;
+}
+.panel_body{
+    height: calc(100% - 30px);
+}
+.panel_header .menu_item{
+    display: block;
+    height: 100%;
+    float: left;
+}
+.panel_header span{
+    display: block;
+    float: right;
+    height: 100%;
+}
+.menu_icon{
+    width: 18px;
+    height: 18px;
+    background-image: url('../../assets/images/effect-hover.png');
+    background-repeat: no-repeat;
+}
+.menu_item .menu_icon{
+    display: inline-block;
+    margin-top: 6px;
+    background-size: contain;
+    margin-right: 6px;
+}
+
+.menu_info .menu_icon{
+    background-image: url('../../assets/images/infor-hover.png');
+}
+.menu_result .menu_icon{
+    background-image: url('../../assets/images/result.png');
+}
+/*信息展示板块*/
+.infoPanel .menu_item {
+    margin-right: 50px;
+}
+
+/* ================ 文件选择板块  ====================*/
+
 .file_panel {
     width: 50%;
     height: 100%;
-    /*float: left;*/
-    /*padding-bottom: 60px;*/
-    background: cornsilk;
+    background: #1b1b1b;
     position: absolute;
     top: 0;
     left: 0;
 }
+.panel_body{
+
+}
+.file_panel .menu_item{
+    margin-right: 40px;
+}
+.menu_media .menu_icon{
+    background-image: url('../../assets/images/media-hover.png');
+}
+.menu_text .menu_icon{
+    background-image: url('../../assets/images/word.png');
+}
+.menu_effect .menu_icon{
+    background-image: url('../../assets/images/effect.png');
+}
+.file_choose_panel{
+    width: 100%;
+    max-width: 192px;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    border-right: 1px solid #000;
+    float: left;
+}
+.file_list{
+    height: 100%;
+    margin-left: 192px;
+}
+.file_list_title{
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 1px solid #2b2b2b;
+}
+.file_list_title>div{
+    float: right;
+    height: 100%;
+}
+.list_origin{
+    float: left;
+}
+.list_origin > span{
+    float: right;
+    height: 100%;
+    margin-left: 10px;
+}
+.list_arrangement{
+    margin: 0 20px;
+}
+.list_arrangement .menu_icon{
+    margin: 11px 0 0 20px;
+    float: left;
+}
+.show_list.menu_icon{
+    background-image: url('../../assets/images/list.png');
+}
+.show_tile.menu_icon{
+    background-image: url('../../assets/images/falls-hover.png');
+}
+
+/* 素材卡片*/
+.file_list_content{
+    height: calc(100% - 40px);
+    max-width: 510px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+.source_card{
+    margin: 0 10px 40px;
+    float: left;
+}
+.source_card .source_card_body{
+    width: 150px;
+    height: 112px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    border: 2px solid #ffc000;
+    position: relative;
+}
+.source_card .source_card_body .source_message{
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    background: rgba(0,0,0,0.51);
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    box-sizing: border-box;
+    padding: 0 6px;
+}
+.source_message span{
+    height: 100%;
+    display: block;
+    float: left;
+}
+.source_message .source_time{
+    float: right;
+}
+.source_card .source_card_footer {
+    text-align: center;
+    margin-top: 6px;
+    color: #c6c6c6;
+}
+
+
+
+
 .video_panel{
     width: 50%;
     height: 0;

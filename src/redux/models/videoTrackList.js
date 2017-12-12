@@ -1,6 +1,8 @@
 /**
  * Created by DELL on 2017/12/7.
  */
+import tools from '@/utils/tools';
+console.log(tools);
 export const LOGIN = 'LOGIN';
 export const ADD_NEW_CHILD = 'ADD_NEW_CHILD';
 
@@ -36,9 +38,11 @@ const defaultState = {
 export default function reduce (state = defaultState, action = {}) {
   switch (action.type) {
     case 'ADD_NEW_CHILD' :
-      const newState = {...state};
+      const newState = tools.deepClone(state);
       const {index, trackItemData} = action.data;
       newState.data[index].child.push(trackItemData);
+      console.log(state, 'state');
+      console.log(newState, 'newState__video_truck');
       return newState;
     default :
       return state

@@ -18,15 +18,15 @@ class VodeoPlayerItem extends Component {
   }
 
   componentDidMount() {
-    // this.getCanvas();
-    // this.refs.video.onpause = () => {
-    //   console.log('暂停了pause');
-    //   this.pause_video();
-    // };
-    // this.refs.video.oncanplaythrough = () => {
-    //   console.log('缓冲完毕');
-    //   this.drawVideoToCanvas();
-    // };
+    this.getCanvas();
+    this.refs.video.onpause = () => {
+      console.log('暂停了pause');
+      this.pause_video();
+    };
+    this.refs.video.oncanplaythrough = () => {
+      console.log('缓冲完毕');
+      this.drawVideoToCanvas();
+    };
     // this.refs.video.onplay = () => {
     //   this.play_video();
     // }
@@ -65,7 +65,7 @@ class VodeoPlayerItem extends Component {
   pause_video = () => {
     this.refs.video.pause();
     // document.getElementById('video').pause();
-    this.stopInterval();
+    // this.stopInterval();
   };
   // 暂停
   stopInterval = () => {
@@ -90,11 +90,11 @@ class VodeoPlayerItem extends Component {
       if (item.child) {
         item.child.forEach((childItem, childIndex) => {
           console.log(childItem, 'childItem');
-          const videoPlayer = document.getElementById('');
+          // const videoPlayer = document.getElementById('');
           const {start, time} = childItem;
           if (needleLeft_now >= start * zoom_scale && needleLeft_now <= parseFloat(start * zoom_scale) + parseFloat(time * zoom_scale)) {
             console.log((needleLeft_now - start * zoom_scale) / zoom_scale , '播放时间-->name  __ ', childItem.name);
-            this.refs.video.play();
+            // this.refs.video.play();
           } else {
             // this.refs.video.pause();
           }
@@ -109,9 +109,9 @@ class VodeoPlayerItem extends Component {
   };
   // 定时将video画在画布上
   drawVideoToCanvas = () => {
-    const {ctx, Width, Height} = this.state;
+    const {ctx} = this.state;
     const video = this.refs.video;
-    ctx.drawImage(video, 0, 0, Width, Height);
+    ctx.drawImage(video, 0, 0, this.refs.video.clientWidth, this.refs.video.clientHeight);
   };
 
   render() {

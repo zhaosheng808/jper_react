@@ -13,7 +13,11 @@ class OperateMessage extends Component {
       activeItem = videoTrackList[activeElement.trunkIndex].child[activeElement.itemIndex];
     }
     return (
-      <div>
+      <div className="infoPanel">
+        <div className="panel_header">
+          <div className="menu_item menu_info"><div className="menu_icon" /><span>信息</span></div>
+          <div className="menu_item menu_result"><div className="menu_icon" /><span>效果</span></div>
+        </div>
         <p>激活的元素的index</p>
         {JSON.stringify(activeElement)}
         <p>详细信息</p>

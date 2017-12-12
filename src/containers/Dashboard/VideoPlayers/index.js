@@ -18,6 +18,7 @@ class VideoPlayers extends Component {
 
   render() {
     const {videoTrackList = []} = this.props;
+    console.log(videoTrackList, 'videoTrackList');
     const videoArray = [];
     videoTrackList.forEach((item, index) => {
       if (item.child) {
@@ -38,4 +39,4 @@ class VideoPlayers extends Component {
     );
   }
 }
-export default  connect(state => ({videoTrackList: state.videoTrackList.data}), {})(VideoPlayers);
+export default connect(state => ({videoTrackList: state.videoTrackList.data}), {})(VideoPlayers);

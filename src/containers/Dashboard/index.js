@@ -5,6 +5,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import {change_needleState} from '@/redux/models/needle';
 // import logo from '../../logo.svg';
+import Header  from './Header';
 import File  from './File';
 import CanvasVideo  from './CanvasVideo';
 import VideoPlayers  from './VideoPlayers';
@@ -50,9 +51,7 @@ class Dashboard extends Component {
     const {app_operation_height} = this.state;
     return (
       <div className="dashboard">
-        <div className="app_header">
-          <h2>123t头部</h2>
-        </div>
+        <Header />
         <div className="app_body">
           {/*<!-- 信息展示-->*/}
           <div className="app_panel" ref='app_panel'>
@@ -62,9 +61,7 @@ class Dashboard extends Component {
             </div>
             <div className="left_panel clear">
               {/*<!--文件展示-->*/}
-              <div className="file_panel">
-                <File changeActiveDrag={this.changeActiveDrag}/>
-              </div>
+              <File changeActiveDrag={this.changeActiveDrag}/>
               {/*<!--video展示-->*/}
               <div className="video_panel">
                 <CanvasVideo />

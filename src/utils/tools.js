@@ -16,5 +16,8 @@ export default {
     }else{
       target.detachEvent('on' + type, fn);
     }
+  },
+  deepClone: (obj) => {     // 对象中没有function
+    return JSON.parse(JSON.stringify(obj));
   }
 }

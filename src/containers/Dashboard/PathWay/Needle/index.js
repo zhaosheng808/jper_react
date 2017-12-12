@@ -23,7 +23,7 @@ class Needle extends Component {
     tools.addEventHandler(document.body, 'mousemove', this.changechangeNeedle_move);
   };
   changechangeNeedle_move = (event) => {
-    document.getElementById('video').pause();
+    document.getElementById('videoPlayer1234').pause();
     const {startX, startLeft} = this.state;
     const endX = event.clientX;
     const moveX =  endX - startX;
@@ -32,7 +32,7 @@ class Needle extends Component {
       nowLeft = 0
     }
     this.props.change_needleState(nowLeft);
-    document.getElementById('video').currentTime = nowLeft;
+    // document.getElementById('videoPlayer1234').currentTime = nowLeft;
     this.checkAllItemInNeedle();
   };
   needle_mouseDown = (event) => {
@@ -54,16 +54,17 @@ class Needle extends Component {
   checkAllItemInNeedle = () => {
     const {videoTrackList} = this.props;
     const {needleLeft, zoom_scale} = this.props;
-    console.log(needleLeft, 'needleLeft');
-    console.log(zoom_scale, 'zoom_scale');
+    // console.log(needleLeft, 'needleLeft');
+    // console.log(zoom_scale, 'zoom_scale');
     videoTrackList.forEach((item, index) => {
       if (item.child) {
         item.child.forEach((childItem, childIndex) => {
           const {start_time, time, videoPlayer} = childItem;
           const videoPlayerNode = document.getElementById(videoPlayer);
-          if (needleLeft >= start_time * zoom_scale && needleLeft <= parseFloat(start_time * zoom_scale) + parseFloat(time * zoom_scale)) {
+          if ( videoPlayer && needleLeft >= start_time * zoom_scale && needleLeft <= parseFloat(start_time * zoom_scale) + parseFloat(time * zoom_scale)) {
             // video在指针播放区域
-            videoPlayerNode.play();
+            videoPlayerNode.currentTime = needleLeft / zoom_scale;
+            // videoPlayerNode.play();
           }
         })
       }

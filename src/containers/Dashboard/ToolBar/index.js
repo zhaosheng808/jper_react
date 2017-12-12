@@ -57,8 +57,13 @@ class ToolBar extends Component {
     this.time_add();
   };
   pause_video = () => {
-    // const videoPlayer = document.getElementById('videoPlayer1234');
-    // videoPlayer.pause();
+    const {timer} = this.state;
+    clearInterval(timer);
+    const videoPlayer = document.getElementById('videoPlayer1234');
+    videoPlayer.pause();
+    this.setState({
+      timer: null
+    })
   };
   // 轮询时间增加
   time_add = () => {
@@ -71,17 +76,18 @@ class ToolBar extends Component {
     this.props.change_needleState(needleLeft + 1);
     const {videoTrackList, } = this.props; // video轨道对象
     const needleLeft_now = needleLeft;
-    console.log(needleLeft_now, 'needleLeft_now');
+    // console.log(needleLeft_now, 'needleLeft_now');
     videoTrackList.forEach((item, index) => {
       if (item.child) {
         item.child.forEach((childItem, childIndex) => {
-          // console.log(childItem, 'childItem');
-          // const videoPlayer = document.getElementById('');
           const {start_time, time, videoPlayer} = childItem;
-          if (needleLeft_now >= start_time * zoom_scale && needleLeft_now <= parseFloat(start_time * zoom_scale) + parseFloat(time * zoom_scale)) {
-            console.log((needleLeft_now - start_time * zoom_scale) / zoom_scale , '播放时间-->name  __ ', childItem.name);
-            // this.refs.video.play();
-            document.getElementById(videoPlayer).play();
+          if ( videoPlayer && needleLeft_now >= start_time * zoom_scale && needleLeft_now <= parseFloat(start_time * zoom_scale) + parseFloat(time * zoom_scale)) {
+            const videoNode = document.getElementById(videoPlayer);
+            if (videoNode.paused) {
+              videoNode.currentTime = needleLeft_now / zoom_scale;
+              videoNode.play();
+              videoNode.className = 'video_playing';
+            }
           } else {
             // this.refs.video.pause();
           }

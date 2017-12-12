@@ -39,7 +39,6 @@ class TrackVideo extends Component {
     const start_time = left / zoom_scale;
 
     const {src, cover, title, origin_time, width, height}  = dropData;
-    console.log(src, 'src');
     const videoItem = {
       id: timestamp,                                         // id               id为当前时间戳
       videoPlayer: 'videoPlayer' + timestamp,                // video播放器       播放器id格式 -- videoPlayer + 时间戳
@@ -60,8 +59,8 @@ class TrackVideo extends Component {
       voice_in_time: '',                                     // 音频淡入时间
       voice_out_time: '',                                    // 音频淡出时间
     };
-    console.log(videoItem, 'videoItem');
     this.props.videoTrackList_add(videoItem, this.props.index);
+    // console.log(this.props.videoTrackList, 'videoTrackListvideoTrackListvideoTrackList');
   };
 
   render() {
@@ -83,6 +82,9 @@ class TrackVideo extends Component {
     )
   }
 }
-export default  connect(state => ({admin: state.admin, activeElement: state.activeElement, zoom_scale: state.zoom_scale.scale}),
+export default  connect(state => ({
+    activeElement: state.activeElement,
+    videoTrackList: state.videoTrackList.data,
+    zoom_scale: state.zoom_scale.scale}),
   {videoTrackList_add,
   active_element_change})(TrackVideo);

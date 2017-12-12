@@ -13,13 +13,13 @@ class TimeLine extends Component {
   }
   changeNeedle = (event) => {
     event.stopPropagation();
-    document.getElementById('video').pause();
+    document.getElementById('videoPlayer1234').pause();
     // console.log(event.clientX);
     const left = event.clientX - 60;
     // this.props.changeNeedle(left);
-    this.props.change_needleState(left)
-    document.getElementById('video').currentTime = left;
-  }
+    this.props.change_needleState(left);
+    // document.getElementById('videoPlayer1234').currentTime = left;
+  };
   render() {
     return (
       <div className="timeLine">
