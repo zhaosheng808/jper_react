@@ -42,7 +42,18 @@ class CanvasVideo extends Component {
 
   render() {
     return (
-      <div ref='canvas_video_box' className="canvas_video_box"/>
+      <div className="video_panel">
+        <div className="panel_header" />
+        <div ref='canvas_video_box' className="canvas_video_box"/>
+        <div className="canvas_panel">
+          <div className="canvas_btn" />
+          <div className="canvas_time">
+            00:02:50:20
+          </div>
+          <div className="canvas_progress">
+          </div>
+        </div>
+      </div>
     );
   }
 }

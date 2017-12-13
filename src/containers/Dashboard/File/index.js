@@ -14,10 +14,10 @@ class File extends Component {
       list: [
         {
           type: 'video',
-          name: 'video4',
+          name: 'video444video444video444',
           src: video01,
           cover: '',
-          title: 'video444',
+          title: 'video444video444video444video444',
           origin_time: 116,
           width: '',
           height: ''
@@ -44,6 +44,9 @@ class File extends Component {
   };
   _dragEnd = () => {
     this.props.change_dragActive('');
+  };
+  upload_click = () => {
+    this.refs.upload_source_input.click();
   };
 
   render() {
@@ -79,13 +82,7 @@ class File extends Component {
             </div>
             <div className="file_list_content">
               <div className="source_card">
-                <div className="source_card_body">
-                  <div className="source_img"/>
-                  <div className="source_message">
-                    <span className="source_type">mp4</span>
-                    <span className="source_time">00:00:51:14</span>
-                  </div>
-                </div>
+                <div className="source_card_body add_source" onClick={this.upload_click} />
                 <div className="source_card_footer">添加</div>
               </div>
               {list.map((item, index) => {
@@ -105,6 +102,7 @@ class File extends Component {
             </div>
           </div>
         </div>
+        <input type="file" ref='upload_source_input' id="upload_source_input" />
 
         {/*<div className="list" onDragStart={this._dragStart.bind(this, 'video')} onDragEnd={this._dragEnd} draggable="true">video</div>*/}
         {/*<div className="list" onDragStart={this._dragStart.bind(this, 'text')} onDragEnd={this._dragEnd} draggable="true">text</div>*/}

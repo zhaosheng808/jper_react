@@ -4,6 +4,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {change_needleState} from '@/redux/models/needle';
+import './timeLine.css';
 
 class TimeLine extends Component {
   constructor(props){
@@ -24,7 +25,6 @@ class TimeLine extends Component {
     return (
       <div className="timeLine">
         <div className="time_axis_box">
-          <div className="zoom_scale">100%</div>
           <div className="time_axis" onClick={this.changeNeedle} />
         </div>
       </div>

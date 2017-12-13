@@ -1,0 +1,94 @@
+.toolbar {
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background-color: #303030;
+    color: chartreuse;
+}
+.toolbar .menu_icon{
+    width: 30px;
+    height: 30px;
+}
+.menu_icon.large_icon{
+    width: 34px;
+    height: 34px;
+    margin-right: 10px;
+}
+.toolbar .large_icon{
+    margin-top: 2px;
+}
+.toolbar .btn_group{
+    height: 100%;
+    float: left;
+    overflow: hidden;
+}
+.btn_zoom_group .menu_icon{
+    margin-top: 5px;
+}
+.menu_icon.icon_mini{
+    background-image: url('../../../assets/images/mini.png');
+}
+.menu_icon.icon_max{
+    background-image: url('../../../assets/images/max.png');
+}
+.zoom_line_box{
+    width: 80px;
+    height: 1px;
+    background: #919191;
+    margin: 20px 10px 0;
+    float: left;
+}
+.btn_step_group{
+    margin: 0 60px;
+}
+.menu_icon.icon_revoke{
+    background-image: url('../../../assets/images/back.png');
+    margin-right: 20px;
+}
+.menu_icon.icon_refresh{
+    background-image: url('../../../assets/images/reform.png');
+}
+
+.menu_icon.icon_cutLeft{
+    background-image: url('../../../assets/images/frontcut.png');
+}
+.menu_icon.icon_cutRight{
+    background-image: url('../../../assets/images/behindcut.png');
+}
+
+.menu_icon.icon_magIn{
+    background-image: url('../../../assets/images/frontmag.png');
+}
+.menu_icon.icon_magOut{
+    background-image: url('../../../assets/images/behindmag.png');
+}
+.menu_icon.icon_cut{
+    background-image: url('../../../assets/images/cut-hover.png');
+}
+.menu_icon.icon_cover{
+    width: 50px;
+    margin-left: 10px;
+    background-image: url('../../../assets/images/cover-hover.png');
+}
+
+/* 项目按钮*/
+
+.btn_project{
+    float: right;
+    margin-right: 390px;
+}
+
+.menu_icon.icon_pointIn{
+    background-image: url('../../../assets/images/enter-hover.png');
+}
+.menu_icon.icon_pointOut{
+    background-image: url('../../../assets/images/extra-hover.png');
+}
+
+.menu_icon.icon_save{
+    margin-left: 10px;
+    background-image: url('../../../assets/images/save-hover.png');
+}
+.menu_icon.icon_export{
+    background-image: url('../../../assets/images/export-hover.png');
+}

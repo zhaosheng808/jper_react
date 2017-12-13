@@ -5,6 +5,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 import TrackVideo from './TrackVideo';
+import TrackYt from './TrackYt';
 
 class PathWay extends Component {
   constructor(props) {
@@ -18,7 +19,7 @@ class PathWay extends Component {
       audioTrackList: [          // 音频轨道数组
         {type: 'audio', child: []}
       ],
-      ytTrackList: [{type: 'text', child: []}],         //  所有压条轨道列表
+      ytTrackList: [{type: 'text', child: []}, {type: 'text', child: []}],         //  所有压条轨道列表
     };
   }
 
@@ -51,11 +52,13 @@ class PathWay extends Component {
 
   render() {
     const {videoTrackList, activeDrag} = this.props;
+    const {ytTrackList} = this.state;
     return(
       <div className="track_list">
         {/*{*/}
         {/*ytTrackList.map((item, index) => {*/}
-        {/*return <TrackYt key={index} index={index} activeDrag={activeDrag} item={item}/>*/}
+        {/*return <TrackYt key={index} type="yt" index={index} activeDrag={activeDrag} item={item}*/}
+                        {/*addNewChild={this.addNewChild_video}/>*/}
         {/*})*/}
         {/*}*/}
         {

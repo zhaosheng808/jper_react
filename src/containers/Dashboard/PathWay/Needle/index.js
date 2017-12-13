@@ -73,7 +73,9 @@ class Needle extends Component {
   render() {
     const {needleLeft} = this.props;
     return (
-      <div className="needle" ref='needle' onMouseDown={this.needle_mouseDown.bind(this)} style={{'left': `${needleLeft}px`}}/>
+      <div className="needle" ref='needle' onMouseDown={this.needle_mouseDown.bind(this)} style={{'left': `${needleLeft}px`}} >
+        <div className="needle_handle" />
+      </div>
     );
   }
 }

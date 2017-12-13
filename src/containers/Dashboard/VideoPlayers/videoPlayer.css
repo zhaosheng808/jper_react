@@ -2,9 +2,10 @@
     position: fixed;
     top: 160px;
     right: 0;
-    z-index: 2;
+    z-index: -1;
     width: 400px;
     background: rebeccapurple;
+    /*display: none;*/
 }
 .video_wrapper video{
     width: 100%;

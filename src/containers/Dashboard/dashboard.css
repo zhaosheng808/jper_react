@@ -51,12 +51,12 @@
 
 .app_body {
     height: calc(100% - 60px);
+    background: #1b1b1b;
 }
 
 
 .app_operation {
     height: calc(100% - 400px);
-    background: cadetblue;
     position: relative;
     -moz-user-select:none; /*火狐*/
     -webkit-user-select:none; /*webkit浏览器*/
@@ -64,6 +64,7 @@
     -khtml-user-select:none; /*早期浏览器*/
     user-select:none;
 }
+
 .app_panel {
     /*height: 400px;*/
     position: relative;
@@ -71,7 +72,6 @@
 .app_panel .right_panel {
     width: 384px;
     height: 100%;
-    background: chartreuse;
     position: absolute;
     right: 0;
     top: 0;
@@ -108,9 +108,10 @@
     height: 18px;
     background-image: url('../../assets/images/effect-hover.png');
     background-repeat: no-repeat;
+    float: left;
 }
 .menu_item .menu_icon{
-    display: inline-block;
+    display: block;
     margin-top: 6px;
     background-size: contain;
     margin-right: 6px;
@@ -122,9 +123,43 @@
 .menu_result .menu_icon{
     background-image: url('../../assets/images/result.png');
 }
-/*信息展示板块*/
+/*================信息展示板块================*/
 .infoPanel .menu_item {
     margin-right: 50px;
+}
+.infoPanel .panel_body{
+    width: 100%;
+    position: absolute;
+    top: 30px;
+    left: 0;
+}
+.media_info{
+    color: #c6c6c6;
+    padding: 20px;
+}
+.list_info{
+    color: #919191;
+    background: #303030;
+}
+.info_item{
+    height: 36px;
+    line-height: 36px;
+    border-top: 1px solid #3e3e3e;
+    box-sizing: border-box;
+}
+.info_item:last-child{
+    border-bottom: 1px solid #3e3e3e;
+}
+.info_item .info_label{
+    width: 80px;
+    height: 100%;
+    display: block;
+    color: #c6c6c6;
+    float: left;
+    padding-left: 20px;
+}
+.info_item .info_value{
+    height: 100%;
 }
 
 /* ================ 文件选择板块  ====================*/
@@ -164,6 +199,7 @@
 .file_list{
     height: 100%;
     margin-left: 192px;
+    background-color: #1f1f1f;
 }
 .file_list_title{
     height: 40px;
@@ -202,24 +238,30 @@
     max-width: 510px;
     margin: 0 auto;
     box-sizing: border-box;
+    overflow: auto;
 }
 .source_card{
     margin: 0 10px 40px;
     float: left;
+    color: #c6c6c6;
 }
 .source_card .source_card_body{
     width: 150px;
     height: 112px;
     border-radius: 4px;
     box-sizing: border-box;
-    border: 2px solid #ffc000;
+    border: 2px solid #1f1f1f;
     position: relative;
+    background-color: #1b1b1b;
+}
+.source_card .source_card_body:hover{
+    border: 2px solid #ffc000;
 }
 .source_card .source_card_body .source_message{
     width: 100%;
     height: 30px;
     line-height: 30px;
-    background: rgba(0,0,0,0.51);
+    background: #151515;
     position: absolute;
     left: 0;
     bottom: 0;
@@ -235,45 +277,98 @@
     float: right;
 }
 .source_card .source_card_footer {
-    text-align: center;
+    width: 150px;
     margin-top: 6px;
-    color: #c6c6c6;
+    text-align: center;
+    white-space:nowrap;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.add_source{
+    background-image: url('../../assets/images/addplus.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+}
+#upload_source_input {
+    display: none;
 }
 
 
-
+/* ===  canvas == 显示区域*/
 
 .video_panel{
     width: 50%;
     height: 0;
     float: right;
-    padding-bottom: 37.5%;
-    background: cornflowerblue;
+    padding-bottom: calc(37.5% + 80px);
     overflow: hidden;
     position: relative;
+    box-sizing: border-box;
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
 }
 
 .canvas_video_box{
     width: 100%;
-    height: 100%;
+    height: calc(100% - 80px);
     position: absolute;
-    top: 0;
+    top: 30px;
     left: 0;
+    box-sizing: border-box;
+    border: 1px solid rebeccapurple;
+    background: #151515;
 }
 .canvas_video_box canvas {
     object-fit: contain;
     width: 100%;
     height: 100%;
 }
-
-
-.toolbar {
-    height: 40px;
-    line-height: 40px;
-    text-align: center;
-    background-color: black;
-    color: chartreuse;
+.canvas_panel{
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: #1b1b1b;
+    box-sizing: border-box;
+    border-top: 1px solid #000;
 }
+.canvas_btn{
+    width: 20px;
+    height: 20px;
+    float: left;
+    cursor: pointer;
+    margin: 15px 0 0 40px;
+    background-image: url('../../assets/images/play.png');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.canvas_time{
+    font-size: 32px;
+    color: #fbfbfb;
+    float: left;
+    margin-left: 20px;
+}
+.canvas_progress{
+    width: 50%;
+    height: 10px;
+    float: right;
+    background: #383838;
+    margin: 20px 20px 0 0;
+}
+
+
+
+
+
+
+
+
+
 
 @-webkit-keyframes hue {
     from {
@@ -291,25 +386,4 @@
     top: 150px;
     right: 0;
     /*z-index: -1;*/
-}
-.needle{
-    width: 2px;
-    height: 100%;
-    margin-left: 60px;
-    /*margin-top: -40px;*/
-    position: absolute;
-    top:0;
-    left: 0;
-    z-index: 100;
-    background: rebeccapurple;
-    cursor: move;
-}
-.needle:before{
-    content: '';
-    width: 10px;
-    height: 20px;
-    background: rebeccapurple;
-    position: absolute;
-    top: 0;
-    left: -4px;
 }

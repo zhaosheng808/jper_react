@@ -37,6 +37,9 @@ class Dashboard extends Component {
     window.onresize = () => {
       this.windows_resize()
     };
+    const speechSU = new window.SpeechSynthesisUtterance();
+    speechSU.text = 'hello world!';
+    window.speechSynthesis.speak(speechSU);
   }
 
   windows_resize = () => {
@@ -63,10 +66,8 @@ class Dashboard extends Component {
               {/*<!--文件展示-->*/}
               <File changeActiveDrag={this.changeActiveDrag}/>
               {/*<!--video展示-->*/}
-              <div className="video_panel">
-                <CanvasVideo />
+              <CanvasVideo />
                 {/*<div ref='canvas_video_box' className="canvas_video_box"/>*/}
-              </div>
             </div>
           </div>
           {/*<!-- 操作区域-->*/}

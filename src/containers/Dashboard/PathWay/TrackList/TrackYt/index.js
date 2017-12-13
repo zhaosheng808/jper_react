@@ -14,7 +14,7 @@ class TrackVideo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      type: 'video'
+      type: 'yt'
     };
   }
   componentDidMount () {
@@ -70,8 +70,28 @@ class TrackVideo extends Component {
       isActiveDrag = true;
     }
     const {child = []} = item;
+    const itemData_demo = {
+      id: '1515',                                         // id               id为当前时间戳
+      videoPlayer: 'videoPlayer' + '1515',                // video播放器       播放器id格式 -- videoPlayer + 时间戳
+      src: 'src',                                                   // src              视频源
+      cover: 'cover',                                                 // cover            封面
+      title: 'title',                                                 // title            描述
+      origin_time: '200',                                           // origin_time      原video时间
+      start_time: '60',                                            // start_time       当前视频的起始时间，相对于轨道
+      time: '200',                                     // time             当前视频的时间长度
+      relative_start: 0,                                     // relative_start   裁剪视频的起始时间相对于原视频的起始时间
+      width: '',                                                 // 视频宽度
+      height:'',                                                // 视频高度
+      volume: 1,                                             // 视频音量
+      speed: 1,                                              // 播放速度
+      filter: '',                                            // 滤镜类型
+      cutType: '',                                           // 转场类型
+      cutTime: '',                                           // 转场时间
+      voice_in_time: '',                                     // 音频淡入时间
+      voice_out_time: '',                                    // 音频淡出时间
+    };
     return (
-      <div className="track Video">
+      <div className="track Yt">
         <div className='track_head'>
           <div className='menu_icon track_icon' />
         </div>
@@ -79,6 +99,7 @@ class TrackVideo extends Component {
           {child.map((itemData, index) => {
             return <VideoItem key={index} itemData={itemData} itemIndex={index} trunkIndex={this.props.index} />
           })}
+          <VideoItem itemData={itemData_demo} itemIndex={1} trunkIndex={this.props.index} />
         </div>
       </div>
     )

@@ -1,0 +1,15 @@
+.timeLine{
+    height: 40px;
+}
+.time_axis_box{
+    height: 100%;
+    position: relative
+}
+.time_axis{
+    height: 20px;
+    background: coral;
+}
+.time_axis{
+    position: relative;
+    margin-left: 64px;
+}

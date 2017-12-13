@@ -5,7 +5,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {change_needleState} from '@/redux/models/needle';
-
+import './toolbar.css';
 class ToolBar extends Component {
   constructor(props) {
     super(props);
@@ -120,6 +120,30 @@ class ToolBar extends Component {
   render() {
     return (
       <div className="toolbar">
+        <div className="btn_zoom_group btn_group">
+          <div className="icon_mini menu_icon" />
+          <div className="zoom_line_box">
+          </div>
+          <div className="icon_max menu_icon" />
+        </div>
+        <div className="btn_group btn_step_group">
+          <div className="menu_icon icon_revoke large_icon" />
+          <div className="menu_icon icon_refresh large_icon" />
+        </div>
+        <div className="btn_group">
+          <div className="menu_icon large_icon icon_cutLeft" />
+          <div className="menu_icon large_icon icon_cutRight" />
+          <div className="menu_icon large_icon icon_magIn" />
+          <div className="menu_icon large_icon icon_magOut" />
+          <div className="menu_icon large_icon icon_cut" />
+          <div className="menu_icon large_icon icon_cover" />
+        </div>
+        <div className="ben_group btn_project">
+          <div className="menu_icon large_icon icon_pointIn" />
+          <div className="menu_icon large_icon icon_pointOut" />
+          <div className="menu_icon large_icon icon_save" />
+          <div className="menu_icon large_icon icon_export" />
+        </div>
         <button id="btn_play" onClick={this.play_video}>播放</button>
         <button id="btn_paused" onClick={this.pause_video}>暂停</button>
         <button onClick={this._fullScreen}>全屏</button>

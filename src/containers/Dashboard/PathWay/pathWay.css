@@ -2,48 +2,60 @@
     height: calc(100% - 40px);
 }
 .pathWay_inner{
-    /*margin-left: 60px;*/
     padding-bottom: 10px;
     overflow-x: scroll;
     position: relative;
-    /*overflow-y: auto;*/
 }
-.time_axis_box{
-    height: 60px;
-    background: cornflowerblue;
-    position: relative
-}
-.time_axis_box>div{
-    height: 100%;
-}
-.zoom_scale{
-    width: 60px;
-    line-height: 60px;
-    float: left;
-    /*position: absolute;*/
-    /*left: -60px;*/
-    /*top: 0;*/
-    z-index: 1;
-    background: cornsilk;
-}
-.time_axis{
-    /*background: cornsilk;*/
-    position: relative;
-    margin-left: 60px;
-}
+
 .track{
-    height: 50px;
+    height: 44px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    border: 1px solid #232323;
+    position: relative;
 }
-.track > div{
+.track.Video{
+    height: 74px;
+    background: #171717;
+    border-color: transparent;
+}
+/* 轨道头部*/
+
+.track .track_head{
+    width: 44px;
     height: 100%;
-}
-.track .track_type{
     float: left;
+    position: absolute;
+    box-sizing: border-box;
+    border: 1px solid;
 }
+.track_head .track_icon{
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.track .menu_icon{
+    width: 22px;
+    height: 22px;
+}
+.Video .track_icon{
+    background-image: url('../../../assets/images/media_truck.png');
+}
+.Yt .track_icon{
+    background-image: url('../../../assets/images/material.png');
+}
+.Audio .track_icon{
+    background-image: url('../../../assets/images/music.png');
+}
+
+
+
+
 .track .track_body{
-    /*width: 100%;*/
-    margin-left: 60px;
-    border: 1px  solid #333;
+    height: 100%;
+    margin-left: 64px;
     box-sizing: border-box;
     position: relative;
 }
@@ -52,16 +64,86 @@
 }
 
 
-/*===============================*/
+/*==========轨道素材单元=====================*/
 
-.truck_inlineBlock{
+.clip_item{
+    height: 100%;
+    color: #fbfbfb;
     position: absolute;
     top:0;
-    height: 100%;
-    background: #13ce66;
+    background: #b899f2;
     box-sizing: border-box;
-    border: 1px solid transparent;
+    border: 2px solid transparent;
+    border-radius: 4px;
 }
-.slide_active{
-    border: 1px solid red;
+.clip_item.clip_active{
+    border-color: #ffc000;
+}
+.clip_item_img{
+    width: 44px;
+    height: 100%;
+    background: #f7f7f7;
+    float: left;
+    margin-right: 10px;
+}
+.clip_item_img img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.clip_item_desc{
+    line-height: 40px;
+}
+.Video .clip_item_desc{
+    line-height: 70px;
+}
+.Video .clip_item_img{
+    width: 74px;
+}
+
+/*  指针 */
+.needle{
+    width: 2px;
+    height: 100%;
+    margin-left: 64px;
+    position: absolute;
+    top:0;
+    left: 0;
+    z-index: 100;
+    background: rebeccapurple;
+    cursor: move;
+}
+
+.needle_handle{
+    width: 14px;
+    height: 24px;
+    background: url('../../../assets/images/timer1.png') no-repeat center;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/*进出点*/
+.in_out{
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 60px;
+    z-index: 1;
+}
+.inPoint,.outPoint{
+    position: absolute;
+    top:0;
+    width: 10px;
+    height: 26px;
+    margin-left: -5px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.inPoint{
+    background-image: url('../../../assets/images/inpoint.png');
+}
+.outPoint{
+    background-image: url('../../../assets/images/outpoint-hover.png');
 }
