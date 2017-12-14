@@ -10,6 +10,7 @@ import activeDrag from './models/dragActive';  // 拖拽的类型
 import activeElement from './models/activeTruckElement';  // 轨道激活元素
 import needle from './models/needle';  // 指针
 import zoom_scale from './models/zoomScale';  // 缩放比例
+import current_playing_video from './models/cutVideo/currentPlayingVideo';  // 缩放比例
 
 // reducer 就是一个纯函数，接收旧的 state 和 action，返回新的 state。
 
@@ -44,7 +45,8 @@ const reducers = combineReducers({
   activeDrag,
   activeElement,
   needle,
-  zoom_scale
+  zoom_scale,
+  current_playing_video
   // more state
 });
 

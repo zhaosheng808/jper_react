@@ -338,14 +338,23 @@
     border-top: 1px solid #000;
 }
 .canvas_btn{
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     float: left;
     cursor: pointer;
-    margin: 15px 0 0 40px;
+    margin: 10px 0 0 30px;
     background-image: url('../../assets/images/play.png');
     background-repeat: no-repeat;
     background-position: center;
+}
+.canvas_btn:hover{
+    background-image: url('../../assets/images/play-hover.png');
+}
+.canvas_btn.isPlaying{
+    background-image: url('../../assets/images/stop.png');
+}
+.canvas_btn.isPlaying:hover{
+    background-image: url('../../assets/images/stop-hover.png');
 }
 .canvas_time{
     font-size: 32px;

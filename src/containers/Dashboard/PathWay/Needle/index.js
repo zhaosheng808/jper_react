@@ -23,7 +23,7 @@ class Needle extends Component {
     tools.addEventHandler(document.body, 'mousemove', this.changechangeNeedle_move);
   };
   changechangeNeedle_move = (event) => {
-    document.getElementById('videoPlayer1234').pause();
+    document.getElementById('playerId1234').pause();
     const {startX, startLeft} = this.state;
     const endX = event.clientX;
     const moveX =  endX - startX;

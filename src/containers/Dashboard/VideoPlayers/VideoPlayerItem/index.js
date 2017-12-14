@@ -63,9 +63,9 @@ class VodeoPlayerItem extends Component {
   };
   // pause
   pause_video = () => {
-    this.refs.video.pause();
-    // document.getElementById('video').pause();
-    // this.stopInterval();
+    if (!this.refs.video.paused) {
+      this.refs.video.pause();
+    }
   };
   // 暂停
   stopInterval = () => {
@@ -119,7 +119,7 @@ class VodeoPlayerItem extends Component {
     // console.log(itemData, 'itemDataVideo');
     return (
       <div className="video_wrapper">
-        <video ref='video' controls preload="true" id={itemData.videoPlayer} src={itemData.src}>你的播放器不支持video</video>
+        <video ref='video' controls preload="true" id={itemData.playerId} src={itemData.src}>你的播放器不支持video</video>
       </div>
     );
   }

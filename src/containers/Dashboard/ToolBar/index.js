@@ -59,7 +59,7 @@ class ToolBar extends Component {
   pause_video = () => {
     const {timer} = this.state;
     clearInterval(timer);
-    const videoPlayer = document.getElementById('videoPlayer1234');
+    const videoPlayer = document.getElementById('playerId1234');
     videoPlayer.pause();
     this.setState({
       timer: null
@@ -98,7 +98,7 @@ class ToolBar extends Component {
   // 定时将video画在画布上
   drawVideoToCanvas = () => {
     const {ctx} = this.state;
-    const video = document.getElementById('videoPlayer1234');
+    const video = document.getElementById('playerId1234');
     ctx.drawImage(video, 0, 0, video.clientWidth, video.clientHeight);
   };
   // 轮询
@@ -144,8 +144,8 @@ class ToolBar extends Component {
           <div className="menu_icon large_icon icon_save" />
           <div className="menu_icon large_icon icon_export" />
         </div>
-        <button id="btn_play" onClick={this.play_video}>播放</button>
-        <button id="btn_paused" onClick={this.pause_video}>暂停</button>
+        {/*<button id="btn_play" onClick={this.play_video}>播放</button>*/}
+        {/*<button id="btn_paused" onClick={this.pause_video}>暂停</button>*/}
         <button onClick={this._fullScreen}>全屏</button>
         <button id="btn_tips" onClick={this._handel_notice}>通知</button>
       </div>

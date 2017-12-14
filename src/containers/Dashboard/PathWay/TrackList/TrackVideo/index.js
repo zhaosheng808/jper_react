@@ -41,7 +41,7 @@ class TrackVideo extends Component {
     const {src, cover, title, origin_time, width, height}  = dropData;
     const videoItem = {
       id: timestamp,                                         // id               id为当前时间戳
-      videoPlayer: 'videoPlayer' + timestamp,                // video播放器       播放器id格式 -- videoPlayer + 时间戳
+      playerId: 'playerId' + timestamp,                // video播放器       播放器id格式 -- playerId + 时间戳
       src,                                                   // src              视频源
       cover,                                                 // cover            封面
       title,                                                 // title            描述

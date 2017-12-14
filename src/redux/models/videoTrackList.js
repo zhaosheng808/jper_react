@@ -9,10 +9,10 @@ export const ADD_NEW_CHILD = 'ADD_NEW_CHILD';
 const defaultState = {
   name: 'videoTrackList',
   data: [         // 所有视频轨道列表
-    {type: 'video' , child: [
+    {type: 'video' , level: 0, isVisible: true, child: [
       {
         id: '1234',                                         // id               id为当前时间戳
-        videoPlayer: 'videoPlayer' + 1234,                // video播放器       播放器id格式 -- videoPlayer + 时间戳
+        playerId: 'playerId' + 1234,                // video播放器       播放器id格式 -- playerId + 时间戳
         src: '/static/media/VID_20171123_124935.ca2e31f8.mp4',                                                   // src              视频源
         cover: '',                                                 // cover            封面
         title: 'video01',                                                 // title            描述
@@ -31,7 +31,7 @@ const defaultState = {
         voice_out_time: '',                                    // 音频淡出时间
       }
       ]},
-    {type: 'video', child: []}
+    {type: 'video', isVisible: true, level: 1, child: []}
     ]
 };
 

@@ -14,7 +14,7 @@ class TimeLine extends Component {
   }
   changeNeedle = (event) => {
     event.stopPropagation();
-    document.getElementById('videoPlayer1234').pause();
+    document.getElementById('playerId1234').pause();
     // console.log(event.clientX);
     const left = event.clientX - 60;
     // this.props.changeNeedle(left);
