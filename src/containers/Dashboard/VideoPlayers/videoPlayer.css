@@ -7,13 +7,13 @@
     background: rebeccapurple;
     /*display: none;*/
 }
-.video_wrapper video{
+.videoPlayers_wrapper video{
     width: 100%;
     position: absolute;
     top:0;
     left: 0;
     z-index: 1;
 }
-.video_playing {
+.videoPlayers_wrapper .video_playing {
     z-index: 10;
 }

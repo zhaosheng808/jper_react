@@ -3,7 +3,7 @@
  */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {change_needleState} from '@/redux/models/needle';
+import {change_needlePosition, change_needleState} from '@/redux/models/needle';
 import {change_play_video} from '@/redux/models/cutVideo/currentPlayingVideo';
 
 
@@ -22,22 +22,34 @@ class CanvasVideo extends Component {
   componentWillReceiveProps (nextProps) {
     // this.props 当前的props
     // nextProps 下一阶段的props
+    const {needle} = nextProps;
+    const {isPlaying, canvas} = this.state;
+    if (!needle.isMoving && isPlaying) {                                                          // 暂停指针移动
+      this.stop_needleMove();
+    }
+    if (needle.isMoving && nextProps.current_playing_video.playerId) {                           // 控制video播放
+      const video = document.getElementById(nextProps.current_playing_video.playerId);
+      if (video.paused) {
+        video.play();
+      }
+    }
+
     if (this.props.current_playing_video.playerId !== nextProps.current_playing_video.playerId) { // 有新的video出现
-      let {video, Width, Height} = this.state;
+      let {video} = this.state;
       if (nextProps.current_playing_video.playerId) {                                             // 新的video不为空
-        video = document.getElementById(nextProps.current_playing_video.playerId);
+        const playerId = nextProps.current_playing_video.playerId;
+        video = document.getElementById(playerId);
         const {isPlaying} = this.state;
-        Width = video.clientWidth || 800;
-        Height = video.clientHeight || 600;
+        canvas.width = video.clientWidth || 800;
+        canvas.height = video.clientHeight || 600;
         if (isPlaying) {
           video.play();
         }
+      } else {                                                                                   // 新的video为空，渲染图片
+        video = document.getElementById('defaultImg');
       }
       this.setState({
-        currentVideoId: nextProps.current_playing_video,
-        video,
-        Width,
-        Height
+        video
       })
     }
   };
@@ -47,13 +59,16 @@ class CanvasVideo extends Component {
     let video = '';
     if (current_playing_video.playerId) {
       video = document.getElementById(current_playing_video.playerId);
+    } else {
+      video = document.getElementById('defaultImg');
     }
     const canvas = document.createElement('canvas'),
-      Width = video.clientWidth || 800,
-      Height = video.clientHeight || 600;
+      Width = video.clientWidth || this.refs.canvas_video_box.clientWidth || 800,
+      Height = video.clientHeight || this.refs.canvas_video_box.clientHeight || 600;
     canvas.width = Width;
     canvas.height = Height;
     this.refs.canvas_video_box.appendChild(canvas);
+    canvas.id = 'draw_canvas';
     this.setState({
       ctx: canvas.getContext('2d'),
       Width,
@@ -70,17 +85,16 @@ class CanvasVideo extends Component {
     } else {         // 播放
       this.start_needleMove();
     }
-    this.setState({
-      isPlaying: !isPlaying
-    })
   };
   // 指针开始移动
   start_needleMove = () => {
+    this.props.change_needleState({isMoving: true});
     this.startInterval();
     this.time_add();
   };
   // 指针暂停移动
   stop_needleMove = () => {
+    this.props.change_needleState({isMoving: false});
     const {timer} = this.state;
     const {current_playing_video} = this.props;
     clearInterval(timer);
@@ -89,7 +103,8 @@ class CanvasVideo extends Component {
       videoPlayer.pause();
     }
     this.setState({
-      timer: null
+      timer: null,
+      isPlaying: false,
     })
   };
   // 轮询
@@ -100,13 +115,14 @@ class CanvasVideo extends Component {
         this.time_add();
       }, 100);
       this.setState({
-        timer
+        timer,
+        isPlaying: true
       })
     }
   };
   // 点击改变指针位置
   changeNeedle = (left) => {
-    this.props.change_needleState(left);
+    this.props.change_needlePosition(left);
   };
   // 轮询时间增加
   time_add = () => {
@@ -115,47 +131,21 @@ class CanvasVideo extends Component {
   };
   // 定时将video画在画布上
   drawVideoToCanvas = () => {
-    const {ctx, video} = this.state;
+    const {ctx, video, canvas} = this.state;
     if (video) {
-      ctx.drawImage(video, 0, 0, video.clientWidth, video.clientHeight);
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
     }
   };
   // 指针移动
   needle_move = () => {
-    const {needleLeft} = this.props;
-    this.props.change_needleState(needleLeft + 1);
-    this.check_current_videoPlayer();
-
+    const {needle} = this.props;
+    const needleLeft = needle.currentTime;
+    this.props.change_needlePosition(needleLeft + 1);
   };
-  // 判断当前应该是哪个video播放
-  check_current_videoPlayer = () => {
-    const {needleLeft, zoom_scale, current_playing_video} = this.props;
-    const {videoTrackList} = this.props; // video轨道对象
-    const needleLeft_now = needleLeft;
-    const current_videos = [];
-    videoTrackList.forEach((item, index) => {
-      if (item.child) {
-        item.child.forEach((childItem, childIndex) => {
-          const {start_time, time, playerId} = childItem;
-          if ( playerId && needleLeft_now >= start_time * zoom_scale && needleLeft_now <= parseFloat(start_time * zoom_scale) + parseFloat(time * zoom_scale)) {
-            childItem.level = item.level;
-            current_videos.push(childItem);
-          } else {
-          }
-        })
-      }
-    });
-    let now_playing_videoItem = current_videos[0] || {playerId: ''};       // 轮询应该播放的videoItem
-    current_videos.forEach((item, index) => {                    // 轮询判断层级较低的video 播放
-      if (item.level < now_playing_videoItem.leval) {
-        now_playing_videoItem = item;
-      }
-    });
-    if (now_playing_videoItem.playerId !== current_playing_video.playerId) {
-      this.props.change_play_video(now_playing_videoItem.playerId);
-    }
+  // 测试
+  _ceshi = () => {
+    console.log(this.props.needle, 'noodel');
   };
-
   render() {
     const {isPlaying} = this.state;
     return (
@@ -164,7 +154,7 @@ class CanvasVideo extends Component {
         <div ref='canvas_video_box' className="canvas_video_box"/>
         <div className="canvas_panel">
           <div className={isPlaying ? 'canvas_btn isPlaying' : 'canvas_btn'} onClick={this.video_click} />
-          <div className="canvas_time">
+          <div className="canvas_time" onClick={this._ceshi}>
             00:02:50:20
           </div>
           <div className="canvas_progress">
@@ -177,7 +167,7 @@ class CanvasVideo extends Component {
 export default  connect(state => ({
   videoTrackList: state.videoTrackList.data,
   activeDrag: state.activeDrag,
-  needleLeft: state.needle.currentTime,
+  needle: state.needle,
   zoom_scale: state.zoom_scale.scale,
   current_playing_video: state.current_playing_video,
-}), {change_needleState, change_play_video})(CanvasVideo);
+}), {change_needlePosition, change_play_video, change_needleState})(CanvasVideo);

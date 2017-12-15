@@ -13,12 +13,12 @@ const defaultState = {
       {
         id: '1234',                                         // id               id为当前时间戳
         playerId: 'playerId' + 1234,                // video播放器       播放器id格式 -- playerId + 时间戳
-        src: '/static/media/VID_20171123_124935.ca2e31f8.mp4',                                                   // src              视频源
+        src: 'http://toutiao-cdn-jper.foundao.com/ovesystem/data/material/2017/09/07/ymzcut_11709540701101010818201_04bf9d04b5ff80ab2656093b6e4f2617.mp4',                                                   // src              视频源
         cover: '',                                                 // cover            封面
         title: 'video01',                                                 // title            描述
         origin_time: '',                                           // origin_time      原video时间
         start_time: 10,                                            // start_time       当前视频的起始时间，相对于轨道
-        time: 116,                                     // time             当前视频的时间长度
+        time: 8,                                     // time             当前视频的时间长度
         relative_start: 0,                                     // relative_start   裁剪视频的起始时间相对于原视频的起始时间
         width: '',                                                 // 视频宽度
         height: '',                                                // 视频高度

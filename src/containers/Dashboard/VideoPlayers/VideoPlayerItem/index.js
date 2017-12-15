@@ -4,8 +4,8 @@
 
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {change_needleState} from '@/redux/models/needle';
-
+import {change_needlePosition, change_needleState} from '@/redux/models/needle';
+import $ from 'jquery';
 
 class VodeoPlayerItem extends Component {
   constructor(props) {
@@ -18,109 +18,68 @@ class VodeoPlayerItem extends Component {
   }
 
   componentDidMount() {
-    this.getCanvas();
-    this.refs.video.onpause = () => {
-      console.log('暂停了pause');
-      this.pause_video();
-    };
-    this.refs.video.oncanplaythrough = () => {
-      console.log('缓冲完毕');
-      this.drawVideoToCanvas();
-    };
-    // this.refs.video.onplay = () => {
-    //   this.play_video();
-    // }
-  };
-  getCanvas = () => {
-    const canvas = document.getElementsByClassName('video_panel')[0].getElementsByTagName('canvas')[0];
-    const ctx = canvas.getContext('2d');
-    this.setState({
-      canvas,
-      ctx
-    })
-  };
-  // play
-  play_video = () => {
-    // this.refs.video.play();
-    this.startInterval();
-    this.time_add();
-    this.refs.video.ontimeupdate = (e) => {
-      // console.log(e, 'e');
-      // this.time_add();
+    // this.getCanvas();
+    // this.refs.video.onpause = () => {
+    //   console.log('暂停了pause');
+    //   this.pause_video();
+    // };
+    // this.refs.video.oncanplaythrough = () => {
+    //   console.log('缓冲完毕');
+    //   this.drawVideoToCanvas();
+    // };
+    this.refs.video.onplay = () => {
+      $('.videoPlayers_wrapper video').removeClass('video_playing');
+      $(this.refs.video).addClass('video_playing');
     }
   };
-  // 轮询
-  startInterval = () => {
-    let {timer} = this.state;
-    if (!timer) {
-      timer = setInterval(() => {
-        this.time_add();
-      }, 100);
-      this.setState({
-        timer
-      })
+  componentWillReceiveProps (nextProps) {
+    const nextPlayerId = nextProps.current_playing_video.playerId;
+    const itemPlayerId = this.props.itemData.playerId;
+    if (nextPlayerId !== itemPlayerId) {                       // 当前渲染的视频不为本视频  暂停视频的播放
+      this.refs.video.onpause = () => {
+      };
+      this.refs.video.oncanplaythrough = () => {
+      };
+      if (!this.refs.video.paused) {
+        this.refs.video.pause();
+      }
+    } else {                                                  // 当前渲染的视频为本视频
+      // 如果没有播放 需要将指针当前位置映射到video的currentTime
+      if (this.refs.video.paused) {
+        const {needleLeft, zoom_scale, itemData} = this.props; // 指针位置 刻度线比例
+        const needleTime = needleLeft / zoom_scale;
+        const {start_time, relative_start} = itemData;
+        this.refs.video.currentTime = needleTime - start_time + relative_start;
+      }
+      this.refs.video.oncanplaythrough = () => {
+        this.drawVideoToCanvas();
+      };
+      this.refs.video.onpause = () => {
+        console.log('暂停了pause');
+        // this.pause_video();
+      };
     }
+  };
+  start_play = () => {
+
   };
   // pause
   pause_video = () => {
-    if (!this.refs.video.paused) {
-      this.refs.video.pause();
+    this.props.change_needleState({isMoving: false});
+  };
+  drawVideoToCanvas = () => {
+    const ctx = document.getElementById('draw_canvas').getContext('2d');
+    const {current_playing_video} = this.props;
+    const video = document.getElementById(current_playing_video.playerId);
+    if (video) {
+      ctx.drawImage(video, 0, 0, video.clientWidth, video.clientHeight);
     }
   };
-  // 暂停
-  stopInterval = () => {
-    const {timer} = this.state;
-    clearInterval(timer);
-    this.setState({
-      timer: null
-    })
-  };
-  // 轮询时间增加
-  time_add = () => {
-    this.needle_move();
-    this.drawVideoToCanvas();
-  };
-  // 指针移动
-  needle_move = () => {
-    const {needleLeft, zoom_scale} = this.props;
-    this.props.change_needleState(needleLeft + 1);
-    const {videoTrackList, } = this.props; // video轨道对象
-    const needleLeft_now = needleLeft;
-    videoTrackList.forEach((item, index) => {
-      if (item.child) {
-        item.child.forEach((childItem, childIndex) => {
-          console.log(childItem, 'childItem');
-          // const videoPlayer = document.getElementById('');
-          const {start, time} = childItem;
-          if (needleLeft_now >= start * zoom_scale && needleLeft_now <= parseFloat(start * zoom_scale) + parseFloat(time * zoom_scale)) {
-            console.log((needleLeft_now - start * zoom_scale) / zoom_scale , '播放时间-->name  __ ', childItem.name);
-            // this.refs.video.play();
-          } else {
-            // this.refs.video.pause();
-          }
-        })
-      }
-    })
-  };
-
-  // 点击改变指针位置
-  changeNeedle = (left) => {
-    this.props.change_needleState(left);
-  };
-  // 定时将video画在画布上
-  drawVideoToCanvas = () => {
-    const {ctx} = this.state;
-    const video = this.refs.video;
-    ctx.drawImage(video, 0, 0, this.refs.video.clientWidth, this.refs.video.clientHeight);
-  };
-
   render() {
     const {itemData} = this.props;
     // console.log(itemData, 'itemDataVideo');
     return (
-      <div className="video_wrapper">
-        <video ref='video' controls preload="true" id={itemData.playerId} src={itemData.src}>你的播放器不支持video</video>
-      </div>
+      <video ref='video' controls preload="true" id={itemData.playerId} src={itemData.src}>你的播放器不支持video</video>
     );
   }
 }
@@ -128,6 +87,7 @@ class VodeoPlayerItem extends Component {
 export default connect(state => ({
   videoTrackList: state.videoTrackList.data,
   needleLeft: state.needle.currentTime,
-  zoom_scale: state.zoom_scale.scale
+  zoom_scale: state.zoom_scale.scale,
+  current_playing_video: state.current_playing_video
 
-}), {change_needleState})(VodeoPlayerItem);
+}), {change_needlePosition, change_needleState})(VodeoPlayerItem);

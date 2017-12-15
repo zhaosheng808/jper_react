@@ -3,7 +3,7 @@
  */
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import {change_needleState} from '@/redux/models/needle';
+import {change_needlePosition} from '@/redux/models/needle';
 // import logo from '../../logo.svg';
 import Header  from './Header';
 import File  from './File';
@@ -85,4 +85,4 @@ class Dashboard extends Component {
 }
 
 export default connect(state => ({needleLeft: state.needle.currentTime, videoTrackList: state.videoTrackList.data, zoom_scale: state.zoom_scale.scale}),
-  {change_needleState})(Dashboard);
+  {change_needlePosition})(Dashboard);

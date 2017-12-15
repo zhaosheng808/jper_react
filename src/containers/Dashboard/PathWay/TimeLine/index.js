@@ -3,8 +3,15 @@
  */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {change_needleState} from '@/redux/models/needle';
+import {change_needlePosition} from '@/redux/models/needle';
 import './timeLine.css';
+
+// @connect(
+//   (state) => ({
+//     current_playing_video: state.current_playing_video
+//   }),
+//   {change_needlePosition}
+// )
 
 class TimeLine extends Component {
   constructor(props){
@@ -14,12 +21,15 @@ class TimeLine extends Component {
   }
   changeNeedle = (event) => {
     event.stopPropagation();
-    document.getElementById('playerId1234').pause();
-    // console.log(event.clientX);
-    const left = event.clientX - 60;
-    // this.props.changeNeedle(left);
-    this.props.change_needleState(left);
-    // document.getElementById('videoPlayer1234').currentTime = left;
+    const {current_playing_video} = this.props;
+    if (current_playing_video.playerId) {
+      const videoPlayer = document.getElementById(current_playing_video.playerId);
+      if (!videoPlayer.paused) {
+        videoPlayer.pause()
+      }
+    }
+    const left = event.clientX - 64;
+    this.props.change_needlePosition(left);
   };
   render() {
     return (
@@ -31,4 +41,6 @@ class TimeLine extends Component {
     );
   }
 }
-export default connect(state => ({}), {change_needleState})(TimeLine);
+export default connect(state => ({
+  current_playing_video: state.current_playing_video
+}), {change_needlePosition})(TimeLine);

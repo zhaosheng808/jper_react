@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import VideoPlayerItem from './VideoPlayerItem';
 import './videoPlayer.css';
+import defaultImg from '@/assets/other/example.png';
 
 class VideoPlayers extends Component {
   constructor(props) {
@@ -27,9 +28,9 @@ class VideoPlayers extends Component {
         })
       }
     });
-    console.log(videoArray, 'videoArray');
     return (
       <div className="videoPlayers_wrapper">
+        <img src={defaultImg} id="defaultImg"/>
         {
           videoArray.map((item, index) => {
             return <VideoPlayerItem key={index} itemData={item} />

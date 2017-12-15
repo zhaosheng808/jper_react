@@ -15,20 +15,20 @@ class File extends Component {
         {
           type: 'video',
           name: 'video444video444video444',
-          src: video01,
+          src: 'http://toutiao-cdn-jper.foundao.com/ovesystem/data/material/2017/09/07/ymzcut_11709540701101010818201_04bf9d04b5ff80ab2656093b6e4f2617.mp4',
           cover: '',
           title: 'video444video444video444video444',
-          origin_time: 116,
+          origin_time: 8,
           width: '',
           height: ''
         },
         {
           type: 'video',
-          name: 'video4copy',
-          src: video01,
+          name: 'm3u8',
+          src: 'http://toutiao-cdn-jper.foundao.com/ovesystem/data/material/2017/11/03/ymzcut_117111303101710108182023_e8875e7ab2e1668794363a5f2fc78dec.mp4',
           cover: '',
           title: 'video4copytitle',
-          origin_time: 116,
+          origin_time: 91,
           width: '',
           height: ''
         },

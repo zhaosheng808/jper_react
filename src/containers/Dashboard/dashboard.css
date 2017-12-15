@@ -396,3 +396,6 @@
     right: 0;
     /*z-index: -1;*/
 }
+#defaultImg{
+    width: 100px;
+}
