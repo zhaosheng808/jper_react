@@ -1,11 +1,11 @@
-/**
+﻿/**
  * Created by DELL on 2017/12/5.
  */
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import './index.css';
 import {change_dragActive} from '@/redux/models/dragActive';
-import video01 from '@/assets/media/VID_20171123_124935.mp4';
+// import video01 from '@/assets/media/VID_20171123_124935.mp4';
 
 class File extends Component {
   constructor(props) {
