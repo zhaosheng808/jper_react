@@ -2,9 +2,12 @@
  * Created by DELL on 2017/12/7.
  */
 import tools from '@/utils/tools';
-console.log(tools);
+
 export const LOGIN = 'LOGIN';
 export const ADD_NEW_CHILD = 'ADD_NEW_CHILD';
+export const DEL_CHILD = 'DEL_CHILD';
+export const ADD_TRACK = 'ADD_TRACK';
+export const DEL_TRACK = 'DEL_TRACK';
 
 const defaultState = {
   name: 'videoTrackList',
@@ -12,6 +15,7 @@ const defaultState = {
     {type: 'video' , level: 0, isVisible: true, child: [
       {
         id: '1234',                                         // id               id为当前时间戳
+        type: 'video',
         playerId: 'playerId' + 1234,                // video播放器       播放器id格式 -- playerId + 时间戳
         src: 'http://toutiao-cdn-jper.foundao.com/ovesystem/data/material/2017/09/07/ymzcut_11709540701101010818201_04bf9d04b5ff80ab2656093b6e4f2617.mp4',                                                   // src              视频源
         cover: '',                                                 // cover            封面
@@ -36,13 +40,25 @@ const defaultState = {
 };
 
 export default function reduce (state = defaultState, action = {}) {
+  const newState = tools.deepClone(state);
+  let trunkIndex = 0, itemIndex = 0;
+  if (action.data) {
+    trunkIndex = action.data.trunkIndex;
+    itemIndex = action.data.itemIndex;
+  }
   switch (action.type) {
     case 'ADD_NEW_CHILD' :
-      const newState = tools.deepClone(state);
-      const {index, trackItemData} = action.data;
-      newState.data[index].child.push(trackItemData);
-      console.log(state, 'state');
-      console.log(newState, 'newState__video_truck');
+      const {trackItemData} = action.data;
+      newState.data[trunkIndex].child.push(trackItemData);
+      return newState;
+    case 'DEL_CHILD' :
+      newState.data[trunkIndex].child.splice(itemIndex, 1);
+      return newState;
+    case 'ADD_TRACK' :
+      newState.data.push({type: 'video', isVisible: true, level: state.data.length, child: []});
+      return newState;
+    case 'DEL_TRACK' :
+      newState.data.splice(trunkIndex, 1);
       return newState;
     default :
       return state
@@ -53,12 +69,43 @@ export const videoTrackList_change = () => {
     type: LOGIN
   }
 };
-export const videoTrackList_add = (trackItemData, index) => {
+// 添加新的轨道内元素
+export const videoTrackList_add = (trackItemData, trunkIndex) => {
   return {
     type: ADD_NEW_CHILD,
     data: {
       trackItemData,
-      index
+      trunkIndex
+    }
+  }
+};
+// 删除指定的轨道内元素
+export const videoTrackList_del = (trunkIndex, itemIndex) => {
+  return {
+    type: DEL_CHILD,
+    data: {
+      trunkIndex, itemIndex
+    }
+  }
+};
+
+// 新增轨道
+export const videoTrack_add = (trunkIndex) => {
+  return {
+    type: ADD_TRACK,
+    data: {
+      trunkIndex
+    }
+  }
+};
+
+// 删除轨道
+export const videoTrack_del = (trunkIndex) => {
+  console.log(trunkIndex, 'trunkIndex');
+  return {
+    type: DEL_TRACK,
+    data: {
+      trunkIndex
     }
   }
 };

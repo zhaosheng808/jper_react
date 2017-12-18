@@ -4,8 +4,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import './index.css';
-import {change_dragActive} from '@/redux/models/dragActive';
-// import video01 from '@/assets/media/VID_20171123_124935.mp4';
+import ListCard from './ListCard';
+import dragImg from '@/assets/other/example.png';
 
 class File extends Component {
   constructor(props) {
@@ -16,7 +16,7 @@ class File extends Component {
           type: 'video',
           name: 'video444video444video444',
           src: 'http://toutiao-cdn-jper.foundao.com/ovesystem/data/material/2017/09/07/ymzcut_11709540701101010818201_04bf9d04b5ff80ab2656093b6e4f2617.mp4',
-          cover: '',
+          cover: dragImg,
           title: 'video444video444video444video444',
           origin_time: 8,
           width: '',
@@ -26,7 +26,7 @@ class File extends Component {
           type: 'video',
           name: 'm3u8',
           src: 'http://toutiao-cdn-jper.foundao.com/ovesystem/data/material/2017/11/03/ymzcut_117111303101710108182023_e8875e7ab2e1668794363a5f2fc78dec.mp4',
-          cover: '',
+          cover: dragImg,
           title: 'video4copytitle',
           origin_time: 91,
           width: '',
@@ -35,16 +35,6 @@ class File extends Component {
       ]
     };
   }
-
-  _dragStart = (listItem, event) => {
-    console.log(listItem.type, 'type');
-    event.dataTransfer.setData("data", JSON.stringify(listItem));
-    this.props.change_dragActive(listItem.type);
-    // change_dragActive
-  };
-  _dragEnd = () => {
-    this.props.change_dragActive('');
-  };
   upload_click = () => {
     this.refs.upload_source_input.click();
   };
@@ -87,17 +77,8 @@ class File extends Component {
               </div>
               {list.map((item, index) => {
                 return (
-                  <div key={index} className="source_card">
-                    <div className="source_card_body" onDragStart={this._dragStart.bind(this, item)}
-                         onDragEnd={this._dragEnd} draggable="true">
-                      <div className="source_img"/>
-                      <div className="source_message">
-                        <span className="source_type">{item.type}</span>
-                        <span className="source_time">00:00:51:14</span>
-                      </div>
-                    </div>
-                    <div className="source_card_footer">{item.name}</div>
-                  </div>)
+                  <ListCard item={item} key={index}/>
+                  )
               })}
             </div>
           </div>
@@ -113,5 +94,4 @@ class File extends Component {
 }
 export default  connect(state => ({
   videoTrackList: state.videoTrackList.data,
-  activeDrag: state.activeDrag
-}), {change_dragActive})(File);
+}), {})(File);

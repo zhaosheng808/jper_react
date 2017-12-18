@@ -108,6 +108,7 @@
     height: 18px;
     background-image: url('../../assets/images/effect-hover.png');
     background-repeat: no-repeat;
+    background-position: center;
     float: left;
 }
 .menu_item .menu_icon{
@@ -256,6 +257,16 @@
 }
 .source_card .source_card_body:hover{
     border: 2px solid #ffc000;
+}
+.source_img{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.source_img{
+
 }
 .source_card .source_card_body .source_message{
     width: 100%;

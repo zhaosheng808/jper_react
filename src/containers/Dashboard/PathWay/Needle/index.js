@@ -17,14 +17,13 @@ class Needle extends Component {
     };
   }
   componentDidMount () {
-    tools.addEventHandler(document.body, 'mouseup', this.needle_mouseUp);
-    console.log('mounted');
   }
   componentWillReceiveProps (nextProps) {
     this.check_current_videoPlayer();
   };
   needle_mouseMove = (event) => {
     tools.addEventHandler(document.body, 'mousemove', this.changeNeedle_move);
+    tools.addEventHandler(document.body, 'mouseup', this.needle_mouseUp);
   };
   changeNeedle_move = (event) => {
     const {current_playing_video} = this.props;
@@ -57,7 +56,7 @@ class Needle extends Component {
   };
   needle_mouseUp = () => {
     tools.removeEventHandler(document.body, 'mousemove', this.changeNeedle_move);
-    console.log(this.props.current_playing_video, 'current_playing_video_needle_mouseUp');
+    tools.removeEventHandler(document.body, 'mouseup', this.needle_mouseUp);
     this.setState({
       isMoseDown: false
     });

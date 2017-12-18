@@ -1,9 +1,12 @@
-.pathWay{
+.pathWay_wrapper{
     height: calc(100% - 40px);
 }
-.pathWay_inner{
-    padding-bottom: 10px;
+.pathWay{
     overflow-x: scroll;
+}
+.pathWay_inner{
+    width: 4000px;
+    padding-bottom: 10px;
     position: relative;
 }
 
@@ -28,6 +31,14 @@
     position: absolute;
     box-sizing: border-box;
     border: 1px solid;
+}
+.track_head:hover{
+    background: #313131;
+    cursor: pointer;
+    border-color: #b1b1b1;
+}
+.track_head:hover .track_toolbar {
+    display: block;
 }
 .track_head .track_icon{
     box-sizing: border-box;
@@ -60,9 +71,37 @@
     position: relative;
 }
 .activeDrag.track_body{
-    border-color: chartreuse;
+    background-color: #7f7f7f;
 }
-
+.track_toolbar{
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    z-index: 101;
+    padding-left: 20px;
+    display: none;
+}
+.track_toolbar_inner{
+    width: 102px;
+    height: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+    background-color: #313131;
+    border:  1px solid #b1b1b1;
+    border-radius: 4px;
+}
+.track_toolbar .menu_icon{
+    width: 20px;
+    margin: 0 10px;
+    height: 100%;
+}
+.track_toolbar .truck_add {
+    background-image: url('../../../assets/images/plus.png');
+}
+.track_toolbar .truck_del{
+    background-image: url('../../../assets/images/delet.png');
+}
 
 /*==========轨道素材单元=====================*/
 
@@ -75,6 +114,13 @@
     box-sizing: border-box;
     border: 2px solid transparent;
     border-radius: 4px;
+    overflow: hidden;
+}
+.clip_item:hover{
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: #ffc000;
+    border-right-color: #ffc000;
 }
 .clip_item.clip_active{
     border-color: #ffc000;
@@ -146,4 +192,27 @@
 }
 .outPoint{
     background-image: url('../../../assets/images/outpoint-hover.png');
+}
+
+/* 视频轨道内节点拉伸*/
+
+.resize_handel{
+    width: 2px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    z-index: 20;
+    cursor: e-resize;
+}
+.resize_handel:hover {
+}
+.resize_handel.left{
+    left: 0;
+    border-top: 2px solid transparent;
+    border-bottom: 2px solid transparent;
+}
+.resize_handel.right{
+    right: 0;
+    border-top: 2px solid transparent;
+    border-bottom: 2px solid transparent;
 }

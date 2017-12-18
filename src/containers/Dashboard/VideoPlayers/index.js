@@ -19,7 +19,7 @@ class VideoPlayers extends Component {
 
   render() {
     const {videoTrackList = []} = this.props;
-    console.log(videoTrackList, 'videoTrackList');
+    // console.log(videoTrackList, 'videoTrackList');
     const videoArray = [];
     videoTrackList.forEach((item, index) => {
       if (item.child) {

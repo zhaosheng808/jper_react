@@ -61,12 +61,14 @@ class PathWay extends Component {
     // const {ytTrackList , audioTrackList} = this.state;
 
     return (
-      <div className="pathWay">
-       <div className="pathWay_inner">
-         <TimeLine changeNeedle={this.changeNeedle} ref='timeLine'/>
-         <Needle ref='needle'/>
-         <InOut />
-         <TrackList />
+      <div className="pathWay_wrapper">
+       <div className="pathWay">
+         <div className="pathWay_inner">
+           <TimeLine changeNeedle={this.changeNeedle} ref='timeLine'/>
+           <Needle ref='needle'/>
+           <InOut />
+           <TrackList />
+         </div>
        </div>
       </div>
     );
