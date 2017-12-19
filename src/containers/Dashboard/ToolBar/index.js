@@ -5,6 +5,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import {change_inPoint, change_outPoint} from '@/redux/models/cutVideo/pointInOut';
+
 import './toolbar.css';
 class ToolBar extends Component {
   constructor(props) {
@@ -41,6 +43,28 @@ class ToolBar extends Component {
       });
     }
   };
+  _setPointIn = () => {
+    const {needleLeft, pointInOut, zoom_scale} = this.props;
+    const pointOut_time = pointInOut.outPoint.time;
+    const pointIn_time = needleLeft / zoom_scale;
+    if (pointIn_time <= pointOut_time ) {
+      this.props.change_inPoint(pointIn_time);
+    } else {
+      alert('出点必须在进点之后哦');
+    }
+
+  };
+  _setPointOut = () => {
+    const {needleLeft, pointInOut, zoom_scale} = this.props;
+    const pointIn_time = pointInOut.inPoint.time;
+    const pointOut_time = needleLeft / zoom_scale;
+    if (pointIn_time <= pointOut_time) {
+      this.props.change_outPoint(pointOut_time);
+    } else {
+      alert('出点必须在进点之后哦');
+    }
+
+  };
   render() {
     return (
       <div className="toolbar">
@@ -63,8 +87,8 @@ class ToolBar extends Component {
           <div className="menu_icon large_icon icon_cover" />
         </div>
         <div className="ben_group btn_project">
-          <div className="menu_icon large_icon icon_pointIn" />
-          <div className="menu_icon large_icon icon_pointOut" />
+          <div className="menu_icon large_icon icon_pointIn" onClick={this._setPointIn} />
+          <div className="menu_icon large_icon icon_pointOut" onClick={this._setPointOut} />
           <div className="menu_icon large_icon icon_save" />
           <div className="menu_icon large_icon icon_export" />
         </div>
@@ -79,6 +103,9 @@ class ToolBar extends Component {
 export default  connect(state => ({
   videoTrackList: state.videoTrackList.data,
   needleLeft: state.needle.currentTime,
+  pointInOut: state.pointInOut,
   zoom_scale: state.zoom_scale.scale}),
-  {}
+  {
+    change_inPoint,
+    change_outPoint}
   )(ToolBar);

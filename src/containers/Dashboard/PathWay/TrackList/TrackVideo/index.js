@@ -32,11 +32,12 @@ class TrackVideo extends Component {
     }
   };
   _drop = (event) => {
+    event.preventDefault();
+    const pathWay_scrollLeft = document.getElementsByClassName('pathWay')[0].scrollLeft;
     const {drag_offset} = globalConfig;
     const timestamp = Date.parse(new Date());
     const {zoom_scale} = this.props;
-    const left = event.clientX - 60 - drag_offset;
-    event.preventDefault();
+    const left = event.clientX - 60 - drag_offset + pathWay_scrollLeft;
     const dropData = JSON.parse(event.dataTransfer.getData("data"));
     const start_time = left / zoom_scale;
 

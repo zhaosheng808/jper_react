@@ -8,6 +8,7 @@ export const ADD_NEW_CHILD = 'ADD_NEW_CHILD';
 export const DEL_CHILD = 'DEL_CHILD';
 export const ADD_TRACK = 'ADD_TRACK';
 export const DEL_TRACK = 'DEL_TRACK';
+export const EDIT_TRACK = 'EDIT_TRACK';
 
 const defaultState = {
   name: 'videoTrackList',
@@ -20,7 +21,7 @@ const defaultState = {
         src: 'http://toutiao-cdn-jper.foundao.com/ovesystem/data/material/2017/09/07/ymzcut_11709540701101010818201_04bf9d04b5ff80ab2656093b6e4f2617.mp4',                                                   // src              视频源
         cover: '',                                                 // cover            封面
         title: 'video01',                                                 // title            描述
-        origin_time: '',                                           // origin_time      原video时间
+        origin_time: 8,                                           // origin_time      原video时间
         start_time: 10,                                            // start_time       当前视频的起始时间，相对于轨道
         time: 8,                                     // time             当前视频的时间长度
         relative_start: 0,                                     // relative_start   裁剪视频的起始时间相对于原视频的起始时间
@@ -41,10 +42,11 @@ const defaultState = {
 
 export default function reduce (state = defaultState, action = {}) {
   const newState = tools.deepClone(state);
-  let trunkIndex = 0, itemIndex = 0;
+  let trunkIndex = 0, itemIndex = 0, itemData = {};
   if (action.data) {
     trunkIndex = action.data.trunkIndex;
     itemIndex = action.data.itemIndex;
+    itemData = action.data.itemData;
   }
   switch (action.type) {
     case 'ADD_NEW_CHILD' :
@@ -60,34 +62,13 @@ export default function reduce (state = defaultState, action = {}) {
     case 'DEL_TRACK' :
       newState.data.splice(trunkIndex, 1);
       return newState;
+    case 'EDIT_TRACK':
+      newState.data[trunkIndex].child.splice(itemIndex, 1, itemData);
+      return newState;
     default :
       return state
   }
 }
-export const videoTrackList_change = () => {
-  return {
-    type: LOGIN
-  }
-};
-// 添加新的轨道内元素
-export const videoTrackList_add = (trackItemData, trunkIndex) => {
-  return {
-    type: ADD_NEW_CHILD,
-    data: {
-      trackItemData,
-      trunkIndex
-    }
-  }
-};
-// 删除指定的轨道内元素
-export const videoTrackList_del = (trunkIndex, itemIndex) => {
-  return {
-    type: DEL_CHILD,
-    data: {
-      trunkIndex, itemIndex
-    }
-  }
-};
 
 // 新增轨道
 export const videoTrack_add = (trunkIndex) => {
@@ -101,11 +82,43 @@ export const videoTrack_add = (trunkIndex) => {
 
 // 删除轨道
 export const videoTrack_del = (trunkIndex) => {
-  console.log(trunkIndex, 'trunkIndex');
   return {
     type: DEL_TRACK,
     data: {
       trunkIndex
+    }
+  }
+};
+
+// 添加新的轨道内元素
+export const videoTrackList_add = (trackItemData, trunkIndex) => {
+  return {
+    type: ADD_NEW_CHILD,
+    data: {
+      trackItemData,
+      trunkIndex
+    }
+  }
+};
+
+// 删除指定的轨道内元素
+export const videoTrackList_del = (trunkIndex, itemIndex) => {
+  return {
+    type: DEL_CHILD,
+    data: {
+      trunkIndex, itemIndex
+    }
+  }
+};
+
+// 修改指定轨道内的元素属性
+export const videoTrack_edit = (trunkIndex, itemIndex, itemData) => {
+  return {
+    type: EDIT_TRACK,
+    data: {
+      trunkIndex,
+      itemIndex,
+      itemData
     }
   }
 };

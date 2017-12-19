@@ -21,7 +21,18 @@ class Needle extends Component {
   componentWillReceiveProps (nextProps) {
     this.check_current_videoPlayer();
   };
-  needle_mouseMove = (event) => {
+  needle_mouseDown = (event) => {
+    const {needle} = this.props;
+    const startLeft = needle.currentTime;
+
+    this.setState({
+      startX: event.clientX,
+      startLeft: startLeft,
+      isMoseDown: true
+    });
+    this.needle_mouseMove();
+  };
+  needle_mouseMove = () => {
     tools.addEventHandler(document.body, 'mousemove', this.changeNeedle_move);
     tools.addEventHandler(document.body, 'mouseup', this.needle_mouseUp);
   };
@@ -42,17 +53,6 @@ class Needle extends Component {
     }
     this.props.change_needleState({isMoving: false});
     this.props.change_needlePosition(nowLeft);
-  };
-  needle_mouseDown = (event) => {
-    const {needle} = this.props;
-    const startLeft = needle.currentTime;
-
-    this.setState({
-      startX: event.clientX,
-      startLeft: startLeft,
-      isMoseDown: true
-    });
-    this.needle_mouseMove();
   };
   needle_mouseUp = () => {
     tools.removeEventHandler(document.body, 'mousemove', this.changeNeedle_move);

@@ -116,11 +116,8 @@
     border-radius: 4px;
     overflow: hidden;
 }
-.clip_item:hover{
-    border-top-color: transparent;
-    border-bottom-color: transparent;
-    border-left-color: #ffc000;
-    border-right-color: #ffc000;
+.clip_item:hover .resize_handel{
+
 }
 .clip_item.clip_active{
     border-color: #ffc000;
@@ -175,7 +172,7 @@
     width: 100%;
     position: absolute;
     top: 0;
-    left: 60px;
+    left: 64px;
     z-index: 1;
 }
 .inPoint,.outPoint{
@@ -197,14 +194,14 @@
 /* 视频轨道内节点拉伸*/
 
 .resize_handel{
-    width: 2px;
+    width: 4px;
     height: 100%;
     position: absolute;
     top: 0;
     z-index: 20;
     cursor: e-resize;
-}
-.resize_handel:hover {
+    /*background: #ffc000;*/
+    background: black;
 }
 .resize_handel.left{
     left: 0;

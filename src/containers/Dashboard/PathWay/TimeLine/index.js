@@ -21,6 +21,7 @@ class TimeLine extends Component {
   }
   changeNeedle = (event) => {
     event.stopPropagation();
+    const pathWay_scrollLeft = document.getElementsByClassName('pathWay')[0].scrollLeft;
     const {current_playing_video} = this.props;
     if (current_playing_video.playerId) {
       const videoPlayer = document.getElementById(current_playing_video.playerId);
@@ -28,7 +29,7 @@ class TimeLine extends Component {
         videoPlayer.pause()
       }
     }
-    const left = event.clientX - 64;
+    const left = event.clientX - 64 + pathWay_scrollLeft;
     this.props.change_needlePosition(left);
   };
   render() {
