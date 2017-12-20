@@ -33,8 +33,12 @@ class CanvasVideo extends Component {
 
     // 有新的video出现 ->切换video显示图像
     if (!(current_playing_video.truckIndex === next_playing_video.truckIndex && current_playing_video.itemIndex === next_playing_video.itemIndex)) {
+
       let {video} = this.state;
-      const nextPlay = videoTrackList[next_playing_video.truckIndex].child[next_playing_video.itemIndex];  // 新的播放视频对象
+      let nextPlay = {};
+      if (videoTrackList[next_playing_video.truckIndex]) {
+        nextPlay = videoTrackList[next_playing_video.truckIndex].child[next_playing_video.itemIndex];
+      }
       if (nextPlay.playerId) {                                             // 新的video不为空
         const playerId = nextPlay.playerId;
         video = document.getElementById(playerId);
@@ -60,7 +64,11 @@ class CanvasVideo extends Component {
   // 创建canvas
   createCanvas = () => {
     const {current_playing_video, videoTrackList} = this.props;
-    const nextPlay = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
+
+    let nextPlay = {};
+    if (videoTrackList[current_playing_video.truckIndex]) {
+      nextPlay = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
+    }
     let video = '';
     let Width = 800;
     let Height = 600;
@@ -110,7 +118,10 @@ class CanvasVideo extends Component {
     this.props.change_needleState({isMoving: false});
     const {timer} = this.state;
     const {current_playing_video, videoTrackList} = this.props;
-    const nextPlay = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
+    let nextPlay = {};
+    if (videoTrackList[current_playing_video.truckIndex]) {
+      nextPlay = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
+    }
     clearInterval(timer);
     if (nextPlay.playerId) {
       const videoPlayer = document.getElementById(nextPlay.playerId);
@@ -146,6 +157,7 @@ class CanvasVideo extends Component {
   // 定时将video画在画布上
   drawVideoToCanvas = () => {
     const {ctx, video, canvas} = this.state;
+    // console.log(video, 'video');
     if (video) {
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
     }
@@ -160,7 +172,12 @@ class CanvasVideo extends Component {
   _ceshi = () => {
     const {videoTrackList, current_playing_video} = this.props;
     console.log(this.props.needle, 'noodel');
-    const nextPlay = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
+    // const nextPlay = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
+    let nextPlay = {};
+    if (videoTrackList[current_playing_video.truckIndex]) {
+      console.log(videoTrackList[current_playing_video.truckIndex], 'videoTrackList[current_playing_video.truckIndex]');
+      nextPlay = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
+    }
     console.log(current_playing_video, 'current_playing_videoTruck');
     console.log(nextPlay, 'nextPlay');
   };

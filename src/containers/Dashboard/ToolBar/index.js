@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import {change_inPoint, change_outPoint} from '@/redux/models/cutVideo/pointInOut';
+import {videoTrack_edit} from '@/redux/models/videoTrackList';
 
 import './toolbar.css';
 class ToolBar extends Component {
@@ -67,12 +68,21 @@ class ToolBar extends Component {
   };
   // 裁剪掉视频左侧 指针位置划分视频左右
   _cutLeft = () => {
-    const {needleLeft, current_playing_video, videoTrackList} = this.props;
-    const playIngVideo = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
-    console.log(needleLeft, 'needleLeft');
-    console.log(current_playing_video, 'current_playing_video');
+    const {needleLeft, current_playing_video, zoom_scale, videoTrackList} = this.props;
+    const {truckIndex, itemIndex} = current_playing_video;
+    let playIngVideo = {};
+    if (videoTrackList[current_playing_video.truckIndex]) {
+      playIngVideo = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
+    }
+    const needleTime = needleLeft / zoom_scale;
     if (playIngVideo.playerId) {
-
+      const cut_time = needleTime - playIngVideo.start_time;  // 本次左侧裁剪掉的时间
+      const relative_start = playIngVideo.relative_start + cut_time;
+      const time = playIngVideo.time - cut_time;
+      const start_time = needleTime;
+      console.log(cut_time, 'cut_time');
+      console.log(relative_start, 'relative_start');
+      this.props.videoTrack_edit(truckIndex, itemIndex, {...playIngVideo, time, relative_start, start_time});
     }else {
       alert('当前没有视频可以裁剪');
     }
@@ -80,7 +90,20 @@ class ToolBar extends Component {
   };
   // 裁剪掉视频右侧
   _cutRight = () => {
-
+    const {needleLeft, current_playing_video, zoom_scale, videoTrackList} = this.props;
+    const {truckIndex, itemIndex} = current_playing_video;
+    let playIngVideo = {};
+    if (videoTrackList[current_playing_video.truckIndex]) {
+      playIngVideo = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
+    }
+    const needleTime = needleLeft / zoom_scale;
+    if (playIngVideo.playerId) {
+      const cut_time = playIngVideo.start_time + playIngVideo.time - needleTime;  // 本次右侧裁剪掉的时间
+      const time = playIngVideo.time - cut_time;
+      this.props.videoTrack_edit(truckIndex, itemIndex, {...playIngVideo, time});
+    }else {
+      alert('当前没有视频可以裁剪');
+    }
   };
   render() {
     return (
@@ -125,5 +148,6 @@ export default  connect(state => ({
   zoom_scale: state.zoom_scale.scale}),
   {
     change_inPoint,
-    change_outPoint}
+    change_outPoint,
+    videoTrack_edit}
   )(ToolBar);

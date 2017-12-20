@@ -23,7 +23,10 @@ class TimeLine extends Component {
     event.stopPropagation();
     const pathWay_scrollLeft = document.getElementsByClassName('pathWay')[0].scrollLeft;
     const {current_playing_video, videoTrackList} = this.props;
-    const playIngVideo = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
+    let playIngVideo = {};
+    if (videoTrackList[current_playing_video.truckIndex]) {
+      playIngVideo = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
+    }
     if (playIngVideo.playerId) {
       const videoPlayer = document.getElementById(playIngVideo.playerId);
       if (!videoPlayer.paused) {

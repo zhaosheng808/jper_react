@@ -39,7 +39,10 @@ class Needle extends Component {
   };
   changeNeedle_move = (event) => {
     const {current_playing_video, videoTrackList} = this.props;
-    const playIngVideo = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
+    let playIngVideo = {};
+    if (videoTrackList[current_playing_video.truckIndex]) {
+      playIngVideo = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
+    }
     if (playIngVideo.playerId) {
       const player = document.getElementById(playIngVideo.playerId);
       if (!player.paused) {
@@ -67,8 +70,11 @@ class Needle extends Component {
   // 判断当前应该是哪个video播放
   check_current_videoPlayer = () => {
     const {needle, zoom_scale, current_playing_video, videoTrackList} = this.props;
-    const playIngVideo = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
-    console.log(playIngVideo, 'playIngVideo');
+    let playIngVideo = {};
+    if (videoTrackList[current_playing_video.truckIndex]) {
+      // console.log(videoTrackList[current_playing_video.truckIndex], 'videoTrackList[current_playing_video.truckIndex]');
+      playIngVideo = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
+    }
     // 根据当前播放视频的index找到对应播放的视频对象
     const needleLeft_now = needle.currentTime;
     const current_videos = [];
@@ -86,14 +92,26 @@ class Needle extends Component {
         })
       }
     });
-    let now_playing_videoItem = current_videos[0] || {playerId: ''};       // 轮询应该播放的videoItem
+    let now_playing_videoItem = current_videos[0] || {};       // 轮询应该播放的videoItem
     current_videos.forEach((item, index) => {                    // 轮询判断层级较低的video 播放
       if (item.level < now_playing_videoItem.leval) {
         now_playing_videoItem = item;
       }
     });
+    // console.log(now_playing_videoItem, 'now_playing_videoItem');
+    // console.log(playIngVideo.playerId, 'playIngVideo.playerId');
+    // console.log(now_playing_videoItem.playerId, 'now_playing_videoItem.playerId');
     if (now_playing_videoItem.playerId !== playIngVideo.playerId) {
-      this.props.change_play_video(now_playing_videoItem.truckIndex, now_playing_videoItem.itemIndex);
+      let truckIndex = -1,
+        itemIndex = -1;
+      if (now_playing_videoItem.truckIndex !== undefined) {
+        truckIndex = now_playing_videoItem.truckIndex;
+      }
+      if (now_playing_videoItem.itemIndex !== undefined) {
+        itemIndex = now_playing_videoItem.itemIndex;
+      }
+
+      this.props.change_play_video(truckIndex, itemIndex);
     }
   };
   render() {

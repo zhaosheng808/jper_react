@@ -33,7 +33,12 @@ class VodeoPlayerItem extends Component {
     }
   };
   componentWillReceiveProps (nextProps) {
-    const nextPlayerId = nextProps.current_playing_video.playerId;
+    const {videoTrackList, current_playing_video} = nextProps;
+    let nextPlay = {};
+    if (videoTrackList[current_playing_video.truckIndex]) {
+      nextPlay = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
+    }
+    const nextPlayerId = nextPlay.playerId;
     const itemPlayerId = this.props.itemData.playerId;
     if (nextPlayerId !== itemPlayerId) {                       // 当前渲染的视频不为本视频  暂停视频的播放
       this.refs.video.onpause = () => {

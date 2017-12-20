@@ -21,9 +21,13 @@ export default function reduce (state = defaultState, action = {}) {
   }
 }
 
-export const change_play_video = (data) => {
+export const change_play_video = (truckIndex, itemIndex) => {
+  // console.log(truckIndex, 'truckIndex', itemIndex, 'itemIndex');
   return {
     type: CHANGE_PLAY_VIDEO,
-    data
+    data: {
+      truckIndex,
+      itemIndex
+    }
   }
 };
