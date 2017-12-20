@@ -41,10 +41,11 @@ class VodeoPlayerItem extends Component {
       this.refs.video.oncanplaythrough = () => {
       };
       if (!this.refs.video.paused) {
+        console.log('未暂停');
         this.refs.video.pause();
       }
     } else {                                                  // 当前渲染的视频为本视频
-      // 如果没有播放 需要将指针当前位置映射到video的currentTime
+      // 如果没有播放 需要将指针当前位置映射到video的currentTime 拖拽进行绘制
       if (this.refs.video.paused) {
         const {needleLeft, zoom_scale, itemData} = this.props; // 指针位置 刻度线比例
         const needleTime = needleLeft / zoom_scale;
@@ -55,6 +56,7 @@ class VodeoPlayerItem extends Component {
         this.drawVideoToCanvas();
       };
       this.refs.video.onpause = () => {
+        console.log(nextPlayerId, 'nextPlayerId');
         console.log('暂停了pause');
         // this.pause_video();
       };

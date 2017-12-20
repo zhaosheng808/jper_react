@@ -8,14 +8,14 @@
 export const CHANGE_PLAY_VIDEO = 'CHANGE_PLAY_VIDEO';
 
 const defaultState = {
-  playerId: '',
-  currentTime: 0
+  truckIndex: -1,
+  itemIndex: -1
 };
 
 export default function reduce (state = defaultState, action = {}) {
   switch (action.type) {
     case 'CHANGE_PLAY_VIDEO' :
-      return {...state, playerId: action.data};
+      return {...state, ...action.data};
     default :
       return state
   }

@@ -180,14 +180,15 @@
     top:0;
     width: 10px;
     height: 26px;
-    margin-left: -5px;
     background-size: contain;
     background-repeat: no-repeat;
 }
 .inPoint{
+    /*margin-left: -3px;*/
     background-image: url('../../../assets/images/inpoint.png');
 }
 .outPoint{
+    margin-left: -8px;
     background-image: url('../../../assets/images/outpoint-hover.png');
 }
 

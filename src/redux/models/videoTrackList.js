@@ -22,7 +22,7 @@ const defaultState = {
         cover: '',                                                 // cover            封面
         title: 'video01',                                                 // title            描述
         origin_time: 8,                                           // origin_time      原video时间
-        start_time: 10,                                            // start_time       当前视频的起始时间，相对于轨道
+        start_time: 4,                                            // start_time       当前视频的起始时间，相对于轨道
         time: 8,                                     // time             当前视频的时间长度
         relative_start: 0,                                     // relative_start   裁剪视频的起始时间相对于原视频的起始时间
         width: '',                                                 // 视频宽度

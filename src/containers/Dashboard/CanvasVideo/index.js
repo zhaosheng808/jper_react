@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {change_needlePosition, change_needleState} from '@/redux/models/needle';
-import {change_play_video} from '@/redux/models/cutVideo/currentPlayingVideo';
+
 
 
 class CanvasVideo extends Component {
@@ -13,6 +13,7 @@ class CanvasVideo extends Component {
     this.state = {
       isPlaying: false,
       currentVideoId: '',
+      video: document.getElementById('defaultImg')
     };
   };
   componentDidMount () {
@@ -23,30 +24,33 @@ class CanvasVideo extends Component {
     // this.props 当前的props
     // nextProps 下一阶段的props
     const {needle} = nextProps;
+    const {zoom_scale, videoTrackList, current_playing_video} = this.props;
+    const next_playing_video = nextProps.current_playing_video;
     const {isPlaying, canvas} = this.state;
     if (!needle.isMoving && isPlaying) {                                                          // 暂停指针移动
       this.stop_needleMove();
     }
-    if (needle.isMoving && nextProps.current_playing_video.playerId) {                           // 控制video播放
-      const video = document.getElementById(nextProps.current_playing_video.playerId);
-      if (video.paused) {
-        video.play();
-      }
-    }
 
-    if (this.props.current_playing_video.playerId !== nextProps.current_playing_video.playerId) { // 有新的video出现
+    // 有新的video出现 ->切换video显示图像
+    if (!(current_playing_video.truckIndex === next_playing_video.truckIndex && current_playing_video.itemIndex === next_playing_video.itemIndex)) {
       let {video} = this.state;
-      if (nextProps.current_playing_video.playerId) {                                             // 新的video不为空
-        const playerId = nextProps.current_playing_video.playerId;
+      const nextPlay = videoTrackList[next_playing_video.truckIndex].child[next_playing_video.itemIndex];  // 新的播放视频对象
+      if (nextPlay.playerId) {                                             // 新的video不为空
+        const playerId = nextPlay.playerId;
         video = document.getElementById(playerId);
         const {isPlaying} = this.state;
         canvas.width = video.clientWidth || 800;
         canvas.height = video.clientHeight || 600;
+        // 新新切换视频的当前播放时间 = 相对于原始视频的裁剪 + （指针当前位置 - 视频开始时间）
+        video.currentTime = nextPlay.relative_start + (needle.currentTime / zoom_scale - nextPlay.start_time );
         if (isPlaying) {
           video.play();
         }
       } else {                                                                                   // 新的video为空，渲染图片
         video = document.getElementById('defaultImg');
+        const {ctx, canvas} = this.state;
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
       }
       this.setState({
         video
@@ -55,24 +59,32 @@ class CanvasVideo extends Component {
   };
   // 创建canvas
   createCanvas = () => {
-    const {current_playing_video} = this.props;
+    const {current_playing_video, videoTrackList} = this.props;
+    const nextPlay = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
     let video = '';
-    if (current_playing_video.playerId) {
-      video = document.getElementById(current_playing_video.playerId);
+    let Width = 800;
+    let Height = 600;
+
+    if (nextPlay.playerId) {
+      video = document.getElementById(nextPlay.playerId);
+      Width = video.clientWidth;
+      Height = video.clientHeight;
     } else {
       video = document.getElementById('defaultImg');
+      Width = this.refs.canvas_video_box.clientWidth;
+      Height = this.refs.canvas_video_box.clientHeight;
     }
-    const canvas = document.createElement('canvas'),
-      Width = video.clientWidth || this.refs.canvas_video_box.clientWidth || 800,
-      Height = video.clientHeight || this.refs.canvas_video_box.clientHeight || 600;
+    const canvas = document.createElement('canvas');
     canvas.width = Width;
     canvas.height = Height;
     this.refs.canvas_video_box.appendChild(canvas);
     canvas.id = 'draw_canvas';
+    const ctx =  canvas.getContext('2d');
+    video.onload = () => {
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    };
     this.setState({
-      ctx: canvas.getContext('2d'),
-      Width,
-      Height,
+      ctx,
       canvas,
       video
     })
@@ -94,12 +106,14 @@ class CanvasVideo extends Component {
   };
   // 指针暂停移动
   stop_needleMove = () => {
+
     this.props.change_needleState({isMoving: false});
     const {timer} = this.state;
-    const {current_playing_video} = this.props;
+    const {current_playing_video, videoTrackList} = this.props;
+    const nextPlay = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
     clearInterval(timer);
-    if (current_playing_video.playerId) {
-      const videoPlayer = document.getElementById(current_playing_video.playerId);
+    if (nextPlay.playerId) {
+      const videoPlayer = document.getElementById(nextPlay.playerId);
       videoPlayer.pause();
     }
     this.setState({
@@ -144,7 +158,11 @@ class CanvasVideo extends Component {
   };
   // 测试
   _ceshi = () => {
+    const {videoTrackList, current_playing_video} = this.props;
     console.log(this.props.needle, 'noodel');
+    const nextPlay = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
+    console.log(current_playing_video, 'current_playing_videoTruck');
+    console.log(nextPlay, 'nextPlay');
   };
   render() {
     const {isPlaying} = this.state;
@@ -170,4 +188,7 @@ export default  connect(state => ({
   needle: state.needle,
   zoom_scale: state.zoom_scale.scale,
   current_playing_video: state.current_playing_video,
-}), {change_needlePosition, change_play_video, change_needleState})(CanvasVideo);
+}), {
+  change_needlePosition,
+  change_needleState
+})(CanvasVideo);

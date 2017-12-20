@@ -17,6 +17,7 @@ class Needle extends Component {
     };
   }
   componentDidMount () {
+    // this.check_current_videoPlayer();
   }
   componentWillReceiveProps (nextProps) {
     this.check_current_videoPlayer();
@@ -37,9 +38,10 @@ class Needle extends Component {
     tools.addEventHandler(document.body, 'mouseup', this.needle_mouseUp);
   };
   changeNeedle_move = (event) => {
-    const {current_playing_video} = this.props;
-    if (current_playing_video.playerId) {
-      const player = document.getElementById(current_playing_video.playerId);
+    const {current_playing_video, videoTrackList} = this.props;
+    const playIngVideo = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
+    if (playIngVideo.playerId) {
+      const player = document.getElementById(playIngVideo.playerId);
       if (!player.paused) {
         player.pause();
       }
@@ -64,10 +66,11 @@ class Needle extends Component {
 
   // 判断当前应该是哪个video播放
   check_current_videoPlayer = () => {
-    const {needle, zoom_scale, current_playing_video} = this.props;
-    const needleLeft = needle.currentTime;
-    const {videoTrackList} = this.props; // video轨道对象
-    const needleLeft_now = needleLeft;
+    const {needle, zoom_scale, current_playing_video, videoTrackList} = this.props;
+    const playIngVideo = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
+    console.log(playIngVideo, 'playIngVideo');
+    // 根据当前播放视频的index找到对应播放的视频对象
+    const needleLeft_now = needle.currentTime;
     const current_videos = [];
     videoTrackList.forEach((item, index) => {
       if (item.child) {
@@ -75,6 +78,8 @@ class Needle extends Component {
           const {start_time, time, playerId} = childItem;
           if ( playerId && needleLeft_now >= start_time * zoom_scale && needleLeft_now <= parseFloat(start_time * zoom_scale) + parseFloat(time * zoom_scale)) {
             childItem.level = item.level;
+            childItem.truckIndex = index;
+            childItem.itemIndex = childIndex;
             current_videos.push(childItem);
           } else {
           }
@@ -87,8 +92,8 @@ class Needle extends Component {
         now_playing_videoItem = item;
       }
     });
-    if (now_playing_videoItem.playerId !== current_playing_video.playerId) {
-      this.props.change_play_video(now_playing_videoItem.playerId);
+    if (now_playing_videoItem.playerId !== playIngVideo.playerId) {
+      this.props.change_play_video(now_playing_videoItem.truckIndex, now_playing_videoItem.itemIndex);
     }
   };
   render() {

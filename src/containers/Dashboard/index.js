@@ -41,6 +41,10 @@ class Dashboard extends Component {
     speechSU.text = 'hello world!';
     window.speechSynthesis.speak(speechSU);
   }
+  componentWillUnmount () {
+    window.onresize = () => {
+    };
+  };
 
   windows_resize = () => {
     const app_panel_height = this.refs.app_panel.clientHeight;

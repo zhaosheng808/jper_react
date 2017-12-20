@@ -47,7 +47,8 @@ class ToolBar extends Component {
     const {needleLeft, pointInOut, zoom_scale} = this.props;
     const pointOut_time = pointInOut.outPoint.time;
     const pointIn_time = needleLeft / zoom_scale;
-    if (pointIn_time <= pointOut_time ) {
+    const pointIn_isShow = pointInOut.outPoint.isShow;
+    if (pointIn_time <= pointOut_time || !pointIn_isShow) {
       this.props.change_inPoint(pointIn_time);
     } else {
       alert('出点必须在进点之后哦');
@@ -63,6 +64,22 @@ class ToolBar extends Component {
     } else {
       alert('出点必须在进点之后哦');
     }
+  };
+  // 裁剪掉视频左侧 指针位置划分视频左右
+  _cutLeft = () => {
+    const {needleLeft, current_playing_video, videoTrackList} = this.props;
+    const playIngVideo = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
+    console.log(needleLeft, 'needleLeft');
+    console.log(current_playing_video, 'current_playing_video');
+    if (playIngVideo.playerId) {
+
+    }else {
+      alert('当前没有视频可以裁剪');
+    }
+
+  };
+  // 裁剪掉视频右侧
+  _cutRight = () => {
 
   };
   render() {
@@ -79,8 +96,8 @@ class ToolBar extends Component {
           <div className="menu_icon icon_refresh large_icon" />
         </div>
         <div className="btn_group">
-          <div className="menu_icon large_icon icon_cutLeft" />
-          <div className="menu_icon large_icon icon_cutRight" />
+          <div className="menu_icon large_icon icon_cutLeft" onClick={this._cutLeft} />
+          <div className="menu_icon large_icon icon_cutRight" onClick={this._cutRight} />
           <div className="menu_icon large_icon icon_magIn" />
           <div className="menu_icon large_icon icon_magOut" />
           <div className="menu_icon large_icon icon_cut" />
@@ -104,6 +121,7 @@ export default  connect(state => ({
   videoTrackList: state.videoTrackList.data,
   needleLeft: state.needle.currentTime,
   pointInOut: state.pointInOut,
+  current_playing_video: state.current_playing_video,
   zoom_scale: state.zoom_scale.scale}),
   {
     change_inPoint,

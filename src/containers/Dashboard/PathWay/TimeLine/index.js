@@ -22,9 +22,10 @@ class TimeLine extends Component {
   changeNeedle = (event) => {
     event.stopPropagation();
     const pathWay_scrollLeft = document.getElementsByClassName('pathWay')[0].scrollLeft;
-    const {current_playing_video} = this.props;
-    if (current_playing_video.playerId) {
-      const videoPlayer = document.getElementById(current_playing_video.playerId);
+    const {current_playing_video, videoTrackList} = this.props;
+    const playIngVideo = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
+    if (playIngVideo.playerId) {
+      const videoPlayer = document.getElementById(playIngVideo.playerId);
       if (!videoPlayer.paused) {
         videoPlayer.pause()
       }
@@ -43,5 +44,6 @@ class TimeLine extends Component {
   }
 }
 export default connect(state => ({
-  current_playing_video: state.current_playing_video
+  current_playing_video: state.current_playing_video,
+  videoTrackList: state.videoTrackList
 }), {change_needlePosition})(TimeLine);
