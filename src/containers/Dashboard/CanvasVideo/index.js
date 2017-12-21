@@ -145,10 +145,6 @@ class CanvasVideo extends Component {
       })
     }
   };
-  // 点击改变指针位置
-  changeNeedle = (left) => {
-    this.props.change_needlePosition(left);
-  };
   // 轮询时间增加
   time_add = () => {
     this.needle_move();
@@ -164,15 +160,17 @@ class CanvasVideo extends Component {
   };
   // 指针移动
   needle_move = () => {
-    const {needle} = this.props;
+    const {needle, zoom_scale} = this.props;
     const needleLeft = needle.currentTime;
-    this.props.change_needlePosition(needleLeft + 1);
+    // 指针每次运动距离 1s -> 10 * step
+    const step = zoom_scale / 10;
+    this.props.change_needlePosition(needleLeft + step);
   };
   // 测试
   _ceshi = () => {
     const {videoTrackList, current_playing_video} = this.props;
     console.log(this.props.needle, 'noodel');
-    // const nextPlay = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
+
     let nextPlay = {};
     if (videoTrackList[current_playing_video.truckIndex]) {
       console.log(videoTrackList[current_playing_video.truckIndex], 'videoTrackList[current_playing_video.truckIndex]');

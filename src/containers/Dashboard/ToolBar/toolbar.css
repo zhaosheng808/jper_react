@@ -31,13 +31,38 @@
 .menu_icon.icon_max{
     background-image: url('../../../assets/images/max.png');
 }
+
+/* 放大滑块 */
 .zoom_line_box{
     width: 80px;
-    height: 1px;
-    background: #919191;
-    margin: 20px 10px 0;
+    height: 100%;
+    /*background: #919191;*/
+    margin: 0 10px 0;
     float: left;
+    position: relative;
 }
+.zoom_line_box .el-slider{
+    margin-top: 2px;
+}
+.zoom_line_box .el-slider .el-tooltip{
+    margin-top: -6px;
+}
+.zoom_line_box .el-slider__runway{
+    height: 2px;
+    margin-right: 0;
+}
+.zoom_line_box .el-slider__bar{
+    background: #919191;
+    height: 2px;
+}
+.zoom_line_box .el-slider__button{
+    background: #919191;
+}
+.zoom_line_box .el-input-number.el-input-number--small.el-slider__input{
+    display: none;
+}
+/* 放大滑块end */
+
 .btn_step_group{
     margin: 0 60px;
 }
@@ -91,4 +116,12 @@
 }
 .menu_icon.icon_export{
     background-image: url('../../../assets/images/export-hover.png');
+}
+
+.zoomNum{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: red;
 }

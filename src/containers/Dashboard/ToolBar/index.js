@@ -4,19 +4,30 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import {Slider} from 'element-react';
 import {change_inPoint, change_outPoint} from '@/redux/models/cutVideo/pointInOut';
 import {videoTrack_edit} from '@/redux/models/videoTrackList';
+import {change_scale} from '@/redux/models/zoomScale';
 
 import './toolbar.css';
+
 class ToolBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      zoom_min: 5,
+      zoom_max: 30,
     };
   }
   componentDidMount () {
 
+  };
+  componentWillReceiveProps (nextProps) {
+    // if (nextProps.zoom_scale !== this.props.zoom_scale) {
+    //   this.setState({
+    //     slider_zoom: nextProps.zoom_scale
+    //   })
+    // }
   };
   _fullScreen = () => {
     document.querySelector('html').webkitRequestFullScreen();
@@ -102,14 +113,35 @@ class ToolBar extends Component {
       alert('当前没有视频可以裁剪');
     }
   };
+  // 比例尺缩小
+  _scaleSmall = () => {
+    document.querySelector('.zoom_line_box .el-input-number__decrease').click();
+  };
+  // 比列尺放大
+  _scaleLarge = () => {
+    document.querySelector('.zoom_line_box .el-input-number__increase').click();
+  };
+  _change_zoom = (newScale) => {
+      this.props.change_scale(newScale);
+  };
   render() {
+    const {zoom_scale} = this.props;
+    const {zoom_min, zoom_max} = this.state;
+
     return (
       <div className="toolbar">
         <div className="btn_zoom_group btn_group">
-          <div className="icon_mini menu_icon" />
-          <div className="zoom_line_box">
+          <div className="icon_mini menu_icon" onClick={this._scaleSmall} />
+          <div className="zoom_line_box" >
+            <span className="zoomNum">{zoom_scale}</span>
+            <Slider min={zoom_min}
+                    max={zoom_max}
+                    value={zoom_scale}
+                    showTooltip={false}
+                    showInput={true}
+                    onChange={this._change_zoom}/>
           </div>
-          <div className="icon_max menu_icon" />
+          <div className="icon_max menu_icon" onClick={this._scaleLarge} />
         </div>
         <div className="btn_group btn_step_group">
           <div className="menu_icon icon_revoke large_icon" />
@@ -146,5 +178,6 @@ export default  connect(state => ({
   {
     change_inPoint,
     change_outPoint,
+    change_scale,
     videoTrack_edit}
   )(ToolBar);

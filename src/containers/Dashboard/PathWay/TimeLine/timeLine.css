@@ -7,9 +7,28 @@
 }
 .time_axis{
     height: 20px;
-    background: coral;
 }
 .time_axis{
     position: relative;
     margin-left: 64px;
+    overflow: hidden;
+}
+.timeSecond{
+    width: 1px;
+    height: 100%;
+    display: block;
+    float: left;
+    background: #686868;
+    opacity: .4;
+    position: relative;
+}
+.timeSecond.highLight{
+    opacity: 1;
+}
+.timeSecond i{
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-style: normal;
 }

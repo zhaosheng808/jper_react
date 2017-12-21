@@ -43,27 +43,14 @@ class PathWay extends Component {
     this.setState({
       videoTrackList
     })
-  }
-  addNewChild_audio = (childData, index) => {
-    console.log(childData);
-    const audioTrackList = [...this.state.audioTrackList];
-    const child = {time: '50', start: 200, name: childData.type};
-    if (!audioTrackList[index].child) {
-      audioTrackList[index].child = [];
-    }
-    audioTrackList[index].child.push(child);
-    console.log(audioTrackList, 'videoTrackList');
-    this.setState({
-      audioTrackList
-    })
-  }
+  };
   render() {
     // const {ytTrackList , audioTrackList} = this.state;
-
+    const {pathWayWidth} = this.props;
     return (
       <div className="pathWay_wrapper">
        <div className="pathWay">
-         <div className="pathWay_inner">
+         <div className="pathWay_inner" style={{width: pathWayWidth}}>
            <TimeLine changeNeedle={this.changeNeedle} ref='timeLine'/>
            <Needle ref='needle'/>
            <InOut />
@@ -74,4 +61,9 @@ class PathWay extends Component {
     );
   }
 }
-export default connect(state => ({videoTrackList: state.videoTrackList.data, activeDrag: state.activeDrag }))(PathWay);
+export default connect(state => (
+  {
+    videoTrackList: state.videoTrackList.data,
+    pathWayWidth: state.pathWayWidth.width,
+    activeDrag: state.activeDrag
+  }))(PathWay);

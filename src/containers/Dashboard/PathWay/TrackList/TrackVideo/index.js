@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import globalConfig from '@/global_config';
 import {videoTrackList_add, videoTrack_add ,videoTrack_del} from '@/redux/models/videoTrackList';
 import {active_element_change} from '@/redux/models/activeTruckElement';
+import {change_width} from '@/redux/models/cutVideo/pathWayWidth';
 
 class TrackVideo extends Component {
   constructor(props) {
@@ -19,8 +20,26 @@ class TrackVideo extends Component {
     };
   }
   componentDidMount () {
-   // console.log(this.props);
   }
+  componentWillReceiveProps (nextProps) {
+    // const {pathWayWidth} = this.props;
+    const {videoTrackList, zoom_scale, pathWayWidth} = nextProps;
+    let maxTime = 0;
+    videoTrackList.forEach((truckItem, truckIndex) => {
+      if (truckItem.child) {
+        truckItem.child.forEach ((childItem, childIndex) => {
+          if (maxTime < childItem.start_time + childItem.time) {
+            maxTime = childItem.start_time + childItem.time
+          }
+        })
+      }
+    });
+    /* 64 轨道左侧空白值 200 最长轨道右侧保留值*/
+    const maxWidth = maxTime * zoom_scale + 64 + 200;
+    if (pathWayWidth < maxWidth) {
+      this.props.change_width(maxWidth);
+    }
+  };
   _dragover = (event) => {
     const {item, activeDrag} = this.props;
     let isActiveDrag = false;
@@ -85,7 +104,6 @@ class TrackVideo extends Component {
       voice_out_time: voice_out_time || '',                  // 音频淡出时间
     };
     this.props.videoTrackList_add(videoItem, this.props.trunkIndex);
-    // console.log(this.props.videoTrackList, 'videoTrackListvideoTrackListvideoTrackList');
   };
   // 添加轨道
   _addTruck = () => {
@@ -127,9 +145,11 @@ class TrackVideo extends Component {
 export default  connect(state => ({
     activeElement: state.activeElement,
     videoTrackList: state.videoTrackList.data,
+    pathWayWidth: state.pathWayWidth.width,
     zoom_scale: state.zoom_scale.scale}),
   {videoTrackList_add,
     active_element_change,
     videoTrack_add,
-    videoTrack_del
+    videoTrack_del,
+    change_width
   })(TrackVideo);

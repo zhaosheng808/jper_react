@@ -20,8 +20,7 @@ class VideoItem extends Component {
       startWidth: 0,     // 初始宽度
       direction: '',     // 拖拽把手方向 left / right
       relative_start: '', //  拖拽相对于起始位置relative_start
-      startMove_time: 0, // 开始移动时video的时间
-      zoom_scale: 10,   // 1s -> 10px  video 1s -> 轨道10 px
+      startMove_time: 0 // 开始移动时video的时间
     };
   }
   activeTruckElement = () => {
@@ -117,8 +116,7 @@ class VideoItem extends Component {
     });
   };
   render() {
-    const {itemData, activeElement} = this.props;
-    const {zoom_scale} = this.state;
+    const {itemData, activeElement, zoom_scale} = this.props;
     let isActive = false;
     if (activeElement.type === this.state.type && activeElement.itemIndex === this.props.itemIndex && activeElement.trunkIndex === this.props.trunkIndex) {
       isActive = true;

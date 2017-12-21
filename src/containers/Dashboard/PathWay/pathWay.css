@@ -2,10 +2,11 @@
     height: calc(100% - 40px);
 }
 .pathWay{
-    overflow-x: scroll;
+    overflow-x: auto;
 }
 .pathWay_inner{
-    width: 4000px;
+    /*width: 4000px;*/
+    min-width: 100%;
     padding-bottom: 10px;
     position: relative;
 }

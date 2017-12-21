@@ -3,8 +3,8 @@
  */
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
+import tools from '@/utils/tools';
 import {change_needlePosition} from '@/redux/models/needle';
-// import logo from '../../logo.svg';
 import Header  from './Header';
 import File  from './File';
 import CanvasVideo  from './CanvasVideo';
@@ -33,17 +33,18 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    this.windows_resize();
-    window.onresize = () => {
-      this.windows_resize()
-    };
-    const speechSU = new window.SpeechSynthesisUtterance();
-    speechSU.text = 'hello world!';
-    window.speechSynthesis.speak(speechSU);
+    const {addEventHandler} = tools;
+    addEventHandler(window, 'resize', this.windows_resize);
+    // window.onresize = () => {
+    //   this.windows_resize()
+    // };
+    // const speechSU = new window.SpeechSynthesisUtterance();
+    // speechSU.text = 'hello world!';
+    // window.speechSynthesis.speak(speechSU);
   }
-  componentWillUnmount () {
-    window.onresize = () => {
-    };
+  componentWillUnmount() {
+    const {removeEventHandler} = tools;
+    removeEventHandler(window, 'resize', this.windows_resize);
   };
 
   windows_resize = () => {
