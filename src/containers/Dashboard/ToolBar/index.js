@@ -79,10 +79,7 @@ class ToolBar extends Component {
       const cut_time = needleTime - playIngVideo.start_time;  // 本次左侧裁剪掉的时间
       const relative_start = playIngVideo.relative_start + cut_time;
       const time = playIngVideo.time - cut_time;
-      const start_time = needleTime;
-      console.log(cut_time, 'cut_time');
-      console.log(relative_start, 'relative_start');
-      this.props.videoTrack_edit(truckIndex, itemIndex, {...playIngVideo, time, relative_start, start_time});
+      this.props.videoTrack_edit(truckIndex, itemIndex, {...playIngVideo, time, relative_start, start_time: needleTime});
     }else {
       alert('当前没有视频可以裁剪');
     }
