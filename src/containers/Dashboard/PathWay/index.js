@@ -34,16 +34,6 @@ class PathWay extends Component {
       activeDrag: type
     })
   };
-  addNewChild_video = (childData, index) => {
-    console.log(childData);
-    const videoTrackList = [...this.state.videoTrackList];
-    const child = {time: '50', start: 200, name: childData.type};
-    videoTrackList[index].child.push(child);
-    console.log(videoTrackList, 'videoTrackList')
-    this.setState({
-      videoTrackList
-    })
-  };
   render() {
     // const {ytTrackList , audioTrackList} = this.state;
     const {pathWayWidth} = this.props;
