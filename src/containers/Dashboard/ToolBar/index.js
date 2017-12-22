@@ -17,10 +17,14 @@ class ToolBar extends Component {
     this.state = {
       zoom_min: 1,
       zoom_max: 30,
+      default_zoom_scale: 10
     };
   }
   componentDidMount () {
-
+    const {zoom_scale} = this.props;
+    this.setState({
+      default_zoom_scale: zoom_scale
+    })
   };
   componentWillReceiveProps (nextProps) {
   };
@@ -117,7 +121,10 @@ class ToolBar extends Component {
     document.querySelector('.zoom_line_box .el-input-number__increase').click();
   };
   _change_zoom = (newScale) => {
+    const {zoom_scale} = this.props;
+    if (newScale !== zoom_scale) {
       this.props.change_scale(newScale);
+    }
   };
   render() {
     const {zoom_scale} = this.props;

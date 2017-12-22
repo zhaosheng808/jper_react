@@ -164,7 +164,7 @@ class CanvasVideo extends Component {
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
     }
   };
-  // 指针移动 -> 向右
+  // 指针移动 自然移动 每秒10次
   needle_move = () => {
     const {needle, zoom_scale} = this.props;
     const needleLeft = needle.currentTime;
@@ -172,15 +172,20 @@ class CanvasVideo extends Component {
     const step = zoom_scale / 10;
     this.props.change_needlePosition(needleLeft + step);
   };
-  // 指针移动 -> 向左
-  needle_move_left = () => {
+  // 指针移动 按帧移动 1s -> 25帧
+  needle_move_frame = (type) => {
     const {needle, zoom_scale} = this.props;
     const needleLeft = needle.currentTime;
     // 指针每次运动距离 1s -> 10 * step
-    const step = zoom_scale / 10;
-    if (needleLeft > 0) {
-      this.props.change_needlePosition(needleLeft - step);
+    const step = zoom_scale / 25;
+    if (type === -1) {              // 上一帧
+      if (needleLeft > 0) {
+        this.props.change_needlePosition(needleLeft - step);
+      }
+    } else {                       // 下一帧
+      this.props.change_needlePosition(needleLeft + step);
     }
+
   };
   // 左右快捷键
   _keydown = (event) => {
@@ -189,10 +194,10 @@ class CanvasVideo extends Component {
     if (e && e.keyCode) {
       switch (e.keyCode) {
         case last_frame:
-          this.needle_move_left();
+          this.needle_move_frame(-1);
           break;
         case next_frame:
-          this.needle_move();
+          this.needle_move_frame(1);
           break;
         default:
           return;
@@ -201,16 +206,8 @@ class CanvasVideo extends Component {
   };
   // 测试
   _ceshi = () => {
-    const {videoTrackList, current_playing_video} = this.props;
-    console.log(this.props.needle, 'noodel');
-
-    let nextPlay = {};
-    if (videoTrackList[current_playing_video.truckIndex]) {
-      console.log(videoTrackList[current_playing_video.truckIndex], 'videoTrackList[current_playing_video.truckIndex]');
-      nextPlay = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
-    }
-    console.log(current_playing_video, 'current_playing_videoTruck');
-    console.log(nextPlay, 'nextPlay');
+    const { state } = this.props;
+    console.log(state, 'state');
   };
   render() {
     const {isPlaying} = this.state;
@@ -235,6 +232,7 @@ export default  connect(state => ({
   activeDrag: state.activeDrag,
   needle: state.needle,
   zoom_scale: state.zoom_scale.scale,
+  state: state,
   current_playing_video: state.current_playing_video,
 }), {
   change_needlePosition,
