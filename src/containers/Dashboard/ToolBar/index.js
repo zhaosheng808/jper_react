@@ -15,7 +15,7 @@ class ToolBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      zoom_min: 5,
+      zoom_min: 1,
       zoom_max: 30,
     };
   }
@@ -23,11 +23,6 @@ class ToolBar extends Component {
 
   };
   componentWillReceiveProps (nextProps) {
-    // if (nextProps.zoom_scale !== this.props.zoom_scale) {
-    //   this.setState({
-    //     slider_zoom: nextProps.zoom_scale
-    //   })
-    // }
   };
   _fullScreen = () => {
     document.querySelector('html').webkitRequestFullScreen();

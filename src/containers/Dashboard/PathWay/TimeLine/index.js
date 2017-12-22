@@ -15,6 +15,12 @@ class TimeLine extends Component {
       timeArr: ['00:00:00']
     };
   }
+  componentWillReceiveProps (nextProps) {
+    /* 如果比例或者轨道长度发生变化 从新渲染刻度线*/
+    if (this.props.zoom_scale !== nextProps.zoom_scale || this.props.zoom_scale.pathWayWidth !== nextProps.pathWayWidth) {
+      this.initTimeArr(nextProps);
+    }
+  };
   componentDidMount() {
     this.initTimeArr();
     const {addEventHandler} = tools;
@@ -24,9 +30,17 @@ class TimeLine extends Component {
     const {removeEventHandler} = tools;
     removeEventHandler(window, 'resize', this.windows_resize);
   };
-  initTimeArr = () => {
-    const {zoom_scale} = this.props;
-    const time_axis = window.parseInt(this.refs.time_axis.clientWidth);
+  initTimeArr = (nextProps) => {
+    let {zoom_scale} = this.props;
+    let time_axis = window.parseInt(this.refs.time_axis.clientWidth);
+    if (nextProps) {
+      zoom_scale = nextProps.zoom_scale;
+      const next_time_axis = nextProps.pathWayWidth - 64;
+      if (time_axis < next_time_axis) {
+        time_axis = next_time_axis;
+      }
+    }
+
     const seconds = time_axis / zoom_scale;
     const timeArr = [];
     for (let i = 0; i< seconds; i++) {
@@ -55,9 +69,6 @@ class TimeLine extends Component {
     };
     return h + ':' + m + ':' + s;
   };
-  _resize = () => {
-    console.log(111);
-  };
   changeNeedle = (event) => {
     event.stopPropagation();
     const pathWay_scrollLeft = document.getElementsByClassName('pathWay')[0].scrollLeft;
@@ -75,23 +86,50 @@ class TimeLine extends Component {
     const left = event.clientX - 64 + pathWay_scrollLeft;
     this.props.change_needlePosition(left);
   };
-  render() {
-    const {timeArr} = this.state;
+  _renderTimeSecond = () => {
     const {zoom_scale} = this.props;
+    const {timeArr} = this.state;
     const timeSecond = {
       marginRight: zoom_scale - 1 + 'px'
     };
+    /* 根据不同的比例tile_lime 刻度绥随着变化*/
+    return (
+      timeArr.map((item, index) => {
+        if (zoom_scale > 9) {
+          if (index % 15 === 0) {
+            return <span className="timeSecond highLight" key={index} style={timeSecond}><i>{item}</i></span>
+          } else {
+            return <span className="timeSecond" key={index} style={timeSecond}/>
+          }
+        } else if (zoom_scale > 3){
+          if (index % 30 === 0) {
+            return <span className="timeSecond highLight" key={index} style={timeSecond}><i>{item}</i></span>
+          } else {
+            return <span className="timeSecond" key={index} style={timeSecond}/>
+          }
+        } else if (zoom_scale > 2){
+          if (index % 60 === 0) {
+            return <span className="timeSecond highLight" key={index} style={timeSecond}><i>{item}</i></span>
+          } else {
+            return <span className="timeSecond" key={index} style={timeSecond}/>
+          }
+        } else {
+          if (index % 120 === 0) {
+            return <span className="timeSecond highLight" key={index} style={timeSecond}><i>{item}</i></span>
+          } else {
+            return <span className="timeSecond" key={index} style={timeSecond}/>
+          }
+        }
+
+      })
+    )
+  };
+  render() {
     return (
       <div className="timeLine">
         <div className="time_axis_box">
           <div className="time_axis" ref='time_axis' onClick={this.changeNeedle} >
-            {timeArr.map((item, index) => {
-              if (index % 15 === 0) {
-                return <span className="timeSecond highLight" key={index} style={timeSecond}><i>{item}</i></span>
-              } else {
-                return <span className="timeSecond" key={index} style={timeSecond} />
-              }
-            })}
+            {this._renderTimeSecond()}
           </div>
         </div>
       </div>
@@ -101,5 +139,6 @@ class TimeLine extends Component {
 export default connect(state => ({
   current_playing_video: state.current_playing_video,
   videoTrackList: state.videoTrackList,
+  pathWayWidth: state.pathWayWidth.width,
   zoom_scale: state.zoom_scale.scale
 }), {change_needlePosition})(TimeLine);

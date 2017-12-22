@@ -3,6 +3,8 @@
  */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import tools from '@/utils/tools';
+import {shortcut_key} from '@/global_config';
 import {change_needlePosition, change_needleState} from '@/redux/models/needle';
 
 
@@ -18,6 +20,10 @@ class CanvasVideo extends Component {
   };
   componentDidMount () {
     this.createCanvas();
+    tools.addEventHandler(window, 'keydown', this._keydown);
+  };
+  componentWillUnmount() {
+    tools.removeEventHandler(window, 'keydown', this._keydown);
   };
   // 在组件接收到一个新的prop时被调用。这个方法在初始化render时不会被调用。
   componentWillReceiveProps (nextProps) {
@@ -158,13 +164,40 @@ class CanvasVideo extends Component {
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
     }
   };
-  // 指针移动
+  // 指针移动 -> 向右
   needle_move = () => {
     const {needle, zoom_scale} = this.props;
     const needleLeft = needle.currentTime;
     // 指针每次运动距离 1s -> 10 * step
     const step = zoom_scale / 10;
     this.props.change_needlePosition(needleLeft + step);
+  };
+  // 指针移动 -> 向左
+  needle_move_left = () => {
+    const {needle, zoom_scale} = this.props;
+    const needleLeft = needle.currentTime;
+    // 指针每次运动距离 1s -> 10 * step
+    const step = zoom_scale / 10;
+    if (needleLeft > 0) {
+      this.props.change_needlePosition(needleLeft - step);
+    }
+  };
+  // 左右快捷键
+  _keydown = (event) => {
+    const {last_frame, next_frame} = shortcut_key;
+    const e = event || window.event || window.arguments.callee.caller.arguments[0];
+    if (e && e.keyCode) {
+      switch (e.keyCode) {
+        case last_frame:
+          this.needle_move_left();
+          break;
+        case next_frame:
+          this.needle_move();
+          break;
+        default:
+          return;
+      }
+    }
   };
   // 测试
   _ceshi = () => {
