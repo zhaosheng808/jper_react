@@ -73,7 +73,7 @@
 }
 
 .app_body {
-    height: calc(100% - 60px);
+    height: calc(100% - 36px);
     background: #1b1b1b;
 }
 

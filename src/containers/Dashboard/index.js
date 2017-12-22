@@ -34,6 +34,7 @@ class Dashboard extends Component {
 
   componentDidMount() {
     const {addEventHandler} = tools;
+    this.windows_resize();
     addEventHandler(window, 'resize', this.windows_resize);
     // window.onresize = () => {
     //   this.windows_resize()
