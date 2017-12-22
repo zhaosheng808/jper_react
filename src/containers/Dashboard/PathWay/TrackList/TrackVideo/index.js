@@ -8,7 +8,7 @@ import React, {Component} from 'react';
 import VideoItem from './VideoItem';
 import { connect } from 'react-redux';
 import globalConfig from '@/global_config';
-import {videoTrackList_add, videoTrack_add ,videoTrack_del} from '@/redux/models/videoTrackList';
+import {videoTrackList_add, videoTrack_add ,videoTrack_del, videoTrackList_del} from '@/redux/models/videoTrackList';
 import {active_element_change} from '@/redux/models/activeTruckElement';
 import {change_width} from '@/redux/models/cutVideo/pathWayWidth';
 
@@ -57,10 +57,14 @@ class TrackVideo extends Component {
     const {drag_offset} = globalConfig;
     const timestamp = Date.parse(new Date());
     const {zoom_scale} = this.props;
-    const left = event.clientX - 64 - drag_offset + pathWay_scrollLeft + App_scrollLeft;
-    const dropData = JSON.parse(event.dataTransfer.getData("data"));
-    const start_time = left / zoom_scale;
+    let left = event.clientX - 64 - drag_offset + pathWay_scrollLeft + App_scrollLeft;
+    if (left < 0) { // 如果超过边缘，则从0开始
+      left = 0
+    }
 
+    // 获取传递的数据
+    const dropData = JSON.parse(event.dataTransfer.getData("data"));
+    let dropForm = 0;  // 数据来源 0 -> 列表  1 ->轨道  默认为列表
     const {
       id,
       playerId,
@@ -79,8 +83,32 @@ class TrackVideo extends Component {
       filter,
       cutTime,
       voice_in_time,
-      voice_out_time
-    } = dropData;          // 拖拽传递的数据
+      voice_out_time,
+      trunkIndex,
+      itemIndex
+    } = dropData;
+
+    // 判断drop数据来源
+    if (typeof(trunkIndex) === 'number' && typeof(itemIndex) === 'number') { // 是从轨道拖拽过来的 轨道index 和item index 类型为number 可能为0
+      dropForm = 1
+    }
+    /* 轨道内判断是否拖拽重叠 */
+
+
+    const {videoTrackList} = this.props;
+    const this_trunkIndex = this.props.trunkIndex;   // 本条轨道的index
+
+
+    const allChild = videoTrackList[this_trunkIndex].child;
+
+    console.log(allChild, 'this_TrackList 本条轨道的所有数据');
+
+
+    const start_time = left / zoom_scale;
+
+
+    /*判断完毕 整合数据存入redux中*/
+
 
     // 重新整理存放在store的数据
     const videoItem = {
@@ -104,6 +132,10 @@ class TrackVideo extends Component {
       voice_in_time: voice_in_time || '',                    // 音频淡入时间
       voice_out_time: voice_out_time || '',                  // 音频淡出时间
     };
+    /*
+    * 直接添加本节点到轨道数组中
+    * 如果是原本存在的，会在dragEnd事件里面删除掉原来的数据，这里不需要处理
+    * */
     this.props.videoTrackList_add(videoItem, this.props.trunkIndex);
   };
   // 添加轨道
@@ -161,5 +193,6 @@ export default  connect(state => ({
     active_element_change,
     videoTrack_add,
     videoTrack_del,
+    videoTrackList_del,
     change_width
   })(TrackVideo);

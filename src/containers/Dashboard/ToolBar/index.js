@@ -165,8 +165,8 @@ class ToolBar extends Component {
         </div>
         {/*<button id="btn_play" onClick={this.play_video}>播放</button>*/}
         {/*<button id="btn_paused" onClick={this.pause_video}>暂停</button>*/}
-        <button onClick={this._fullScreen}>全屏</button>
-        <button id="btn_tips" onClick={this._handel_notice}>通知</button>
+        {/*<button onClick={this._fullScreen}>全屏</button>*/}
+        {/*<button id="btn_tips" onClick={this._handel_notice}>通知</button>*/}
       </div>
     );
   }

@@ -34,13 +34,20 @@ class VideoItem extends Component {
   };
   _dragStart = (listItem, event) => {
     const {drag_offset} = globalConfig;
-    event.dataTransfer.setData("data", JSON.stringify(listItem));
+    const {itemIndex, trunkIndex} = this.props;
+    event.dataTransfer.setData("data", JSON.stringify({...listItem, trunkIndex, itemIndex}));
     event.dataTransfer.setDragImage(this.refs.clip_item, drag_offset, this.refs.clip_item.clientHeight / 2);
     this.props.change_dragActive(listItem.type);
   };
   _dragEnd = () => {
     this.props.change_dragActive('');
     // 移除掉现有的轨道节点
+
+    /* 修改redux数据为异步,但是可以直接在此处移除，因为drop里面的方法接受的数据是直接添加在数组后面的
+    *  如果在drop里面删除，会导致不能触发本节点的dragEnd事件
+    * */
+
+    /* 经测试先执行drop才会执行dragEnd*/
     const {trunkIndex, itemIndex} = this.props;
     this.props.videoTrackList_del(trunkIndex, itemIndex);
   };
