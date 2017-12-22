@@ -114,6 +114,17 @@ class CanvasVideo extends Component {
   };
   // 指针开始移动
   start_needleMove = () => {
+    const {current_playing_video, videoTrackList} = this.props;
+    let nextPlay = {};
+    if (videoTrackList[current_playing_video.truckIndex]) {
+      nextPlay = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
+    }
+    if (nextPlay.playerId) {
+       const video = document.getElementById(nextPlay.playerId);
+       if (video.paused) {
+         video.play();
+       }
+    }
     this.props.change_needleState({isMoving: true});
     this.startInterval();
     this.time_add();
@@ -194,9 +205,11 @@ class CanvasVideo extends Component {
     if (e && e.keyCode) {
       switch (e.keyCode) {
         case last_frame:
+          event.preventDefault();
           this.needle_move_frame(-1);
           break;
         case next_frame:
+          event.preventDefault();
           this.needle_move_frame(1);
           break;
         default:

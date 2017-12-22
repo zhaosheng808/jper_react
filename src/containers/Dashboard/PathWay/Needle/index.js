@@ -71,9 +71,9 @@ class Needle extends Component {
   // 判断当前应该是哪个video播放
   check_current_videoPlayer = (nextProps) => {
     const {needle, zoom_scale, current_playing_video, videoTrackList} = nextProps;
-    let playIngVideo = {};
+    let next_playIngVideo = {};
     if (videoTrackList[current_playing_video.truckIndex]) {
-      playIngVideo = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
+      next_playIngVideo = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
     }
     // 根据当前播放视频的index找到对应播放的视频对象
     const needleLeft_now = needle.currentTime;
@@ -98,16 +98,21 @@ class Needle extends Component {
         now_playing_videoItem = item;
       }
     });
-    if (now_playing_videoItem.playerId !== playIngVideo.playerId) {
-      let truckIndex = -1,
-        itemIndex = -1;
-      if (now_playing_videoItem.truckIndex !== undefined) {
-        truckIndex = now_playing_videoItem.truckIndex;
+
+    if (next_playIngVideo) {
+      if (now_playing_videoItem.playerId !== next_playIngVideo.playerId) {
+        let truckIndex = -1,
+          itemIndex = -1;
+        if (now_playing_videoItem.truckIndex !== undefined) {
+          truckIndex = now_playing_videoItem.truckIndex;
+        }
+        if (now_playing_videoItem.itemIndex !== undefined) {
+          itemIndex = now_playing_videoItem.itemIndex;
+        }
+        this.props.change_play_video(truckIndex, itemIndex);
       }
-      if (now_playing_videoItem.itemIndex !== undefined) {
-        itemIndex = now_playing_videoItem.itemIndex;
-      }
-      this.props.change_play_video(truckIndex, itemIndex);
+    } else {                              // 没有视频播放，制空当前播放视频
+      this.props.change_play_video(-1, -1);
     }
   };
   render() {

@@ -71,7 +71,8 @@ class TimeLine extends Component {
   };
   changeNeedle = (event) => {
     event.stopPropagation();
-    const pathWay_scrollLeft = document.getElementsByClassName('pathWay')[0].scrollLeft;
+    const pathWay_scrollLeft = document.querySelector('.pathWay').scrollLeft;
+    const App_scrollLeft = document.querySelector('.App').scrollLeft;
     const {current_playing_video, videoTrackList} = this.props;
     let playIngVideo = {};
     if (videoTrackList[current_playing_video.truckIndex]) {
@@ -83,7 +84,7 @@ class TimeLine extends Component {
         videoPlayer.pause()
       }
     }
-    const left = event.clientX - 64 + pathWay_scrollLeft;
+    const left = event.clientX - 64 + pathWay_scrollLeft + App_scrollLeft;
     this.props.change_needlePosition(left);
   };
   _renderTimeSecond = () => {

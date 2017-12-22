@@ -52,11 +52,12 @@ class TrackVideo extends Component {
   };
   _drop = (event) => {
     event.preventDefault();
-    const pathWay_scrollLeft = document.getElementsByClassName('pathWay')[0].scrollLeft;
+    const pathWay_scrollLeft = document.querySelector('.pathWay').scrollLeft;
+    const App_scrollLeft = document.querySelector('.App').scrollLeft;
     const {drag_offset} = globalConfig;
     const timestamp = Date.parse(new Date());
     const {zoom_scale} = this.props;
-    const left = event.clientX - 60 - drag_offset + pathWay_scrollLeft;
+    const left = event.clientX - 64 - drag_offset + pathWay_scrollLeft + App_scrollLeft;
     const dropData = JSON.parse(event.dataTransfer.getData("data"));
     const start_time = left / zoom_scale;
 
@@ -107,13 +108,22 @@ class TrackVideo extends Component {
   };
   // 添加轨道
   _addTruck = () => {
-    const {trunkIndex} = this.props;
-    this.props.videoTrack_add(trunkIndex);
+    const {trunkIndex, videoTrackList} = this.props;
+    if (videoTrackList.length >= 2) {
+      alert('最多只能两条视频轨道');
+    } else {
+      this.props.videoTrack_add(trunkIndex);
+    }
   };
   // 删除轨道
   _delTruck = () => {
-    const {trunkIndex} = this.props;
-    this.props.videoTrack_del(trunkIndex)
+    const {trunkIndex, videoTrackList} = this.props;
+    if (videoTrackList.length <= 1) {
+      alert('至少保留一条轨道');
+    } else {
+      this.props.videoTrack_del(trunkIndex);
+    }
+
   };
   render() {
     const {item, activeDrag} = this.props;   // item 每一条轨道对象的数组
