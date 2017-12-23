@@ -20,8 +20,20 @@ class Needle extends Component {
     // this.check_current_videoPlayer();
   }
   componentWillReceiveProps (nextProps) {
+    // 如果比例尺发生了变化 先修改指针的位置再判断当前的播放器
+    if (nextProps.zoom_scale !== this.props.zoom_scale) {
+      this.changeNeedleLeft(nextProps);
+      return;
+    }
     this.check_current_videoPlayer(nextProps);
-
+  };
+  // 比例尺发生变化 指针对应的位置也将发生变化
+  changeNeedleLeft = (nextProps) => {
+    const origin_scale = this.props.zoom_scale;
+    const next_scale = nextProps.zoom_scale;
+    const origin_left = this.props.needle.currentTime;
+    const next_left = (origin_left / origin_scale) * next_scale;
+    this.props.change_needlePosition(next_left);
   };
   needle_mouseDown = (event) => {
     const {needle} = this.props;
@@ -41,8 +53,8 @@ class Needle extends Component {
   changeNeedle_move = (event) => {
     const {current_playing_video, videoTrackList} = this.props;
     let playIngVideo = {};
-    if (videoTrackList[current_playing_video.truckIndex]) {
-      playIngVideo = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
+    if (videoTrackList[current_playing_video.trackIndex]) {
+      playIngVideo = videoTrackList[current_playing_video.trackIndex].child[current_playing_video.itemIndex];
     }
     if (playIngVideo.playerId) {
       const player = document.getElementById(playIngVideo.playerId);
@@ -72,8 +84,8 @@ class Needle extends Component {
   check_current_videoPlayer = (nextProps) => {
     const {needle, zoom_scale, current_playing_video, videoTrackList} = nextProps;
     let next_playIngVideo = {};
-    if (videoTrackList[current_playing_video.truckIndex]) {
-      next_playIngVideo = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
+    if (videoTrackList[current_playing_video.trackIndex]) {
+      next_playIngVideo = videoTrackList[current_playing_video.trackIndex].child[current_playing_video.itemIndex];
     }
     // 根据当前播放视频的index找到对应播放的视频对象
     const needleLeft_now = needle.currentTime;
@@ -84,7 +96,7 @@ class Needle extends Component {
           const {start_time, time, playerId} = childItem;
           if ( playerId && needleLeft_now >= start_time * zoom_scale && needleLeft_now <= parseFloat(start_time * zoom_scale) + parseFloat(time * zoom_scale)) {
             childItem.level = item.level;
-            childItem.truckIndex = index;
+            childItem.trackIndex = index;
             childItem.itemIndex = childIndex;
             current_videos.push(childItem);
           } else {
@@ -101,15 +113,15 @@ class Needle extends Component {
 
     if (next_playIngVideo) {
       if (now_playing_videoItem.playerId !== next_playIngVideo.playerId) {
-        let truckIndex = -1,
+        let trackIndex = -1,
           itemIndex = -1;
-        if (now_playing_videoItem.truckIndex !== undefined) {
-          truckIndex = now_playing_videoItem.truckIndex;
+        if (now_playing_videoItem.trackIndex !== undefined) {
+          trackIndex = now_playing_videoItem.trackIndex;
         }
         if (now_playing_videoItem.itemIndex !== undefined) {
           itemIndex = now_playing_videoItem.itemIndex;
         }
-        this.props.change_play_video(truckIndex, itemIndex);
+        this.props.change_play_video(trackIndex, itemIndex);
       }
     } else {                              // 没有视频播放，制空当前播放视频
       this.props.change_play_video(-1, -1);

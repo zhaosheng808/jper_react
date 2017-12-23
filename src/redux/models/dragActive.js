@@ -14,7 +14,6 @@ export default function reduce (state = defaultState, action = {}) {
   }
 }
 export const change_dragActive = (type) => {
-  console.log('change_dragActive', type);
   return {
     type: CHANGE_TYPE,
     data: {

@@ -8,7 +8,7 @@ import React, {Component} from 'react';
 import VideoItem from './VideoItem';
 import { connect } from 'react-redux';
 import {videoTrackList_add} from '@/redux/models/videoTrackList';
-import {active_element_change} from '@/redux/models/activeTruckElement';
+import {active_element_change} from '@/redux/models/activeTrackElement';
 
 class TrackVideo extends Component {
   constructor(props) {
@@ -97,9 +97,9 @@ class TrackVideo extends Component {
         </div>
         <div className={isActiveDrag ? 'track_body activeDrag' : 'track_body'} onDragOver={this._dragover} onDrop={this._drop} ref='drop'>
           {child.map((itemData, index) => {
-            return <VideoItem key={index} itemData={itemData} itemIndex={index} trunkIndex={this.props.index} />
+            return <VideoItem key={index} itemData={itemData} itemIndex={index} trackIndex={this.props.index} />
           })}
-          <VideoItem itemData={itemData_demo} itemIndex={1} trunkIndex={this.props.index} />
+          <VideoItem itemData={itemData_demo} itemIndex={1} trackIndex={this.props.index} />
         </div>
       </div>
     )

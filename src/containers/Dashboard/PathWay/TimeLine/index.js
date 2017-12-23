@@ -75,8 +75,8 @@ class TimeLine extends Component {
     const App_scrollLeft = document.querySelector('.App').scrollLeft;
     const {current_playing_video, videoTrackList} = this.props;
     let playIngVideo = {};
-    if (videoTrackList[current_playing_video.truckIndex]) {
-      playIngVideo = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
+    if (videoTrackList[current_playing_video.trackIndex]) {
+      playIngVideo = videoTrackList[current_playing_video.trackIndex].child[current_playing_video.itemIndex];
     }
     if (playIngVideo.playerId) {
       const videoPlayer = document.getElementById(playIngVideo.playerId);

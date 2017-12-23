@@ -35,12 +35,12 @@ class VodeoPlayerItem extends Component {
   componentWillReceiveProps (nextProps) {
     const {videoTrackList, current_playing_video} = nextProps;
     let nextPlay = {};
-    if (videoTrackList[current_playing_video.truckIndex]) {
-      nextPlay = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
+    if (videoTrackList[current_playing_video.trackIndex]) {
+      nextPlay = videoTrackList[current_playing_video.trackIndex].child[current_playing_video.itemIndex];
     }
     const nextPlayerId = nextPlay.playerId;
     const itemPlayerId = this.props.itemData.playerId;
-    // console.log(nextPlayerId, 'nextPlayerId');
+
     if (nextPlayerId !== itemPlayerId) {                       // 当前渲染的视频不为本视频  暂停视频的播放
       this.refs.video.onpause = () => {
       };
@@ -50,7 +50,7 @@ class VodeoPlayerItem extends Component {
         console.log('未暂停');
         this.refs.video.pause();
       }
-    } else {                                                  // 当前渲染的视频为本视频
+    } else if (itemPlayerId !== undefined){                                                  // 当前渲染的视频为本视频
       // console.log(111);
       // 如果没有播放 需要将指针当前位置映射到video的currentTime 拖拽进行绘制
       if (this.refs.video.paused) {
@@ -79,8 +79,8 @@ class VodeoPlayerItem extends Component {
     const ctx = document.getElementById('draw_canvas').getContext('2d');
     const {current_playing_video, videoTrackList} = this.props;
     let nextPlay = {};
-    if (videoTrackList[current_playing_video.truckIndex]) {
-      nextPlay = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
+    if (videoTrackList[current_playing_video.trackIndex]) {
+      nextPlay = videoTrackList[current_playing_video.trackIndex].child[current_playing_video.itemIndex];
     }
     const video = document.getElementById(nextPlay.playerId);
     if (video) {

@@ -3,7 +3,7 @@
  */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {active_element_change} from '@/redux/models/activeTruckElement';
+import {active_element_change} from '@/redux/models/activeTrackElement';
 
 class VideoItem extends Component {
   constructor(props) {
@@ -13,12 +13,12 @@ class VideoItem extends Component {
       zoom_scale: 10,   // 1s -> 10px  video 1s -> 轨道10 px
     };
   }
-  activeTruckElement = () => {
+  activeTrackElement = () => {
     const {type} = this.state;
-    const {itemIndex, trunkIndex} = this.props;
+    const {itemIndex, trackIndex} = this.props;
     this.props.active_element_change({
       type,
-      trunkIndex: trunkIndex,
+      trackIndex: trackIndex,
       itemIndex: itemIndex
     })
   };
@@ -26,11 +26,11 @@ class VideoItem extends Component {
     const {itemData, activeElement} = this.props;
     const {zoom_scale} = this.state;
     let isActive = false;
-    if (activeElement.type === this.state.type && activeElement.itemIndex === this.props.itemIndex && activeElement.trunkIndex === this.props.trunkIndex) {
+    if (activeElement.type === this.state.type && activeElement.itemIndex === this.props.itemIndex && activeElement.trackIndex === this.props.trackIndex) {
       isActive = true;
     }
     return (
-      <div className={isActive ? 'clip_item clip_active' : 'clip_item'} style={{width: `${itemData.time * zoom_scale}px`, left: `${itemData.start_time * zoom_scale}px`}} onClick={this.activeTruckElement}>
+      <div className={isActive ? 'clip_item clip_active' : 'clip_item'} style={{width: `${itemData.time * zoom_scale}px`, left: `${itemData.start_time * zoom_scale}px`}} onClick={this.activeTrackElement}>
         <div className="clip_item_img">
 
         </div>

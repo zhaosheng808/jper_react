@@ -15,15 +15,18 @@ class CanvasVideo extends Component {
     this.state = {
       isPlaying: false,
       currentVideoId: '',
+      isKeyDown: false,   // 键盘是否被按下
       video: document.getElementById('defaultImg')
     };
   };
   componentDidMount () {
     this.createCanvas();
     tools.addEventHandler(window, 'keydown', this._keydown);
+    tools.addEventHandler(window, 'keyup', this._keyup);
   };
   componentWillUnmount() {
     tools.removeEventHandler(window, 'keydown', this._keydown);
+    tools.removeEventHandler(window, 'keyup', this._keyup);
   };
   // 在组件接收到一个新的prop时被调用。这个方法在初始化render时不会被调用。
   componentWillReceiveProps (nextProps) {
@@ -38,12 +41,12 @@ class CanvasVideo extends Component {
     }
 
     // 有新的video出现 ->切换video显示图像
-    if (!(current_playing_video.truckIndex === next_playing_video.truckIndex && current_playing_video.itemIndex === next_playing_video.itemIndex)) {
+    if (!(current_playing_video.trackIndex === next_playing_video.trackIndex && current_playing_video.itemIndex === next_playing_video.itemIndex)) {
 
       let {video} = this.state;
       let nextPlay = {};
-      if (videoTrackList[next_playing_video.truckIndex]) {
-        nextPlay = videoTrackList[next_playing_video.truckIndex].child[next_playing_video.itemIndex];
+      if (videoTrackList[next_playing_video.trackIndex]) {
+        nextPlay = videoTrackList[next_playing_video.trackIndex].child[next_playing_video.itemIndex];
       }
       if (nextPlay.playerId) {                                             // 新的video不为空
         const playerId = nextPlay.playerId;
@@ -72,8 +75,8 @@ class CanvasVideo extends Component {
     const {current_playing_video, videoTrackList} = this.props;
 
     let nextPlay = {};
-    if (videoTrackList[current_playing_video.truckIndex]) {
-      nextPlay = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
+    if (videoTrackList[current_playing_video.trackIndex]) {
+      nextPlay = videoTrackList[current_playing_video.trackIndex].child[current_playing_video.itemIndex];
     }
     let video = '';
     let Width = 800;
@@ -104,7 +107,7 @@ class CanvasVideo extends Component {
     })
   };
 
-  video_click = () => {
+  changePlayState = () => {
     const {isPlaying} = this.state;
     if (isPlaying) {  // 暂停进度条
       this.stop_needleMove();
@@ -116,8 +119,8 @@ class CanvasVideo extends Component {
   start_needleMove = () => {
     const {current_playing_video, videoTrackList} = this.props;
     let nextPlay = {};
-    if (videoTrackList[current_playing_video.truckIndex]) {
-      nextPlay = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
+    if (videoTrackList[current_playing_video.trackIndex]) {
+      nextPlay = videoTrackList[current_playing_video.trackIndex].child[current_playing_video.itemIndex];
     }
     if (nextPlay.playerId) {
        const video = document.getElementById(nextPlay.playerId);
@@ -126,18 +129,20 @@ class CanvasVideo extends Component {
        }
     }
     this.props.change_needleState({isMoving: true});
+    // this.setState({
+    //   isPlaying: true
+    // });
     this.startInterval();
     this.time_add();
   };
   // 指针暂停移动
   stop_needleMove = () => {
-
     this.props.change_needleState({isMoving: false});
     const {timer} = this.state;
     const {current_playing_video, videoTrackList} = this.props;
     let nextPlay = {};
-    if (videoTrackList[current_playing_video.truckIndex]) {
-      nextPlay = videoTrackList[current_playing_video.truckIndex].child[current_playing_video.itemIndex];
+    if (videoTrackList[current_playing_video.trackIndex]) {
+      nextPlay = videoTrackList[current_playing_video.trackIndex].child[current_playing_video.itemIndex];
     }
     clearInterval(timer);
     if (nextPlay.playerId) {
@@ -170,7 +175,6 @@ class CanvasVideo extends Component {
   // 定时将video画在画布上
   drawVideoToCanvas = () => {
     const {ctx, video, canvas} = this.state;
-    // console.log(video, 'video');
     if (video) {
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
     }
@@ -183,8 +187,12 @@ class CanvasVideo extends Component {
     const step = zoom_scale / 10;
     this.props.change_needlePosition(needleLeft + step);
   };
-  // 指针移动 按帧移动 1s -> 25帧
+  // 指针移动 按帧移动 1s -> 25帧 0.04s
   needle_move_frame = (type) => {
+    const {isPlaying} = this.state;
+    if (isPlaying) {  // 正在播放 暂停播放
+      this.changePlayState();
+    }
     const {needle, zoom_scale} = this.props;
     const needleLeft = needle.currentTime;
     // 指针每次运动距离 1s -> 10 * step
@@ -198,9 +206,10 @@ class CanvasVideo extends Component {
     }
 
   };
-  // 左右快捷键
+
+  // 快捷键
   _keydown = (event) => {
-    const {last_frame, next_frame} = shortcut_key;
+    const {last_frame, next_frame, play} = shortcut_key;
     const e = event || window.event || window.arguments.callee.caller.arguments[0];
     if (e && e.keyCode) {
       switch (e.keyCode) {
@@ -212,10 +221,44 @@ class CanvasVideo extends Component {
           event.preventDefault();
           this.needle_move_frame(1);
           break;
+        case play:
+          event.preventDefault();
+          this.spaceKeyDown();
+          break;
         default:
           return;
       }
     }
+  };
+  // 快捷键
+  _keyup = (event) => {
+    const {play} = shortcut_key;
+    const e = event || window.event || window.arguments.callee.caller.arguments[0];
+    if (e && e.keyCode) {
+      switch (e.keyCode) {
+        case play:
+          event.preventDefault();
+          this.spaceKeyUp();
+          break;
+        default:
+          return;
+      }
+    }
+  };
+  // 空格键按下
+  spaceKeyDown () {
+    const {isKeyDown} = this.state;
+    if (!isKeyDown) {
+      this.changePlayState();
+      this.setState({
+        isKeyDown: true
+      })
+    }
+  };
+  spaceKeyUp () {
+    this.setState({
+      isKeyDown: false
+    })
   };
   // 测试
   _ceshi = () => {
@@ -229,7 +272,7 @@ class CanvasVideo extends Component {
         <div className="panel_header" />
         <div ref='canvas_video_box' className="canvas_video_box"/>
         <div className="canvas_panel">
-          <div className={isPlaying ? 'canvas_btn isPlaying' : 'canvas_btn'} onClick={this.video_click} />
+          <div className={isPlaying ? 'canvas_btn isPlaying' : 'canvas_btn'} onClick={this.changePlayState} />
           <div className="canvas_time" onClick={this._ceshi}>
             00:02:50:20
           </div>

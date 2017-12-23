@@ -42,28 +42,28 @@ const defaultState = {
 
 export default function reduce (state = defaultState, action = {}) {
   const newState = tools.deepClone(state);
-  let trunkIndex = 0, itemIndex = 0, itemData = {};
+  let trackIndex = 0, itemIndex = 0, itemData = {};
   if (action.data) {
-    trunkIndex = action.data.trunkIndex;
+    trackIndex = action.data.trackIndex;
     itemIndex = action.data.itemIndex;
     itemData = action.data.itemData;
   }
   switch (action.type) {
     case 'ADD_NEW_CHILD' :
       const {trackItemData} = action.data;
-      newState.data[trunkIndex].child.push(trackItemData);
+      newState.data[trackIndex].child.push(trackItemData);
       return newState;
     case 'DEL_CHILD' :
-      newState.data[trunkIndex].child.splice(itemIndex, 1);
+      newState.data[trackIndex].child.splice(itemIndex, 1);
       return newState;
     case 'ADD_TRACK' :
       newState.data.push({type: 'video', isVisible: true, level: state.data.length, child: []});
       return newState;
     case 'DEL_TRACK' :
-      newState.data.splice(trunkIndex, 1);
+      newState.data.splice(trackIndex, 1);
       return newState;
     case 'EDIT_TRACK':
-      newState.data[trunkIndex].child.splice(itemIndex, 1, itemData);
+      newState.data[trackIndex].child.splice(itemIndex, 1, itemData);
       return newState;
     default :
       return state
@@ -71,52 +71,52 @@ export default function reduce (state = defaultState, action = {}) {
 }
 
 // 新增轨道
-export const videoTrack_add = (trunkIndex) => {
+export const videoTrack_add = (trackIndex) => {
   return {
     type: ADD_TRACK,
     data: {
-      trunkIndex
+      trackIndex
     }
   }
 };
 
 // 删除轨道
-export const videoTrack_del = (trunkIndex) => {
+export const videoTrack_del = (trackIndex) => {
   return {
     type: DEL_TRACK,
     data: {
-      trunkIndex
+      trackIndex
     }
   }
 };
 
 // 添加新的轨道内元素
-export const videoTrackList_add = (trackItemData, trunkIndex) => {
+export const videoTrackList_add = (trackItemData, trackIndex) => {
   return {
     type: ADD_NEW_CHILD,
     data: {
       trackItemData,
-      trunkIndex
+      trackIndex
     }
   }
 };
 
 // 删除指定的轨道内元素
-export const videoTrackList_del = (trunkIndex, itemIndex) => {
+export const videoTrackList_del = (trackIndex, itemIndex) => {
   return {
     type: DEL_CHILD,
     data: {
-      trunkIndex, itemIndex
+      trackIndex, itemIndex
     }
   }
 };
 
 // 修改指定轨道内的元素属性
-export const videoTrack_edit = (trunkIndex, itemIndex, itemData) => {
+export const videoTrack_edit = (trackIndex, itemIndex, itemData) => {
   return {
     type: EDIT_TRACK,
     data: {
-      trunkIndex,
+      trackIndex,
       itemIndex,
       itemData
     }

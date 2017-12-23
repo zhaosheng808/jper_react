@@ -8,6 +8,7 @@
 .toolbar .menu_icon{
     width: 30px;
     height: 30px;
+    cursor: pointer;
 }
 .menu_icon.large_icon{
     width: 34px;

@@ -11,6 +11,9 @@ export default {
 
   ESCAPE: 27,
 
+  SHIFT: 16,
+  CTRL: 17,
+  ALT: 18,
   SPACE: 32,
 
   End: 35,

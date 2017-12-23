@@ -4,10 +4,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import tools from '@/utils/tools';
-import {active_element_change} from '@/redux/models/activeTruckElement';
+import {active_element_change} from '@/redux/models/activeTrackElement';
 import {change_dragActive} from '@/redux/models/dragActive';
 import {videoTrackList_del, videoTrack_edit} from '@/redux/models/videoTrackList';
-import globalConfig from '@/global_config';
+import $ from 'jquery';
 
 class VideoItem extends Component {
   constructor(props) {
@@ -23,20 +23,21 @@ class VideoItem extends Component {
       startMove_time: 0 // 开始移动时video的时间
     };
   }
-  activeTruckElement = () => {
+  activeTrackElement = () => {
     const {type} = this.state;
-    const {itemIndex, trunkIndex} = this.props;
+    const {itemIndex, trackIndex} = this.props;
     this.props.active_element_change({
       type,
-      trunkIndex: trunkIndex,
+      trackIndex: trackIndex,
       itemIndex: itemIndex
     })
   };
   _dragStart = (listItem, event) => {
-    const {drag_offset} = globalConfig;
-    const {itemIndex, trunkIndex} = this.props;
-    event.dataTransfer.setData("data", JSON.stringify({...listItem, trunkIndex, itemIndex}));
-    event.dataTransfer.setDragImage(this.refs.clip_item, drag_offset, this.refs.clip_item.clientHeight / 2);
+    const offsetX = event.clientX - $(this.refs.clip_item).offset().left;
+    const {itemIndex, trackIndex} = this.props;
+    event.dataTransfer.setData("dropData", JSON.stringify({...listItem, trackIndex, itemIndex}));
+    event.dataTransfer.setData("offsetX", offsetX);
+    // event.dataTransfer.setDragImage(this.refs.clip_item);
     this.props.change_dragActive(listItem.type);
   };
   _dragEnd = () => {
@@ -48,8 +49,8 @@ class VideoItem extends Component {
     * */
 
     /* 经测试先执行drop才会执行dragEnd*/
-    const {trunkIndex, itemIndex} = this.props;
-    this.props.videoTrackList_del(trunkIndex, itemIndex);
+    const {trackIndex, itemIndex} = this.props;
+    this.props.videoTrackList_del(trackIndex, itemIndex);
   };
 
 
@@ -75,7 +76,7 @@ class VideoItem extends Component {
   };
   clipItem_move = (event) => {
     // const pathWay_scrollLeft = document.querySelector('.pathWay').scrollLeft;
-    const {zoom_scale, itemData, trunkIndex, itemIndex} = this.props;
+    const {zoom_scale, itemData, trackIndex, itemIndex} = this.props;
     const {startWidth, startX, startLeft, direction, relative_start, startMove_time} = this.state;
 
     const {origin_time, time} = itemData;
@@ -93,7 +94,7 @@ class VideoItem extends Component {
         nowTime = 0
       }
 
-      this.props.videoTrack_edit(trunkIndex, itemIndex, {...itemData, time: nowTime});
+      this.props.videoTrack_edit(trackIndex, itemIndex, {...itemData, time: nowTime});
 
     } else {                                // 左边的把手
       /* 只通过起始位置和相对于原视频的起始位置 这两个值计算出left和time*/
@@ -112,7 +113,7 @@ class VideoItem extends Component {
       if (left < 0) {
         left = 0;
       }
-      this.props.videoTrack_edit(trunkIndex, itemIndex, {...itemData, start_time: left / zoom_scale, time: nowTime, relative_start: now_relative_start});
+      this.props.videoTrack_edit(trackIndex, itemIndex, {...itemData, start_time: left / zoom_scale, time: nowTime, relative_start: now_relative_start});
     }
   };
   left_mouseUp = () => {
@@ -125,13 +126,13 @@ class VideoItem extends Component {
   render() {
     const {itemData, activeElement, zoom_scale} = this.props;
     let isActive = false;
-    if (activeElement.type === this.state.type && activeElement.itemIndex === this.props.itemIndex && activeElement.trunkIndex === this.props.trunkIndex) {
+    if (activeElement.type === this.state.type && activeElement.itemIndex === this.props.itemIndex && activeElement.trackIndex === this.props.trackIndex) {
       isActive = true;
     }
     return (
       <div className={isActive ? 'clip_item clip_active' : 'clip_item'}
            style={{width: `${itemData.time * zoom_scale}px`, left: `${itemData.start_time * zoom_scale}px`}}
-           onClick={this.activeTruckElement}
+           onClick={this.activeTrackElement}
            draggable="true"
            onDragStart={this._dragStart.bind(this, itemData)}
            onDragEnd={this._dragEnd}

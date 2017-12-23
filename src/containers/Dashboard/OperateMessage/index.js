@@ -10,7 +10,7 @@ class OperateMessage extends Component {
     const {activeElement, videoTrackList} = this.props;
     let activeItem = {};
     if (activeElement.type === 'video') {
-      activeItem = videoTrackList[activeElement.trunkIndex].child[activeElement.itemIndex];
+      activeItem = videoTrackList[activeElement.trackIndex].child[activeElement.itemIndex];
     }
     return (
       <div className="infoPanel">

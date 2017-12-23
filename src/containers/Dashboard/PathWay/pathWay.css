@@ -103,10 +103,10 @@
     margin: 0 10px;
     height: 100%;
 }
-.track_toolbar .truck_add {
+.track_toolbar .track_add {
     background-image: url('../../../assets/images/plus.png');
 }
-.track_toolbar .truck_del{
+.track_toolbar .track_del{
     background-image: url('../../../assets/images/delet.png');
 }
 
