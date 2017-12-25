@@ -15,6 +15,7 @@
     min-width: 100%;
     position: relative;
     margin-bottom: 20px;
+    overflow: hidden;
 }
 
 .track{
@@ -185,8 +186,8 @@
 .inPoint,.outPoint{
     position: absolute;
     top:0;
-    width: 10px;
-    height: 26px;
+    width: 16px;
+    height: 28px;
     background-size: contain;
     background-repeat: no-repeat;
 }
@@ -195,8 +196,8 @@
     background-image: url('../../../assets/images/inpoint.png');
 }
 .outPoint{
-    margin-left: -8px;
-    background-image: url('../../../assets/images/outpoint-hover.png');
+    margin-left: -14px;
+    background-image: url('../../../assets/images/outpoint.png');
 }
 
 /* 视频轨道内节点拉伸*/

@@ -30,7 +30,7 @@
     left: 0;
     z-index: 0;
     color: #919191;
-    background: #1b1b1b;
+    background: #18191b;
     overflow: hidden;
     font-size: 14px;
     font-family: "PingFang SC", '微软雅黑', Arial,sans-serif;
@@ -40,7 +40,7 @@
     padding: 0 20px;
     height: 36px;
     line-height: 36px;
-    background: #303030;
+    background: #2b2c30;
     /*background-image: -webkit-linear-gradient(45deg, #f35626, #feab3a);*/
     /*-webkit-animation: hue 60s infinite linear;*/
 }
@@ -143,8 +143,14 @@
 .menu_info .menu_icon{
     background-image: url('../../assets/images/infor-hover.png');
 }
+.menu_info:hover .menu_icon{
+    background-image: url('../../assets/images/infor-hover.png');
+}
 .menu_result .menu_icon{
     background-image: url('../../assets/images/result.png');
+}
+.menu_result:hover .menu_icon{
+    background-image: url('../../assets/images/result-hover.png');
 }
 /*================信息展示板块================*/
 .infoPanel .menu_item {
@@ -204,11 +210,20 @@
 .menu_media .menu_icon{
     background-image: url('../../assets/images/media-hover.png');
 }
+.menu_media:hover .menu_icon{
+    background-image: url('../../assets/images/media-hover.png');
+}
 .menu_text .menu_icon{
     background-image: url('../../assets/images/word.png');
 }
+.menu_text:hover .menu_icon{
+    background-image: url('../../assets/images/word-hover.png');
+}
 .menu_effect .menu_icon{
     background-image: url('../../assets/images/effect.png');
+}
+.menu_effect:hover .menu_icon{
+    background-image: url('../../assets/images/effect-hover.png');
 }
 .file_choose_panel{
     width: 100%;
@@ -251,7 +266,13 @@
 .show_list.menu_icon{
     background-image: url('../../assets/images/list.png');
 }
+.show_list.menu_icon:hover{
+    background-image: url('../../assets/images/list-hover.png');
+}
 .show_tile.menu_icon{
+    background-image: url('../../assets/images/falls-hover.png');
+}
+.show_tile.menu_icon:hover{
     background-image: url('../../assets/images/falls-hover.png');
 }
 

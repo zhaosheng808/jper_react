@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import tools from '@/utils/tools';
 import {Slider} from 'element-react';
 import {change_inPoint, change_outPoint} from '@/redux/models/cutVideo/pointInOut';
+import {change_cover} from '@/redux/models/cutVideo/checkCover';
 import {videoTrack_edit} from '@/redux/models/videoTrackList';
 import {change_scale} from '@/redux/models/zoomScale';
 import {shortcut_key} from '@/global_config';
@@ -198,6 +199,12 @@ class ToolBar extends Component {
       alert('当前没有选中的video');
     }
   };
+  // 覆盖挤压
+  _changeCover = () => {
+    /*-1: 不开启 1:开启 默认开启覆盖检测，即不能覆盖*/
+    const {checkCover} = this.props;
+    this.props.change_cover( -checkCover );
+  };
   // 快捷键
   _keydown = (event) => {
     const {cut_left, cut_right, ctrl} = shortcut_key;
@@ -237,7 +244,6 @@ class ToolBar extends Component {
     }
   };
   cutVideo (direction) {
-    console.log(this, 'this');
     /*
     * direction 裁剪方向 -1 ：left 1 right
     * */
@@ -290,7 +296,7 @@ class ToolBar extends Component {
           <div className="menu_icon large_icon icon_magIn" title="向前吸附" onClick={this._magnetLeft} />
           <div className="menu_icon large_icon icon_magOut" title="向后吸附" onClick={this._magnetRight} />
           <div className="menu_icon large_icon icon_cut" />
-          <div className="menu_icon large_icon icon_cover" />
+          <div className="menu_icon large_icon icon_cover" title="覆盖挤压" onClick={this._changeCover} />
         </div>
         <div className="ben_group btn_project">
           <div className="menu_icon large_icon icon_pointIn" title="进点" onClick={this._setPointIn}  />
@@ -312,10 +318,12 @@ export default  connect(state => ({
   pointInOut: state.pointInOut,
   current_playing_video: state.current_playing_video,
   activeElement: state.activeElement,
+  checkCover: state.checkCover.cover,
   zoom_scale: state.zoom_scale.scale}),
   {
     change_inPoint,
     change_outPoint,
     change_scale,
-    videoTrack_edit}
+    videoTrack_edit,
+    change_cover}
   )(ToolBar);
