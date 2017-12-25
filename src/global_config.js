@@ -15,5 +15,6 @@ export const shortcut_key =  {     // 快捷键
   next_frame: keys['RIGHT'],      // 下一帧
   cut_left: [keys['CTRL'], keys['BracketLeft']],      // 裁剪左侧
   cut_right: [keys['CTRL'], keys['BracketRight']],      // 裁剪右侧
+  save: [keys['CTRL'], keys['S']],      // 裁剪右侧
   ctrl: keys['CTRL'],
 };

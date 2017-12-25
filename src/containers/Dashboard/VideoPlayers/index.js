@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import VideoPlayerItem from './VideoPlayerItem';
 import './videoPlayer.css';
-import defaultImg from '@/assets/other/example.png';
+import defaultImg from '@/assets/images/black_image.png';
 
 class VideoPlayers extends Component {
   constructor(props) {

@@ -230,7 +230,7 @@ class ToolBar extends Component {
   };
   // 保存
   _save = () => {
-
+    console.log('save');
   };
   // 导出
   _export = () => {
@@ -238,7 +238,7 @@ class ToolBar extends Component {
   };
   // 快捷键
   _keydown = (event) => {
-    const {cut_left, cut_right, ctrl} = shortcut_key;
+    const {cut_left, cut_right, ctrl, save} = shortcut_key;
     const e = event || window.event || window.arguments.callee.caller.arguments[0];
     if (e && e.keyCode) {
       switch (e.keyCode) {
@@ -249,6 +249,10 @@ class ToolBar extends Component {
         case cut_right[1]:
           event.preventDefault();
           this.cutVideo(1);
+          break;
+        case save[1]:
+          event.preventDefault();
+          this.quick_save();
           break;
         case ctrl:
           event.preventDefault();
@@ -286,7 +290,15 @@ class ToolBar extends Component {
         this._cutRight();
       }
     }
-
+  }
+  quick_save () {
+    /*
+     * direction 裁剪方向 -1 ：left 1 right
+     * */
+    const {isUtilsKeyDown} = this.state;
+    if (isUtilsKeyDown) {
+      this._save();
+    }
   }
   utilsKeyDown () {
     this.setState({
