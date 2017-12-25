@@ -9,7 +9,7 @@
 export const CHANGE_COVER = 'CHANGE_COVER';
 
 const defaultState = {
-  cover: 1
+  cover: 0
 };
 
 export default function reduce (state = defaultState, action = {}) {

@@ -139,7 +139,7 @@ class TimeLine extends Component {
 }
 export default connect(state => ({
   current_playing_video: state.current_playing_video,
-  videoTrackList: state.videoTrackList,
+  videoTrackList: state.videoTrackList.data,
   pathWayWidth: state.pathWayWidth.width,
   zoom_scale: state.zoom_scale.scale
 }), {change_needlePosition})(TimeLine);

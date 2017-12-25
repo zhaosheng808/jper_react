@@ -13,11 +13,14 @@ class VodeoPlayerItem extends Component {
     this.state = {
       canvas: null,
       ctx: null,
+      blobSrc: '',      // video通过blob下载到本地的src
       timer: null,      // 定时器
     };
   }
 
   componentDidMount() {
+    /*通过blob预加载*/
+    this.boble_load();
     // this.getCanvas();
     // this.refs.video.onpause = () => {
     //   console.log('暂停了pause');
@@ -27,10 +30,54 @@ class VodeoPlayerItem extends Component {
     //   console.log('缓冲完毕');
     //   this.drawVideoToCanvas();
     // };
+
+    // $.ajax({
+    //   url: itemData.src,
+    //   method: 'get',
+    //   dataType: 'blob',
+    // });
+
     this.refs.video.onplay = () => {
       $('.videoPlayers_wrapper video').removeClass('video_playing');
       $(this.refs.video).addClass('video_playing');
-    }
+    };
+/*    this.refs.video.addEventListener("progress", function() {
+      console.log(0);
+      // When buffer is 1 whole video is buffered
+      if (Math.round(this.refs.video.buffered.end(0)) / Math.round(this.refs.video.seekable.end(0)) === 1) {
+        console.log(1111);
+        // Entire video is downloaded
+      }
+    }, false);*/
+  };
+  boble_load = () => {
+    /*
+     * 通过blob预加载
+     * 发现并没有什么卵用
+     * */
+    const {itemData} = this.props;
+    const req = new XMLHttpRequest();
+    const _this = this;
+    req.open('GET', itemData.src, true);
+    req.responseType = 'blob';
+    req.onload = function() {
+      // Onload is triggered even on 404
+      // so we need to check the status code
+      if (this.status === 200) {
+        const videoBlob = this.response;
+        const vid = URL.createObjectURL(videoBlob); // IE10+
+        // Video is now downloaded
+        // and we can set it as source on the video element
+        // video.src = vid;
+        _this.setState({
+          // blobSrc: vid
+        })
+      }
+    };
+    req.onerror = function() {
+      // Error
+    };
+    req.send();
   };
   componentWillReceiveProps (nextProps) {
     const {videoTrackList, current_playing_video} = nextProps;
@@ -89,9 +136,11 @@ class VodeoPlayerItem extends Component {
   };
   render() {
     const {itemData} = this.props;
+    const {blobSrc} = this.state;
+    // console.log('blobSrc', blobSrc);
     // console.log(itemData, 'itemDataVideo');
     return (
-      <video ref='video' controls preload="true" id={itemData.playerId} src={itemData.src}>你的播放器不支持video</video>
+      <video ref='video' controls preload="true" id={itemData.playerId} src={ blobSrc || itemData.src }>你的播放器不支持video</video>
     );
   }
 }

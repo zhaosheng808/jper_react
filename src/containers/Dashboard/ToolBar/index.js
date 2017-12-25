@@ -230,11 +230,29 @@ class ToolBar extends Component {
   };
   // 保存
   _save = () => {
-    console.log('save');
+    const {state} = this.props;
+    const videoTrackList_data = state.videoTrackList.data;
+    console.log(state, 'state');
+    console.log(videoTrackList_data, 'videoTrackList_data');
   };
   // 导出
   _export = () => {
+    const {state} = this.props;
+    const {videoTrackList, pointInOut} = state;
+    const videoTrackList_data = videoTrackList.data;
+    console.log(state, 'state');
+    console.log(videoTrackList_data, 'videoTrackList_data');
+    console.log(pointInOut, 'pointInOut');
+    if (pointInOut.inPoint.isShow && pointInOut.outPoint.isShow) {
+      const inPoint_time = pointInOut.inPoint.time;
+      const outPoint_time = pointInOut.outPoint.time;
+      console.log(inPoint_time, 'inPoint_time');
+      console.log(outPoint_time, 'outPoint_time');
 
+    }else {
+      // alert('导出前必须设置进点和出点哦');
+      console.log('没有进点和出点');
+    }
   };
   // 快捷键
   _keydown = (event) => {
@@ -362,6 +380,7 @@ export default  connect(state => ({
   current_playing_video: state.current_playing_video,
   activeElement: state.activeElement,
   checkCover: state.checkCover.cover,
+  state,
   zoom_scale: state.zoom_scale.scale}),
   {
     change_inPoint,
