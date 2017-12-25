@@ -155,24 +155,29 @@
 /*  指针 */
 .needle{
     width: 2px;
-    height: 100%;
+    height: calc(100% - 24px);
     margin-left: 64px;
     position: absolute;
-    top:0;
+    bottom: 0;
     left: 0;
     z-index: 100;
-    background: rebeccapurple;
+    background: #909090;
     cursor: move;
 }
 
 .needle_handle{
     width: 14px;
     height: 24px;
-    background: url('../../../assets/images/timer1.png') no-repeat center;
+    background-image: url('../../../assets/images/timer1.png');
+    background-repeat: no-repeat;
+    background-position: center;
     position: absolute;
-    top: 0;
+    top: -24px;
     left: 50%;
     transform: translateX(-50%);
+}
+.needle:hover .needle_handle{
+    /*background-image: url('../../../assets/images/timer1-hover.png');*/
 }
 
 /*进出点*/

@@ -8,7 +8,7 @@ import tools from '@/utils/tools';
 import {Slider} from 'element-react';
 import {change_inPoint, change_outPoint} from '@/redux/models/cutVideo/pointInOut';
 import {change_cover} from '@/redux/models/cutVideo/checkCover';
-import {videoTrack_edit} from '@/redux/models/videoTrackList';
+import {videoTrack_edit, videoTrackList_add} from '@/redux/models/videoTrackList';
 import {change_scale} from '@/redux/models/zoomScale';
 import {shortcut_key} from '@/global_config';
 
@@ -106,7 +106,10 @@ class ToolBar extends Component {
 
   };
   // 裁剪掉视频右侧
-  _cutRight = () => {
+  _cutRight = (split) => {
+    /*
+    * split 是否将右侧裁剪掉的添加到新的素材中
+    * */
     const {needleLeft, current_playing_video, zoom_scale, videoTrackList} = this.props;
     const {trackIndex, itemIndex} = current_playing_video;
     let playIngVideo = {};
@@ -118,9 +121,29 @@ class ToolBar extends Component {
       const cut_time = playIngVideo.start_time + playIngVideo.time - needleTime;  // 本次右侧裁剪掉的时间
       const time = playIngVideo.time - cut_time;
       this.props.videoTrack_edit(trackIndex, itemIndex, {...playIngVideo, time});
+      if (split) {
+        // 将裁掉的部分新增到轨道中
+        const timestamp = Date.parse(new Date());
+        const id = timestamp;                                   // id               id为当前时间戳
+        const playerId = 'playerId' + timestamp;                             // video播放器       播放器id格式 -- playerId + 时间戳
+        const add_time =  playIngVideo.time - time;
+        const add_relative_start =  playIngVideo.relative_start + time;
+        this.props.videoTrackList_add({
+          ...playIngVideo,
+          id,
+          playerId,
+          time: add_time,
+          start_time: needleTime,
+          relative_start: add_relative_start
+        }, trackIndex);
+      }
     }else {
       alert('当前没有视频可以裁剪');
     }
+  };
+  //_cut 裁成两段
+  _cut = () => {
+    this._cutRight(true);
   };
   // 比例尺缩小
   _scaleSmall = () => {
@@ -204,6 +227,14 @@ class ToolBar extends Component {
     /*-1: 不开启 1:开启 默认开启覆盖检测，即不能覆盖*/
     const {checkCover} = this.props;
     this.props.change_cover( -checkCover );
+  };
+  // 保存
+  _save = () => {
+
+  };
+  // 导出
+  _export = () => {
+
   };
   // 快捷键
   _keydown = (event) => {
@@ -295,14 +326,14 @@ class ToolBar extends Component {
           <div className="menu_icon large_icon icon_cutRight" title="裁剪右侧" onClick={this._cutRight} />
           <div className="menu_icon large_icon icon_magIn" title="向前吸附" onClick={this._magnetLeft} />
           <div className="menu_icon large_icon icon_magOut" title="向后吸附" onClick={this._magnetRight} />
-          <div className="menu_icon large_icon icon_cut" />
+          <div className="menu_icon large_icon icon_cut" title="裁分" onClick={this._cut} />
           <div className={checkCover === 1 ? 'menu_icon large_icon icon_crush' : 'menu_icon large_icon icon_cover'} title="覆盖挤压" onClick={this._changeCover} />
         </div>
         <div className="ben_group btn_project">
           <div className="menu_icon large_icon icon_pointIn" title="进点" onClick={this._setPointIn}  />
           <div className="menu_icon large_icon icon_pointOut" title="出点" onClick={this._setPointOut} />
-          <div className="menu_icon large_icon icon_save" title="保存" />
-          <div className="menu_icon large_icon icon_export" title="导出" />
+          <div className="menu_icon large_icon icon_save" title="保存" onClick={this._save} />
+          <div className="menu_icon large_icon icon_export" title="导出" onClick={this._export} />
         </div>
         {/*<button id="btn_play" onClick={this.play_video}>播放</button>*/}
         {/*<button id="btn_paused" onClick={this.pause_video}>暂停</button>*/}
@@ -325,5 +356,6 @@ export default  connect(state => ({
     change_outPoint,
     change_scale,
     videoTrack_edit,
+    videoTrackList_add,
     change_cover}
   )(ToolBar);
