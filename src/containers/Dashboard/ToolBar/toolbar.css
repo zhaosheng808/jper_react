@@ -71,31 +71,66 @@
     background-image: url('../../../assets/images/back.png');
     margin-right: 20px;
 }
+.icon_revoke:hover{
+    background-image: url('../../../assets/images/back-hover.png');
+    /*background: red;*/
+}
 .menu_icon.icon_refresh{
     background-image: url('../../../assets/images/reform.png');
+}
+.icon_refresh:hover{
+    background-image: url('../../../assets/images/reform-hover.png');
 }
 
 .menu_icon.icon_cutLeft{
     background-image: url('../../../assets/images/frontcut.png');
 }
+.icon_cutLeft:hover{
+    background-image: url('../../../assets/images/frontcut-hover.png');
+}
 .menu_icon.icon_cutRight{
     background-image: url('../../../assets/images/behindcut.png');
+}
+.icon_cutRight:hover{
+    background-image: url('../../../assets/images/behindcut-hover.png');
 }
 
 .menu_icon.icon_magIn{
     background-image: url('../../../assets/images/frontmag.png');
 }
+.icon_magIn:hover{
+    background-image: url('../../../assets/images/frontmag-hover.png');
+}
 .menu_icon.icon_magOut{
     background-image: url('../../../assets/images/behindmag.png');
 }
+.icon_magOut:hover{
+    background-image: url('../../../assets/images/behindmag-hover.png');
+}
 .menu_icon.icon_cut{
+    background-image: url('../../../assets/images/cut.png');
+}
+.icon_cut:hover{
     background-image: url('../../../assets/images/cut-hover.png');
 }
+
 .menu_icon.icon_cover{
     width: 50px;
     margin-left: 10px;
+    background-image: url('../../../assets/images/cover.png');
+}
+.icon_cover:hover{
     background-image: url('../../../assets/images/cover-hover.png');
 }
+.menu_icon.icon_crush{
+    width: 50px;
+    margin-left: 10px;
+    background-image: url('../../../assets/images/crush.png');
+}
+.icon_crush:hover{
+    background-image: url('../../../assets/images/crush-hover.png');
+}
+
 
 /* 项目按钮*/
 

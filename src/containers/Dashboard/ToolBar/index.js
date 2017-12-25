@@ -268,7 +268,7 @@ class ToolBar extends Component {
     })
   }
   render() {
-    const {zoom_scale} = this.props;
+    const {zoom_scale, checkCover} = this.props;
     const {zoom_min, zoom_max} = this.state;
 
     return (
@@ -296,7 +296,7 @@ class ToolBar extends Component {
           <div className="menu_icon large_icon icon_magIn" title="向前吸附" onClick={this._magnetLeft} />
           <div className="menu_icon large_icon icon_magOut" title="向后吸附" onClick={this._magnetRight} />
           <div className="menu_icon large_icon icon_cut" />
-          <div className="menu_icon large_icon icon_cover" title="覆盖挤压" onClick={this._changeCover} />
+          <div className={checkCover === 1 ? 'menu_icon large_icon icon_crush' : 'menu_icon large_icon icon_cover'} title="覆盖挤压" onClick={this._changeCover} />
         </div>
         <div className="ben_group btn_project">
           <div className="menu_icon large_icon icon_pointIn" title="进点" onClick={this._setPointIn}  />
