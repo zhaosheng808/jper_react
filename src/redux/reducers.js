@@ -14,6 +14,7 @@ import current_playing_video from './models/cutVideo/currentPlayingVideo';  // �
 import pointInOut from './models/cutVideo/pointInOut';  // 缩放比例
 import pathWayWidth from './models/cutVideo/pathWayWidth';  // 缩放比例
 import checkCover from './models/cutVideo/checkCover';  // 开启轨道压条覆盖检测
+// import live_id from './models/cctv_liveCut/liveId';  // 央视裁剪的直播id
 
 // reducer 就是一个纯函数，接收旧的 state 和 action，返回新的 state。
 
@@ -52,6 +53,7 @@ const reducers = combineReducers({
   pointInOut,
   current_playing_video,
   checkCover,
+  // live_id,
   pathWayWidth
   // more state
 });

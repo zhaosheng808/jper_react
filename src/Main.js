@@ -2,7 +2,8 @@
  * Created by DELL on 2017/11/10.
  */
 import React, { Component } from 'react'
-import {login} from '@/redux/models/admin';
+
+
 import {
   HashRouter as Router,
   Switch,
@@ -10,8 +11,11 @@ import {
   Route
 } from 'react-router-dom';
 import { connect } from 'react-redux';
+
+import {login} from '@/redux/models/admin';
 import App from './containers/App'
 import Login from './containers/Login'
+
 
 class Main extends Component {
   constructor(props){

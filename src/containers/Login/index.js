@@ -8,6 +8,7 @@ import {connect} from 'react-redux';
 import axios from 'axios';
 import qs from 'qs';
 import {login} from '@/redux/models/admin';
+
 require('./index.css');
 
 class Login extends Component {
@@ -37,16 +38,18 @@ class Login extends Component {
     /*
      * 央视在线裁剪跳转过来的
      * 携带 code 以及 新闻id
-     *
+     * code: MTUxNDI1NzE0M19kNDI5YzNjZC1hZmUxLWY2NTUtYTJhOS1iMmViODk2YWY0NjBfYjc5YzdlNGQ0YWUzNjI2ZGRlMDIzZmQzNDViMGZlZmM
      * */
     const params = this.getParams();
-    console.log(params, 'params');
+    console.log(params, ' <--params');
+
     if (params.live_id) { // 央视裁剪过来的 免登录
+      this.props.set_liveId(params.live_id);
       axios({
         method: 'post',
-        url: 'https://upload.newscctv.net:1443/ovesystem_1_4/login.php',
+        url: 'http://upload.newscctv.net:8090/ovesystem_1_4/login.php',
         data: qs.stringify({
-          code: params.code || 'MTUxNDI1NzE0M19kNDI5YzNjZC1hZmUxLWY2NTUtYTJhOS1iMmViODk2YWY0NjBfYjc5YzdlNGQ0YWUzNjI2ZGRlMDIzZmQzNDViMGZlZmM',
+          code: params.code,
         }),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
       }).then(resp => {
@@ -54,7 +57,8 @@ class Login extends Component {
         if (response.code === 0) {
           const userInfo = response.data;
           // 登录
-          this._login(userInfo);
+          // 央视新闻用户添加添加is_liveCut： true 字段 表明 是来自央视在线裁剪
+          this._login({...userInfo, live_id: params.live_id});
         } else {
           alert('登录失败' + response.msg);
         }
