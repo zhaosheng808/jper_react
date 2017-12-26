@@ -118,16 +118,21 @@
     color: #fbfbfb;
     position: absolute;
     top:0;
-    background: #b899f2;
-    box-sizing: border-box;
-    border: 2px solid transparent;
     border-radius: 4px;
+    background: chartreuse;
     overflow: hidden;
 }
-.clip_item:hover .resize_handel{
-
+.clip_inner {
+    width: 100%;
+    height: 100%;
+    border: 2px solid transparent;
+    box-sizing: border-box;
+    background: #b899f2;
 }
-.clip_item.clip_active{
+.clip_item:hover .resize_handel{
+    visibility: visible;
+}
+.clip_active .clip_inner{
     border-color: #ffc000;
 }
 .clip_item_img{
@@ -208,22 +213,24 @@
 /* 视频轨道内节点拉伸*/
 
 .resize_handel{
-    width: 4px;
+    width: 8px;
     height: 100%;
     position: absolute;
     top: 0;
     z-index: 20;
     cursor: e-resize;
     /*background: #ffc000;*/
-    background: black;
+    /*background: #ffc000;*/
+    border-top: 2px solid #ffc000;
+    border-bottom: 2px solid #ffc000;
+    box-sizing: border-box;
+    visibility: hidden;
 }
 .resize_handel.left{
     left: 0;
-    border-top: 2px solid transparent;
-    border-bottom: 2px solid transparent;
+    border-left: 2px solid #ffc000;
 }
 .resize_handel.right{
     right: 0;
-    border-top: 2px solid transparent;
-    border-bottom: 2px solid transparent;
+    border-right: 2px solid #ffc000;
 }

@@ -70,7 +70,7 @@ class VodeoPlayerItem extends Component {
         // and we can set it as source on the video element
         // video.src = vid;
         _this.setState({
-          // blobSrc: vid
+          blobSrc: vid
         })
       }
     };

@@ -137,10 +137,12 @@ class VideoItem extends Component {
            onDragStart={this._dragStart.bind(this, itemData)}
            onDragEnd={this._dragEnd}
            ref='clip_item'>
-        <div className="clip_item_img">
-          <img src={itemData.cover} />
-        </div>
-        <div className="clip_item_desc">{itemData.title}</div>
+          <div className="clip_inner">
+            <div className="clip_item_img">
+              <img src={itemData.cover} />
+            </div>
+            <div className="clip_item_desc">{itemData.title}</div>
+          </div>
         <div className="left resize_handel" onMouseDown={this._mouseDown.bind(this, 'left')} />
         <div className="right resize_handel" onMouseDown={this._mouseDown.bind(this, 'right')} />
       </div>
