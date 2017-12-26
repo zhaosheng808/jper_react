@@ -7,7 +7,7 @@ import {Button, Form, Input, Notification} from 'element-react';
 import {connect} from 'react-redux';
 import axios from 'axios';
 import qs from 'qs';
-import {login} from '../../redux/models/admin';
+import {login} from '@/redux/models/admin';
 require('./index.css');
 
 class Login extends Component {
@@ -29,18 +29,52 @@ class Login extends Component {
       }
     };
   }
+
   componentDidMount() {
     // console.log(login)
-    axios({
-      method: 'post',
-      url: 'http://test-api-jper.foundao.com/acc_cms/system/login',
-      data: qs.stringify({user_name: 'zhaosheng', password: '123'}),
-      headers:{'Content-Type': 'application/x-www-form-urlencoded'}
-    }).then(resp=> {
-      console.log(resp, 'resp');
-    })
+
+    // 央视在线裁剪跳转过来的
+    /*
+     * 央视在线裁剪跳转过来的
+     * 携带 code 以及 新闻id
+     *
+     * */
+    const params = this.getParams();
+    console.log(params, 'params');
+    if (params.live_id) { // 央视裁剪过来的 免登录
+      axios({
+        method: 'post',
+        url: 'https://upload.newscctv.net:1443/ovesystem_1_4/login.php',
+        data: qs.stringify({
+          code: params.code || 'MTUxNDI1NzE0M19kNDI5YzNjZC1hZmUxLWY2NTUtYTJhOS1iMmViODk2YWY0NjBfYjc5YzdlNGQ0YWUzNjI2ZGRlMDIzZmQzNDViMGZlZmM',
+        }),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+      }).then(resp => {
+        const response = resp.data;
+        if (response.code === 0) {
+          const userInfo = response.data;
+          // 登录
+          this._login(userInfo);
+        } else {
+          alert('登录失败' + response.msg);
+        }
+      })
+    }
   }
 
+  getParams = () => {
+    const url = window.location.hash;
+    const theRequest = new Object();
+    const start = url.indexOf("?");
+    if (start !== -1) {
+      const str = url.substr(start + 1);
+      const strs = str.split("&");
+      for (let i = 0; i < strs.length; i++) {
+        theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+      }
+    }
+    return theRequest;
+  };
   _onSubmit = () => {
     this.refs.form.validate((valid) => {
       if (valid) {
@@ -51,12 +85,14 @@ class Login extends Component {
       }
     });
   };
-  _login = () => {
+  _login = (userInfo) => {
     this.setState({
       isLoading: true
     });
-    setTimeout( () => {
-      this.props.login();
+    sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
+    // 后台返回数据后才会掉登录接口
+    setTimeout(() => {
+      this.props.login(userInfo);
       this.props.history.push('/');
       Notification({
         title: '登录成功',
@@ -84,7 +120,7 @@ class Login extends Component {
     return (
       <div className="login">
         <div className='login_form' onKeyPress={this._onKeyPress}>
-          <h3>聚焦企业版登录</h3>
+          <h3>闪电新闻矩阵号</h3>
           <Form ref="form" model={this.state.form} rules={this.state.rules} labelWidth="60">
             <Form.Item label="账号" prop="name">
               <Input value={this.state.form.name} onChange={this._onChange.bind(this, 'name')}/>
@@ -112,4 +148,4 @@ class Login extends Component {
  * 则页面的调用方式为`this.props.dispatch(add())`
  * */
 
-export default  connect(state => ({admin: state.admin}), {login})(Login);
+export default connect(state => ({admin: state.admin}), {login})(Login);

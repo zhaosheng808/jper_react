@@ -108,7 +108,7 @@ class ToolBar extends Component {
   // 裁剪掉视频右侧
   _cutRight = (split) => {
     /*
-    * split 是否将右侧裁剪掉的添加到新的素材中
+    * split 是否将右侧裁剪掉的添加到新的素材中，true :即原视频被裁剪成两段
     * */
     const {needleLeft, current_playing_video, zoom_scale, videoTrackList} = this.props;
     const {trackIndex, itemIndex} = current_playing_video;
@@ -248,6 +248,29 @@ class ToolBar extends Component {
       const outPoint_time = pointInOut.outPoint.time;
       console.log(inPoint_time, 'inPoint_time');
       console.log(outPoint_time, 'outPoint_time');
+
+      videoTrackList_data.forEach((item, index) => {
+        if (item.child) {
+          item.child.forEach((childItem, childIndex) => {
+            // 结束时间大于进点&&起始时间小于出点 如果item在导出区间  可以导出
+            if (childItem.start_time + childItem.time > inPoint_time && childItem.start_time < outPoint_time) {
+              // 两端都被被裁剪掉  起始时间小于进点 && 结束时间时间大于出点
+              if (childItem.start_time < inPoint_time && childItem.start_time + childItem.time > outPoint_time) {
+                console.log('两端都被被裁剪掉');
+              } else if (childItem.start_time < inPoint_time){                    // 前面被裁减掉
+                console.log('// 前面被裁减掉');
+              } else if (childItem.start_time + childItem.time > outPoint_time) { // 后面被裁减掉
+                console.log('// 后面被裁减掉')
+              } else {                                                            // 没有被裁减
+                console.log('// 没有被裁减')
+              }
+
+
+            }
+          })
+        }
+      })
+
 
     }else {
       // alert('导出前必须设置进点和出点哦');

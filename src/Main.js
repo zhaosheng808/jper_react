@@ -2,6 +2,7 @@
  * Created by DELL on 2017/11/10.
  */
 import React, { Component } from 'react'
+import {login} from '@/redux/models/admin';
 import {
   HashRouter as Router,
   Switch,
@@ -18,10 +19,23 @@ class Main extends Component {
     this.state = {
     };
   }
+  componentWillMount() {
+    /*
+    * 刷新会导致用户数据丢失,
+    * 如果有本地数据，需要将用户信息从本地储存中加载到redux中
+    * */
+    if (sessionStorage.userInfo) {
+      const userInfo = JSON.parse(sessionStorage.userInfo);
+      this.props.login(userInfo);
+    }
+  }
   _authLogin = () => {
-    // console.log(this.props.admin, 'admin');
-    const { username = 'aaa' } = this.props.admin;
-    if (username) {
+    let sessionStorage_userInfo = {};
+    if (sessionStorage.userInfo) {
+      sessionStorage_userInfo = JSON.parse(sessionStorage.userInfo);
+    }
+    const { uuid = '' } = this.props.admin;
+    if (uuid || sessionStorage_userInfo.uuid) {
       return <App />
     } else {
       return <Redirect to={{pathname: '/login'}}/>
@@ -44,4 +58,7 @@ class Main extends Component {
     )
   }
 }
-export default connect(state => state)(Main);
+export default connect(state => ({
+  admin: state.admin
+}),
+  {login})(Main);

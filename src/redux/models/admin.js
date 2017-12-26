@@ -1,18 +1,29 @@
 /**
  * Created by DELL on 2017/11/16.
  */
-export const LOGIN = 'LOGIN';
+const LOGIN = 'LOGIN';
 
-export default function reduce (state = {}, action = {}) {
+const defaultState = {
+  from: '',
+  head_image: '',
+  login_source: '',
+  nickname: '',
+  token: '',
+  uuid: ''
+};
+
+export default function reduce (state = defaultState, action = {}) {
   switch (action.type) {
     case 'LOGIN' :
-      return {username: '王小二'};
+      return {...action.data};
     default :
       return state
   }
 }
-export const login = () => {
+
+export const login = (userInfo) => {
   return {
-    type: LOGIN
+    type: LOGIN,
+    data: userInfo
   }
 };
