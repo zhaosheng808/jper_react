@@ -44,7 +44,7 @@ class Login extends Component {
     console.log(params, ' <--params');
 
     if (params.live_id) { // 央视裁剪过来的 免登录
-      this.props.set_liveId(params.live_id);
+      // this.props.set_liveId(params.live_id);
       axios({
         method: 'post',
         url: 'http://upload.newscctv.net:8090/ovesystem_1_4/login.php',
