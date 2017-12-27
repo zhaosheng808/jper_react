@@ -7,6 +7,7 @@ import tools from '@/utils/tools';
 import {active_element_change} from '@/redux/models/activeTrackElement';
 import {change_dragActive} from '@/redux/models/dragActive';
 import {videoTrackList_del, videoTrack_edit} from '@/redux/models/videoTrackList';
+import {add_history} from '@/redux/models/cutVideo/historyStore';
 import $ from 'jquery';
 
 class VideoItem extends Component {
@@ -51,6 +52,15 @@ class VideoItem extends Component {
     /* 经测试先执行drop才会执行dragEnd*/
     const {trackIndex, itemIndex} = this.props;
     this.props.videoTrackList_del(trackIndex, itemIndex);
+
+  };
+  _saveHistory = () => {
+    /*
+     * 保存历史记录
+     * */
+    console.log(this.props.state.videoTrackList.data, '222');
+    const {state} = this.props;
+    this.props.add_history(state);
   };
 
 
@@ -150,9 +160,14 @@ class VideoItem extends Component {
   }
 }
 
-export default connect(state => ({activeElement: state.activeElement, zoom_scale: state.zoom_scale.scale}),
+export default connect(state => ({
+    activeElement: state.activeElement,
+    history: state.historyStore.history,
+    state: state,
+    zoom_scale: state.zoom_scale.scale}),
   { active_element_change,
     change_dragActive,
     videoTrackList_del,
+    add_history,
     videoTrack_edit
   })(VideoItem);

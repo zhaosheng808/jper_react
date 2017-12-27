@@ -102,13 +102,13 @@ export const videoTrackList_add = (trackItemData, trackIndex) => {
 };
 
 // 删除指定的轨道内元素
-export const videoTrackList_del = (trackIndex, itemIndex) => {
+export const videoTrackList_del = (trackIndex, itemIndex, callback) => {
   return {
     type: DEL_CHILD,
     data: {
       trackIndex, itemIndex
     }
-  }
+  };
 };
 
 // 修改指定轨道内的元素属性

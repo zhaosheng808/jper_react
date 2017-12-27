@@ -6,6 +6,9 @@ import {connect} from 'react-redux';
 import './index.css';
 import ListCard from './ListCard';
 import dragImg from '@/assets/other/example.png';
+import api from '@/api';
+import $ from 'jquery';
+import md5 from 'md5';
 
 class File extends Component {
   constructor(props) {
@@ -35,6 +38,43 @@ class File extends Component {
       ]
     };
   }
+  componentWillMount () {
+    const {admin} = this.props;
+    const time = Date.parse(new Date()) / 1000;
+    if (admin.live_id) { // 央视裁剪过来的
+      $.ajax({
+        url: api.importLiveMaterial,
+        method: 'POST',
+        dataType: 'json',
+        data: {
+          token: admin.token,
+          live_id: admin.live_id
+        }
+      }).done(resp => {
+        if (resp.code === 0) {
+          $.ajax({
+            url: api.materialInfo,
+            method: 'POST',
+            dataType: 'json',
+            data: {
+              uuid: admin.uuid,
+              token: admin.token,
+              material_uuid: resp.data.material_uuid,
+              time: time,
+              sign: md5({
+                uuid: admin.uuid,
+                token: admin.token,
+                time: time,
+                material_uuid: resp.data.material_uuid,
+              })
+            }
+          })
+        } else {
+          alert(resp.msg);
+        }
+      })
+    }
+  };
   upload_click = () => {
     this.refs.upload_source_input.click();
   };
@@ -94,4 +134,5 @@ class File extends Component {
 }
 export default  connect(state => ({
   videoTrackList: state.videoTrackList.data,
+  admin: state.admin
 }), {})(File);

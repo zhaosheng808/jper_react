@@ -8,6 +8,7 @@ import {connect} from 'react-redux';
 import axios from 'axios';
 import qs from 'qs';
 import {login} from '@/redux/models/admin';
+import api from '@/api';
 
 require('./index.css');
 
@@ -42,29 +43,33 @@ class Login extends Component {
      * */
     const params = this.getParams();
     console.log(params, ' <--params');
-
-    if (params.live_id) { // 央视裁剪过来的 免登录
-      // this.props.set_liveId(params.live_id);
-      axios({
-        method: 'post',
-        url: 'http://upload.newscctv.net:8090/ovesystem_1_4/login.php',
-        data: qs.stringify({
-          code: params.code,
-        }),
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-      }).then(resp => {
-        const response = resp.data;
-        if (response.code === 0) {
-          const userInfo = response.data;
-          // 登录
-          // 央视新闻用户添加添加is_liveCut： true 字段 表明 是来自央视在线裁剪
-          this._login({...userInfo, live_id: params.live_id});
-        } else {
-          alert('登录失败' + response.msg);
-        }
-      })
+    const {live_id, code} = params;
+    // 央视裁剪过来的 免登录
+    if (live_id) {
+      this._login_form_liveCut(live_id, code)
     }
   }
+
+  _login_form_liveCut = (live_id, code) => {
+    axios({
+      method: 'post',
+      url: api.login_liveCut,
+      data: qs.stringify({
+        code: code,
+      }),
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+    }).then(resp => {
+      const response = resp.data;
+      if (response.code === 0) {
+        const userInfo = response.data;
+        // 登录成功保存到本地
+        // 央视新闻用户添加添加is_liveCut： true 字段 表明 是来自央视在线裁剪
+        this._login_success({...userInfo, live_id: live_id});
+      } else {
+        alert('登录失败' + response.msg);
+      }
+    })
+  };
 
   getParams = () => {
     const url = window.location.hash;
@@ -89,7 +94,19 @@ class Login extends Component {
       }
     });
   };
-  _login = (userInfo) => {
+  _login = () => {
+    // 等服务器返回数据成功
+    /*...
+    * _login_success()
+    * */
+    /*暂时调用裁剪登录接口*/
+
+    const code = 'MTUxNDI3MTMxMl9kNDI5YzNjZC1hZmUxLWY2NTUtYTJhOS1iMmViODk2YWY0NjBfZDA4ZDk3Y2U1MzViYzJiM2ZhNmI4M2MzNmRhOTU1NGI';
+    const live_id = 21522;
+    this._login_form_liveCut(live_id, code);
+  };
+  // 登录成功 用户信息 保存到本地
+  _login_success = (userInfo) => {
     this.setState({
       isLoading: true
     });

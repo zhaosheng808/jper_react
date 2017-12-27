@@ -279,7 +279,7 @@ class ToolBar extends Component {
   };
   // 快捷键
   _keydown = (event) => {
-    const {cut_left, cut_right, ctrl, save} = shortcut_key;
+    const {cut_left, cut_right, ctrl, save, cut} = shortcut_key;
     const e = event || window.event || window.arguments.callee.caller.arguments[0];
     if (e && e.keyCode) {
       switch (e.keyCode) {
@@ -294,6 +294,10 @@ class ToolBar extends Component {
         case save[1]:
           event.preventDefault();
           this.quick_save();
+          break;
+        case cut[1]:
+          event.preventDefault();
+          this.quick_cut();
           break;
         case ctrl:
           event.preventDefault();
@@ -341,6 +345,12 @@ class ToolBar extends Component {
       this._save();
     }
   }
+  quick_cut = () => {
+    const {isUtilsKeyDown} = this.state;
+    if (isUtilsKeyDown) {
+      this._cut();
+    }
+  };
   utilsKeyDown () {
     this.setState({
       isUtilsKeyDown: true

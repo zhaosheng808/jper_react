@@ -1,0 +1,9 @@
+.inout_cover{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 20px;
+    background: #ffc000;
+    opacity: .1;
+}

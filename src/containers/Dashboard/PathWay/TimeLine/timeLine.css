@@ -1,5 +1,7 @@
 .timeLine{
     height: 40px;
+    position: relative;
+    z-index: 2;
 }
 .time_axis_box{
     height: 100%;
