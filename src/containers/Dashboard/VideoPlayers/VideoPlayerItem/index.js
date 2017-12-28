@@ -107,7 +107,8 @@ class VodeoPlayerItem extends Component {
       // console.log(111);
       // 如果没有播放 需要将指针当前位置映射到video的currentTime 拖拽进行绘制
       if (this.refs.video.paused) {
-        const {needleLeft, zoom_scale, itemData} = this.props; // 指针位置 刻度线比例
+        const {itemData} = this.props; // 指针位置 刻度线比例
+        const {needleLeft, zoom_scale} = nextProps; // 指针位置 比例
         const needleTime = needleLeft / zoom_scale;
         const {start_time, relative_start} = itemData;
         this.refs.video.currentTime = needleTime - start_time + relative_start;

@@ -174,7 +174,7 @@ class ToolBar extends Component {
         if(activeItem.id !== activeTrack.id){    // 排除自己
 
           // 如果有起始时间大于选中元素的结束时间 并且最小时间大于该循环的起始时间 则最小起始时间为现在循环的起始时间
-          if (activeTrack[i].start_time > activeItem_endTime) {
+          if (activeTrack[i].start_time >= activeItem_endTime) {
             if (!min_start_time) {
               min_start_time = activeTrack[i].start_time;
             }else if (min_start_time > activeTrack[i].start_time) {
@@ -205,7 +205,7 @@ class ToolBar extends Component {
         if(activeItem.id !== activeTrack.id){    // 排除自己
 
           // 如果有结束时间小于选中元素的起始时间 并且最大合适起始时间大于该循环的结束时间 则最大合适起始时间为现在循环的结束时间
-          if (activeTrack[i].start_time + activeTrack[i].time < activeItem.start_time) {
+          if (activeTrack[i].start_time + activeTrack[i].time <= activeItem.start_time) {
             if (max_start_time === 0) {  // 初始为 0 需要单独判断，如果没有就默认为他
               max_start_time =  activeTrack[i].start_time + activeTrack[i].time;
             } else if (max_start_time < activeTrack[i].start_time + activeTrack[i].time){

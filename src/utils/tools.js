@@ -19,5 +19,21 @@ export default {
   },
   deepClone: (obj) => {     // 对象中没有function
     return JSON.parse(JSON.stringify(obj));
+  },
+  //秒转化成 时分秒 00: 00: 00
+  secondToDate: (seconds) => {
+    let h = Math.floor(seconds / 3600).toString();
+    let m = Math.floor((seconds / 60 % 60)).toString();
+    let s = Math.floor((seconds % 60)).toString();
+    if (h.length < 2) {
+      h = '0' + h;
+    };
+    if (m.length < 2) {
+      m = '0' + m;
+    };
+    if (s.length < 2) {
+      s = '0' + s;
+    };
+    return h + ':' + m + ':' + s;
   }
 }

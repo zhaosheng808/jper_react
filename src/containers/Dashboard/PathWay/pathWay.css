@@ -132,7 +132,7 @@
     height: 100%;
     border: 2px solid transparent;
     box-sizing: border-box;
-    background: #b899f2;
+    background: #9d9de9;
 }
 .clip_item:hover .resize_handel{
     visibility: visible;

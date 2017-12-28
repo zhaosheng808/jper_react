@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import tools from '@/utils/tools';
-import {change_needlePosition} from '@/redux/models/needle';
+import {change_needlePosition, change_needleState} from '@/redux/models/needle';
 import './timeLine.css';
 
 class TimeLine extends Component {
@@ -44,7 +44,8 @@ class TimeLine extends Component {
     const seconds = time_axis / zoom_scale;
     const timeArr = [];
     for (let i = 0; i< seconds; i++) {
-      timeArr.push(this.secondToDate(i));
+      //秒转化成 时分秒
+      timeArr.push(tools.secondToDate(i));
     }
     this.setState({
       timeArr
@@ -53,38 +54,31 @@ class TimeLine extends Component {
   windows_resize = () => {
     this.initTimeArr();
   };
-  //秒转化成 时分秒
-  secondToDate = (seconds) => {
-    let h = Math.floor(seconds / 3600).toString();
-    let m = Math.floor((seconds / 60 % 60)).toString();
-    let s = Math.floor((seconds % 60)).toString();
-    if (h.length < 2) {
-      h = '0' + h;
-    };
-    if (m.length < 2) {
-      m = '0' + m;
-    };
-    if (s.length < 2) {
-      s = '0' + s;
-    };
-    return h + ':' + m + ':' + s;
-  };
+
+
   changeNeedle = (event) => {
     event.stopPropagation();
+    // const {current_playing_video, videoTrackList} = this.props;
+    this.props.change_needleState({isMoving: false});
     const pathWay_scrollLeft = document.querySelector('.pathWay').scrollLeft;
     const App_scrollLeft = document.querySelector('.App').scrollLeft;
-    const {current_playing_video, videoTrackList} = this.props;
-    let playIngVideo = {};
-    if (videoTrackList[current_playing_video.trackIndex]) {
-      playIngVideo = videoTrackList[current_playing_video.trackIndex].child[current_playing_video.itemIndex];
-    }
-    if (playIngVideo.playerId) {
-      const videoPlayer = document.getElementById(playIngVideo.playerId);
-      if (!videoPlayer.paused) {
-        videoPlayer.pause()
-      }
-    }
+
+
     const left = event.clientX - 64 + pathWay_scrollLeft + App_scrollLeft;
+
+    // let playIngVideo = {};
+    // if (videoTrackList[current_playing_video.trackIndex]) {
+    //   playIngVideo = videoTrackList[current_playing_video.trackIndex].child[current_playing_video.itemIndex];
+    // }
+    // if (playIngVideo.playerId) {
+    //   const videoPlayer = document.getElementById(playIngVideo.playerId);
+    //   // 将video的当前播放时间置为当前指针位置
+    //
+    //   if (!videoPlayer.paused) {
+    //     // videoPlayer.pause();
+    //   }
+    // }
+
     this.props.change_needlePosition(left);
   };
   _renderTimeSecond = () => {
@@ -142,4 +136,7 @@ export default connect(state => ({
   videoTrackList: state.videoTrackList.data,
   pathWayWidth: state.pathWayWidth.width,
   zoom_scale: state.zoom_scale.scale
-}), {change_needlePosition})(TimeLine);
+}), {
+  change_needlePosition,
+  change_needleState
+})(TimeLine);

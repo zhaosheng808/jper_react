@@ -6,6 +6,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import {change_dragActive} from '@/redux/models/dragActive';
 import dragImg from '@/assets/other/example.png';
+import tools from '@/utils/tools';
 
 import $ from 'jquery';
 
@@ -40,7 +41,7 @@ class ListCard extends Component {
           </div>
           <div className="source_message">
             <span className="source_type">{item.type}</span>
-            <span className="source_time">{item.origin_time}</span>
+            <span className="source_time">{tools.secondToDate(item.origin_time)}</span>
           </div>
         </div>
         <div className="source_card_footer">{item.name}</div>
