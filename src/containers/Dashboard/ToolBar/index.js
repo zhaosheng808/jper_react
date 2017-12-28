@@ -12,6 +12,7 @@ import {videoTrack_edit, videoTrackList_add} from '@/redux/models/videoTrackList
 import {change_scale} from '@/redux/models/zoomScale';
 import {shortcut_key} from '@/global_config';
 
+import api from '@/api';
 import $ from 'jquery';
 
 import './toolbar.css';
@@ -115,6 +116,9 @@ class ToolBar extends Component {
       alert('当前没有视频可以裁剪');
     }
 
+  };
+  _cutRight_handel = () => {
+    this._cutRight();
   };
   // 裁剪掉视频右侧
   _cutRight = (split) => {
@@ -258,12 +262,13 @@ class ToolBar extends Component {
       const inPoint_time = pointInOut.inPoint.time;
       const outPoint_time = pointInOut.outPoint.time;
 
-      // 1.初步过滤  将时间线里面的video取出 ，裁掉时间线左右两侧
-
-      console.log(videoTrackList_data_clone, 'videoTrackList_data_clone');
+      // 1.初步过滤  将时间线里面的video取出 ，裁掉时间线左右两侧 放入一个数组中
       const exportVideo_inTime = screenIntime(inPoint_time, outPoint_time, videoTrackList_data_clone);               // 时间线内的video
 
-
+      if (exportVideo_inTime.length < 1) {
+        alert('导出区间没有视频');
+        return
+      }
       // 2.去重  将时间线里面的video重叠部分去掉
 
       const exportVideo_noRepeat = delete_repeat(exportVideo_inTime);
@@ -286,8 +291,8 @@ class ToolBar extends Component {
       this._exportToServer(finalVideo);
 
     } else {
-      // alert('导出前必须设置进点和出点哦');
-      console.log('没有进点和出点');
+      alert('导出前必须设置进点和出点哦');
+      // console.log('没有进点和出点');
     }
 
     // 初步筛选在时间线里面的
@@ -505,7 +510,7 @@ class ToolBar extends Component {
         if (item.type === 'video') {
           finalResult.push({
             type: 'video',                                                               //
-            material_uuid: item.material_uuid,
+            material_uuid: item.material_uuid || 'blank',
             ori_start_time: item.relative_start,                                         //截取开始时间   相对于原视频
             ori_end_time: item.relative_start + item.time,                               //截取结束时间   相对于原视频
             new_start_time: item.start_time - inPoint_time                               //当前视频在新视频中的开始时间  仅用于排序
@@ -531,17 +536,17 @@ class ToolBar extends Component {
     const time = Date.parse(new Date()) / 1000;
     const {admin} = this.props;
     $.ajax({
-      url: 'http://upload.newscctv.net:80/ovesystem_1_4/newscctvCut.php',
+      url: api.exportLiveCut,
       method: 'POST',
       dataType: 'json',
       data: {
         token: admin.token,
-        type: '',
+        type: 'none',
         videos: finalVideo,
         time: time,
         sign: tools.makeSign({
           token: admin.token,
-          type: '',
+          type: 'none',
           videos: finalVideo,
           time: time,
         })
@@ -551,6 +556,7 @@ class ToolBar extends Component {
 
       }else {
         console.log('导出失败： ', resp.msg);
+        alert('导出失败： ', resp.msg);
       }
     })
   };
@@ -669,7 +675,7 @@ class ToolBar extends Component {
         </div>
         <div className="btn_group">
           <div className="menu_icon large_icon icon_cutLeft" title="裁剪左侧" onClick={this._cutLeft}/>
-          <div className="menu_icon large_icon icon_cutRight" title="裁剪右侧" onClick={this._cutRight}/>
+          <div className="menu_icon large_icon icon_cutRight" title="裁剪右侧" onClick={this._cutRight_handel}/>
           <div className="menu_icon large_icon icon_magIn" title="向前吸附" onClick={this._magnetLeft}/>
           <div className="menu_icon large_icon icon_magOut" title="向后吸附" onClick={this._magnetRight}/>
           <div className="menu_icon large_icon icon_cut" title="裁分" onClick={this._cut}/>

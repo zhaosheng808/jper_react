@@ -140,17 +140,29 @@
 }
 
 .menu_icon.icon_pointIn{
+    background-image: url('../../../assets/images/enter.png');
+}
+.menu_icon.icon_pointIn:hover{
     background-image: url('../../../assets/images/enter-hover.png');
 }
 .menu_icon.icon_pointOut{
+    background-image: url('../../../assets/images/extra.png');
+}
+.menu_icon.icon_pointOut:hover{
     background-image: url('../../../assets/images/extra-hover.png');
 }
 
 .menu_icon.icon_save{
     margin-left: 10px;
+    background-image: url('../../../assets/images/save.png');
+}
+.menu_icon.icon_save:hover{
     background-image: url('../../../assets/images/save-hover.png');
 }
 .menu_icon.icon_export{
+    background-image: url('../../../assets/images/export.png');
+}
+.menu_icon.icon_export:hover{
     background-image: url('../../../assets/images/export-hover.png');
 }
 

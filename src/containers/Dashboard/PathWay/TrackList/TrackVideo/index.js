@@ -104,6 +104,7 @@ class TrackVideo extends Component {
       id,
       material_uuid,
       playerId,
+      size,
       type,
       src,
       cover,
@@ -145,6 +146,7 @@ class TrackVideo extends Component {
       material_uuid: material_uuid,                          // material_uuid    素材id
       playerId: playerId || 'playerId' + timestamp,          // video播放器       播放器id格式 -- playerId + 时间戳
       type,                                                  // 类型              video/audio/yaTiao
+      size,                                                  // size              视频大小
       src,                                                   // src              视频源
       cover,                                                 // cover            封面
       name,                                                  // name             描述

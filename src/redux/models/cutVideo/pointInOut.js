@@ -8,10 +8,10 @@ export const CHANGE_IN_POINT = 'CHANGE_IN_POINT';
 export const CHANGE_OUT_POINT = 'CHANGE_OUT_POINT';
 
 const defaultState = {
-  // inPoint: {isShow: false, time: 0},
-  // outPoint: {isShow: false, time: 0},
-  inPoint: {isShow: true, time: 0},
-  outPoint: {isShow: true, time: 100}
+  inPoint: {isShow: false, time: 0},
+  outPoint: {isShow: false, time: 0},
+  // inPoint: {isShow: true, time: 0},
+  // outPoint: {isShow: true, time: 100}
 };
 
 export default function reduce (state = defaultState, action = {}) {

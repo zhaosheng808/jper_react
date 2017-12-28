@@ -23,12 +23,14 @@ class File extends Component {
           cover: dragImg,
           origin_time: 8,
           width: '',
+          size: '0',
           height: ''
         },
         {
           type: 'video',
           name: 'm3u8',
           material_uuid: '',
+          size: 0,
           src: 'http://toutiao-cdn-jper.foundao.com/ovesystem/data/material/2017/11/03/ymzcut_117111303101710108182023_e8875e7ab2e1668794363a5f2fc78dec.mp4',
           cover: dragImg,
           origin_time: 91,
@@ -122,6 +124,7 @@ class File extends Component {
                 type: 'video',
                 name: data.name,
                 src: data.src,
+                size: data.info.size,
                 cover: data.head_img,
                 origin_time: data.info.seconds,
                 material_uuid: data.material_uuid,
