@@ -35,19 +35,32 @@ class CanvasVideo extends Component {
     const {needle} = nextProps;
     const {zoom_scale, videoTrackList, current_playing_video} = this.props;
     const next_playing_video = nextProps.current_playing_video;
+    const next_videoTrackList = nextProps.videoTrackList;
     const {isPlaying, canvas} = this.state;
     if (!needle.isMoving && isPlaying) {                                                          // 暂停指针移动
       this.stop_needleMove();
     }
 
+    /*
+    * 判断是否切换video播放
+    * 当前播放video ！==next 播放video
+    *
+    * */
+    let nowPlay = {};
+    if (videoTrackList[current_playing_video.trackIndex]) {
+      nowPlay = videoTrackList[current_playing_video.trackIndex].child[current_playing_video.itemIndex] || {};
+    }
+
+    let nextPlay = {};
+    if (next_videoTrackList[next_playing_video.trackIndex]) {
+      nextPlay = next_videoTrackList[next_playing_video.trackIndex].child[next_playing_video.itemIndex] || {};
+    }
+
     // 有新的video出现 ->切换video显示图像
-    if (!(current_playing_video.trackIndex === next_playing_video.trackIndex && current_playing_video.itemIndex === next_playing_video.itemIndex)) {
+    if (nextPlay.playerId !== nowPlay.playerId) {
 
       let {video} = this.state;
-      let nextPlay = {};
-      if (videoTrackList[next_playing_video.trackIndex]) {
-        nextPlay = videoTrackList[next_playing_video.trackIndex].child[next_playing_video.itemIndex];
-      }
+
       if (nextPlay.playerId) {                                             // 新的video不为空
         const playerId = nextPlay.playerId;
         video = document.getElementById(playerId);

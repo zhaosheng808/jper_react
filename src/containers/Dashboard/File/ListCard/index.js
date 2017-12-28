@@ -36,11 +36,11 @@ class ListCard extends Component {
         <div className="source_card_body" onDragStart={this._dragStart.bind(this, item)}
              onDragEnd={this._dragEnd} draggable="true">
           <div className="source_img image_box">
-            <img ref='source_img' src={dragImg} />
+            <img ref='source_img' src={item.cover ? item.cover : dragImg} />
           </div>
           <div className="source_message">
             <span className="source_type">{item.type}</span>
-            <span className="source_time">00:00:51:14</span>
+            <span className="source_time">{item.origin_time}</span>
           </div>
         </div>
         <div className="source_card_footer">{item.name}</div>

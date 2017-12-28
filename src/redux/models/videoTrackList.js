@@ -16,11 +16,12 @@ const defaultState = {
     {type: 'video' , level: 0, isVisible: true, child: [
       {
         id: '1234',                                         // id               id为当前时间戳
+        material_uuid: '',
         type: 'video',
         playerId: 'playerId' + 1234,                // video播放器       播放器id格式 -- playerId + 时间戳
         src: 'http://toutiao-cdn-jper.foundao.com/ovesystem/data/material/2017/09/07/ymzcut_11709540701101010818201_04bf9d04b5ff80ab2656093b6e4f2617.mp4',                                                   // src              视频源
         cover: '',                                                 // cover            封面
-        title: 'video01',                                                 // title            描述
+        name: 'video01',                                                 // title            描述
         origin_time: 8,                                           // origin_time      原video时间
         start_time: 4,                                            // start_time       当前视频的起始时间，相对于轨道
         time: 8,                                     // time             当前视频的时间长度

@@ -19,8 +19,14 @@ class VodeoPlayerItem extends Component {
   }
 
   componentDidMount() {
-    /*通过blob预加载*/
-    this.boble_load();
+    /*通过blob预加载
+    * 会导致video切换后 src才加载完毕，导致video顺序变化但src未变化
+    *
+    * */
+
+    // this.boble_load();
+
+
     // this.getCanvas();
     // this.refs.video.onpause = () => {
     //   console.log('暂停了pause');

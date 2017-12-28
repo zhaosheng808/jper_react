@@ -102,11 +102,12 @@ class TrackVideo extends Component {
     let dropForm = 0;  // 数据来源 0 -> 列表  1 ->轨道  默认为列表
     const {
       id,
+      material_uuid,
       playerId,
       type,
       src,
       cover,
-      title,
+      name,
       origin_time,
       time,
       relative_start,
@@ -140,12 +141,13 @@ class TrackVideo extends Component {
 
     // 重新整理存放在store的数据
     const videoItem = {
-      id: id || timestamp,                                   // id               id为当前时间戳
+      id: id || timestamp,                                   // id               轨道元素id 为当前时间戳
+      material_uuid: material_uuid,                          // material_uuid    素材id
       playerId: playerId || 'playerId' + timestamp,          // video播放器       播放器id格式 -- playerId + 时间戳
       type,                                                  // 类型              video/audio/yaTiao
       src,                                                   // src              视频源
       cover,                                                 // cover            封面
-      title,                                                 // title            描述
+      name,                                                  // name             描述
       origin_time,                                           // origin_time      原video时间
       start_time,                                            // start_time       当前视频的起始时间，相对于轨道
       time: time || origin_time,                             // time             当前视频的时间长度

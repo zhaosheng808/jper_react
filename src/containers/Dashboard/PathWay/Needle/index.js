@@ -87,25 +87,33 @@ class Needle extends Component {
     if (videoTrackList[current_playing_video.trackIndex]) {
       next_playIngVideo = videoTrackList[current_playing_video.trackIndex].child[current_playing_video.itemIndex];
     }
-    // 根据当前播放视频的index找到对应播放的视频对象
+    // 根据当前指针时间找到对应播放的视频对象数组
     const needleLeft_now = needle.currentTime;
-    const current_videos = [];
+    const canPlay_videos = [];                 // 当前指针指到的videos
     videoTrackList.forEach((item, index) => {
+
       if (item.child) {
+        const track_canPlay_videos = [];
         item.child.forEach((childItem, childIndex) => {
           const {start_time, time, playerId} = childItem;
           if ( playerId && needleLeft_now >= start_time * zoom_scale && needleLeft_now <= parseFloat(start_time * zoom_scale) + parseFloat(time * zoom_scale)) {
             childItem.level = item.level;
             childItem.trackIndex = index;
             childItem.itemIndex = childIndex;
-            current_videos.push(childItem);
+            track_canPlay_videos.push(childItem);
           } else {
           }
-        })
+        });
+
+        // 每条轨道数组选择最后一个 加入 canPlay_videos 每条轨道中最后操作的优先级较高
+        if (track_canPlay_videos.length > 0) {
+          canPlay_videos.push(track_canPlay_videos[track_canPlay_videos.length - 1]);
+        }
       }
+
     });
-    let now_playing_videoItem = current_videos[0] || {};       // 轮询应该播放的videoItem
-    current_videos.forEach((item, index) => {                    // 轮询判断层级较低的video 播放
+    let now_playing_videoItem = canPlay_videos[0] || {};       // 轮询应该播放的videoItem
+    canPlay_videos.forEach((item, index) => {                    // 轮询判断层级较低的video 播放
       if (item.level < now_playing_videoItem.leval) {
         now_playing_videoItem = item;
       }

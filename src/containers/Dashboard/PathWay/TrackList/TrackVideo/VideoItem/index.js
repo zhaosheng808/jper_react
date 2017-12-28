@@ -151,7 +151,7 @@ class VideoItem extends Component {
             <div className="clip_item_img">
               <img src={itemData.cover} />
             </div>
-            <div className="clip_item_desc">{itemData.title}</div>
+            <div className="clip_item_desc">{itemData.name}</div>
           </div>
         <div className="left resize_handel" onMouseDown={this._mouseDown.bind(this, 'left')} />
         <div className="right resize_handel" onMouseDown={this._mouseDown.bind(this, 'right')} />

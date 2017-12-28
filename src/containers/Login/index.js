@@ -102,7 +102,7 @@ class Login extends Component {
     /*暂时调用裁剪登录接口*/
 
     const code = 'MTUxNDI3MTMxMl9kNDI5YzNjZC1hZmUxLWY2NTUtYTJhOS1iMmViODk2YWY0NjBfZDA4ZDk3Y2U1MzViYzJiM2ZhNmI4M2MzNmRhOTU1NGI';
-    const live_id = 21522;
+    const live_id = 21524;
     this._login_form_liveCut(live_id, code);
   };
   // 登录成功 用户信息 保存到本地

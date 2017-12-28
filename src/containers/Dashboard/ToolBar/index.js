@@ -237,19 +237,29 @@ class ToolBar extends Component {
   };
   // 导出
   _export = () => {
+
+    const test = [1,2,3,4,5,6];
+    test.forEach((item, index) => {
+      console.log(index, 'index');
+      console.log(item, '111');
+      if (item === 3) {
+        test.splice(index, 1);
+      }
+      console.log(item, '222');
+    });
+
     const {state} = this.props;
     const {videoTrackList, pointInOut} = state;
     const videoTrackList_data = videoTrackList.data;
-    console.log(state, 'state');
-    console.log(videoTrackList_data, 'videoTrackList_data');
-    console.log(pointInOut, 'pointInOut');
+    const videoTrackList_data_clone = tools.deepClone(videoTrackList_data);
+
     if (pointInOut.inPoint.isShow && pointInOut.outPoint.isShow) {
       const inPoint_time = pointInOut.inPoint.time;
       const outPoint_time = pointInOut.outPoint.time;
       console.log(inPoint_time, 'inPoint_time');
       console.log(outPoint_time, 'outPoint_time');
 
-      videoTrackList_data.forEach((item, index) => {
+      videoTrackList_data_clone.forEach((item, index) => {
         if (item.child) {
           item.child.forEach((childItem, childIndex) => {
             // 结束时间大于进点&&起始时间小于出点 如果item在导出区间  可以导出
