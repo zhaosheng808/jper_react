@@ -243,6 +243,7 @@ class ToolBar extends Component {
     const {checkCover} = this.props;
     this.props.change_cover(-checkCover);
   };
+
   // 保存
   _save = () => {
     const {state} = this.props;
@@ -562,7 +563,7 @@ class ToolBar extends Component {
   };
   // 快捷键
   _keydown = (event) => {
-    const {cut_left, cut_right, ctrl, save, cut} = shortcut_key;
+    const {cut_left, cut_right, ctrl, save, cut, large, small} = shortcut_key;
     const e = event || window.event || window.arguments.callee.caller.arguments[0];
     if (e && e.keyCode) {
       switch (e.keyCode) {
@@ -581,6 +582,14 @@ class ToolBar extends Component {
         case cut[1]:
           event.preventDefault();
           this.quick_cut();
+          break;
+        case large[1]:
+          event.preventDefault();
+          this.quick_scale(1);
+          break;
+        case small[1]:
+          event.preventDefault();
+          this.quick_scale(-1);
           break;
         case ctrl:
           event.preventDefault();
@@ -630,7 +639,17 @@ class ToolBar extends Component {
       this._save();
     }
   }
-
+  // 缩放
+  quick_scale = (options) => {
+    const {isUtilsKeyDown} = this.state;
+    if (isUtilsKeyDown) {
+      if (options === 1) { // 放大
+        this._scaleLarge();
+      } else if (options === -1) { // 缩小
+        this._scaleSmall();
+      }
+    }
+  };
   quick_cut = () => {
     const {isUtilsKeyDown} = this.state;
     if (isUtilsKeyDown) {
@@ -658,7 +677,7 @@ class ToolBar extends Component {
     return (
       <div className="toolbar">
         <div className="btn_zoom_group btn_group">
-          <div className="icon_mini menu_icon" onClick={this._scaleSmall}/>
+          <div className="icon_mini menu_icon" onClick={this._scaleSmall}  title="缩小"/>
           <div className="zoom_line_box">
             <span className="zoomNum">{zoom_scale}</span>
             <Slider min={zoom_min}
@@ -668,11 +687,11 @@ class ToolBar extends Component {
                     showInput={true}
                     onChange={this._change_zoom}/>
           </div>
-          <div className="icon_max menu_icon" onClick={this._scaleLarge}/>
+          <div className="icon_max menu_icon" onClick={this._scaleLarge}  title="放大"/>
         </div>
         <div className="btn_group btn_step_group">
-          <div className="menu_icon icon_revoke large_icon"/>
-          <div className="menu_icon icon_refresh large_icon"/>
+          <div className="menu_icon icon_revoke large_icon" title="上一步"/>
+          <div className="menu_icon icon_refresh large_icon" title="撤销"/>
         </div>
         <div className="btn_group">
           <div className="menu_icon large_icon icon_cutLeft" title="裁剪左侧" onClick={this._cutLeft}/>

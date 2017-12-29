@@ -17,5 +17,7 @@ export const shortcut_key =  {     // 快捷键
   cut_left: [keys['CTRL'], keys['BracketLeft']],      // 裁剪左侧
   cut_right: [keys['CTRL'], keys['BracketRight']],      // 裁剪右侧
   save: [keys['CTRL'], keys['S']],      // 保存
+  large: [keys['CTRL'], keys['EQUALS']],      // 放大
+  small: [keys['CTRL'], keys['MINUS']],      // 缩小
   ctrl: keys['CTRL'],
 };
