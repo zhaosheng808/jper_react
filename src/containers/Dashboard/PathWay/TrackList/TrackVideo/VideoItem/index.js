@@ -42,16 +42,16 @@ class VideoItem extends Component {
     this.props.change_dragActive(listItem.type);
   };
   _dragEnd = () => {
-    this.props.change_dragActive('');
-    // 移除掉现有的轨道节点
-
-    /* 修改redux数据为异步,但是可以直接在此处移除，因为drop里面的方法接受的数据是直接添加在数组后面的
-    *  如果在drop里面删除，会导致不能触发本节点的dragEnd事件
-    * */
-
-    /* 经测试先执行drop才会执行dragEnd*/
-    const {trackIndex, itemIndex} = this.props;
-    this.props.videoTrackList_del(trackIndex, itemIndex);
+    // this.props.change_dragActive('');
+    // // 移除掉现有的轨道节点
+    //
+    // /* 修改redux数据为异步,但是可以直接在此处移除，因为drop里面的方法接受的数据是直接添加在数组后面的
+    // *  如果在drop里面删除，会导致不能触发本节点的dragEnd事件
+    // * */
+    //
+    // /* 经测试先执行drop才会执行dragEnd*/
+    // const {trackIndex, itemIndex} = this.props;
+    // this.props.videoTrackList_del(trackIndex, itemIndex);
 
   };
   _saveHistory = () => {

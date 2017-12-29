@@ -4,6 +4,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {videoTrackList_add} from '@/redux/models/videoTrackList';
+import {active_element_change} from '@/redux/models/activeTrackElement';
 import './index.css';
 import ListCard from './ListCard';
 import dragImg from '@/assets/other/example.png';
@@ -141,6 +142,8 @@ class File extends Component {
                 origin_time: parseFloat(data.info.seconds),
                 material_uuid: data.material_uuid,
                 width: data.info.width,
+                bitrate: data.info.bitrate,
+                framerate: data.info.framerate,
                 height: data.info.height
               };
               list.push(videoItem);
@@ -193,6 +196,11 @@ class File extends Component {
       voice_in_time: '',                    // 音频淡入时间
       voice_out_time: '',                  // 音频淡出时间
     }, 0);
+    this.props.active_element_change({
+      type: 'video',
+      trackIndex: 0,
+      itemIndex: 0
+    })
   };
 
   render() {
@@ -226,17 +234,20 @@ class File extends Component {
                 <span>本地</span>
               </div>
             </div>
-            <div className="file_list_content">
-              <div className="source_card">
-                <div className="source_card_body add_source" onClick={this.upload_click}/>
-                <div className="source_card_footer">添加</div>
+            <div className="file_list_wrapper">
+              <div className="file_list_content">
+                <div className="source_card">
+                  <div className="source_card_body add_source" onClick={this.upload_click}/>
+                  <div className="source_card_footer">添加</div>
+                </div>
+                {list.map((item, index) => {
+                  return (
+                    <ListCard item={item} key={index}/>
+                  )
+                })}
               </div>
-              {list.map((item, index) => {
-                return (
-                  <ListCard item={item} key={index}/>
-                )
-              })}
             </div>
+
           </div>
         </div>
         <input type="file" ref='upload_source_input' id="upload_source_input"/>
@@ -252,5 +263,6 @@ export default  connect(state => ({
   videoTrackList: state.videoTrackList.data,
   admin: state.admin
 }), {
-  videoTrackList_add
+  videoTrackList_add,
+  active_element_change
 })(File);

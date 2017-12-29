@@ -12,7 +12,7 @@ class OperateMessage extends Component {
     const { secondToDate } = tools;
     let activeItem = {};
     if (activeElement.type === 'video') {
-      activeItem = videoTrackList[activeElement.trackIndex].child[activeElement.itemIndex];
+      activeItem = videoTrackList[activeElement.trackIndex].child[activeElement.itemIndex] || {};
     }
     return (
       <div className="infoPanel">
@@ -22,8 +22,8 @@ class OperateMessage extends Component {
         </div>
         <div className="panel_body">
           <div className="media_info">
-            <div className="base_info">1280*720 / 30p / NTSC / 单声道 / 49kHz</div>
-            <div className="change_info">上次修改时间 2107-10-01 10:00:01</div>
+            <div className="base_info">{activeItem.width} * {activeItem.height} / 30p / NTSC / 单声道 / 49kHz</div>
+            {/*<div className="change_info">上次修改时间 2107-10-01 10:00:01</div>*/}
           </div>
           <div className="list_info">
             <div className="info_item">
@@ -50,18 +50,18 @@ class OperateMessage extends Component {
               <span className="info_label">时间长度</span>
               <div className="info_value">{secondToDate(activeItem.time || 0)}</div>
             </div>
-            <div className="info_item">
-              <span className="info_label">初始来源</span>
-              <div className="info_value">闪电新闻</div>
-            </div>
-            <div className="info_item">
-              <span className="info_label">添加操作</span>
-              <div className="info_value">admin</div>
-            </div>
-            <div className="info_item">
-              <span className="info_label">添加时间</span>
-              <div className="info_value">2017-12-13 12:00:01</div>
-            </div>
+            {/*<div className="info_item">*/}
+              {/*<span className="info_label">初始来源</span>*/}
+              {/*<div className="info_value">闪电新闻</div>*/}
+            {/*</div>*/}
+            {/*<div className="info_item">*/}
+              {/*<span className="info_label">添加操作</span>*/}
+              {/*<div className="info_value">admin</div>*/}
+            {/*</div>*/}
+            {/*<div className="info_item">*/}
+              {/*<span className="info_label">添加时间</span>*/}
+              {/*<div className="info_value">2017-12-13 12:00:01</div>*/}
+            {/*</div>*/}
           </div>
           {/*<p>激活的元素的index</p>*/}
           {/*{JSON.stringify(activeElement)}*/}

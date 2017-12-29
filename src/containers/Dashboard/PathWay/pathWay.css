@@ -126,6 +126,7 @@
     border-radius: 4px;
     background: chartreuse;
     overflow: hidden;
+    min-width: 4px;
 }
 .clip_inner {
     width: 100%;
@@ -133,6 +134,7 @@
     border: 2px solid transparent;
     box-sizing: border-box;
     background: #6d51c6;
+    overflow: hidden;
 }
 .clip_item:hover .resize_handel{
     visibility: visible;

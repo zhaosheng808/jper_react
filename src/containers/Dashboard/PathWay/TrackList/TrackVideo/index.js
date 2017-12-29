@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import {videoTrackList_add, videoTrack_add ,videoTrack_del, videoTrackList_del, videoTrack_edit} from '@/redux/models/videoTrackList';
 import {active_element_change} from '@/redux/models/activeTrackElement';
 import {change_width} from '@/redux/models/cutVideo/pathWayWidth';
+import {change_dragActive} from '@/redux/models/dragActive';
 
 class TrackVideo extends Component {
   constructor(props) {
@@ -37,6 +38,20 @@ class TrackVideo extends Component {
     const maxWidth = maxTime * zoom_scale + 64 + 200;
     if (pathWayWidth < maxWidth) {
       this.props.change_width(maxWidth);
+    } else {
+      if (maxWidth < window.innerWidth) {
+        const {needleLeft} = this.props;
+        const pathWay_width = document.querySelector('.pathWay').clientWidth;
+
+        if (needleLeft < pathWay_width) {
+
+          this.props.change_width(pathWay_width);
+        } else { // 以指针为最后位置
+          const needleRight = needleLeft + 64 + 200;
+          this.props.change_width(needleRight);
+        }
+
+      }
     }
 
     /* 当轨道数据修改了， 判断各个元素之间是否有覆盖*/
@@ -166,18 +181,37 @@ class TrackVideo extends Component {
     };
 
 
-
-
-
     /*判断完毕 整合数据存入redux中*/
-
-
 
     /*
     * 直接添加本节点到轨道数组中
     * 如果是原本存在的，会在dragEnd事件里面删除掉原来的数据，这里不需要处理
     * */
     this.props.videoTrackList_add(videoItem, this.props.trackIndex);
+    let activeItemIndex = this.props.videoTrackList[this.props.trackIndex].child.length;
+
+
+    if (dropForm === 1) {  // 轨道拖拽过来的
+
+      /*
+      * 将原轨道数据删掉
+      * 拖拽状态还原
+      * 判断是拖拽是否同一个轨道发生
+      * */
+      this.props.videoTrackList_del(trackIndex, itemIndex);
+      this.props.change_dragActive('');
+
+      if (this.props.trackIndex === trackIndex) {
+        activeItemIndex = activeItemIndex - 1;
+      }
+
+    }
+    //  默认最后操作的轨道是选中状态
+    this.props.active_element_change({
+      type,
+      trackIndex: this.props.trackIndex,
+      itemIndex: activeItemIndex
+    })
   };
   // 添加轨道
   _addTrack = () => {
@@ -227,6 +261,7 @@ class TrackVideo extends Component {
 }
 export default  connect(state => ({
     activeElement: state.activeElement,
+    needleLeft: state.needle.currentTime,
     videoTrackList: state.videoTrackList.data,
     pathWayWidth: state.pathWayWidth.width,
     checkCover: state.checkCover.cover,
@@ -237,5 +272,6 @@ export default  connect(state => ({
     videoTrack_del,
     videoTrackList_del,
     videoTrack_edit,
+    change_dragActive,
     change_width
   })(TrackVideo);
