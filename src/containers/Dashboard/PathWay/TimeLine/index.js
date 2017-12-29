@@ -98,21 +98,52 @@ class TimeLine extends Component {
           }
         } else if (zoom_scale > 3){
           if (index % 30 === 0) {
-            return <span className="timeSecond highLight" key={index} style={timeSecond}><i>{item}</i></span>
-          } else {
-            return <span className="timeSecond" key={index} style={timeSecond}/>
+            return <span className="timeSecond highLight" key={index} style={{marginRight: `${(4 * zoom_scale) - 1 }px`}}><i>{item}</i></span>
+          } else if (index % 3 === 0) {
+            return <span className="timeSecond" key={index} style={{marginRight: `${(4 * zoom_scale) - 1 }px`}}/>
           }
         } else if (zoom_scale > 2){
           if (index % 60 === 0) {
-            return <span className="timeSecond highLight" key={index} style={timeSecond}><i>{item}</i></span>
-          } else {
-            return <span className="timeSecond" key={index} style={timeSecond}/>
+            return <span className="timeSecond highLight" key={index} style={{marginRight: `${(4 * zoom_scale) - 1 }px`}}><i>{item}</i></span>
+          } else if (index % 4 === 0) {
+            return <span className="timeSecond" key={index} style={{marginRight: `${(4 * zoom_scale) - 1 }px`}}/>
           }
-        } else {
+        } else if (zoom_scale > 1){
           if (index % 120 === 0) {
-            return <span className="timeSecond highLight" key={index} style={timeSecond}><i>{item}</i></span>
-          } else {
-            return <span className="timeSecond" key={index} style={timeSecond}/>
+            return <span className="timeSecond highLight" key={index} style={{marginRight: `${(12 * zoom_scale) - 1 }px`}}><i>{item}</i></span>
+          } else if (index % 12 === 0){
+            return <span className="timeSecond" key={index} style={{marginRight: `${(12 * zoom_scale) - 1 }px`}}/>
+          }
+        } else if (zoom_scale > 0.5){
+          if (index % 240 === 0) {
+            return <span className="timeSecond highLight" key={index} style={{marginRight: `${(24 * zoom_scale) - 1 }px`}}><i>{item}</i></span>
+          } else if (index % 24 === 0) {
+            return <span className="timeSecond" key={index} style={{marginRight: `${(24 * zoom_scale) - 1 }px`}}/>
+          }
+        }else if (zoom_scale > 0.3){
+          if (index % 360 === 0) {
+            return <span className="timeSecond highLight" key={index} style={{marginRight: `${(60 * zoom_scale) - 1 }px`}}><i>{item}</i></span>
+          } else if (index % 60 === 0){
+            return <span className="timeSecond" key={index} style={{marginRight: `${(60 * zoom_scale) - 1 }px`}}/>
+          }
+        }else if (zoom_scale > 0.2){
+          if (index % 360 === 0) {
+            return <span className="timeSecond highLight" key={index} style={{marginRight: `${(120 * zoom_scale) - 1 }px`}}><i>{item}</i></span>
+          } else if (index % 120 === 0){
+            return <span className="timeSecond" key={index} style={{marginRight: `${(120 * zoom_scale) - 1 }px`}}/>
+          }
+        }
+        else if (zoom_scale > 0.1){
+          if (index % 900 === 0) {
+            return <span className="timeSecond highLight" key={index} style={{marginRight: `${(120 * zoom_scale) - 1 }px`}}><i>{item}</i></span>
+          } else if (index % 120 === 0){
+            return <span className="timeSecond" key={index} style={{marginRight: `${(120 * zoom_scale) - 1 }px`}}/>
+          }
+        }else if (zoom_scale > 0){
+          if (index % 3600 === 0) {
+            return <span className="timeSecond highLight" key={index} style={{marginRight: `${(600 * zoom_scale) - 1 }px`}}><i>{item}</i></span>
+          } else if (index % 600 === 0){
+            return <span className="timeSecond" key={index} style={{marginRight: `${(600 * zoom_scale) - 1 }px`}}/>
           }
         }
 

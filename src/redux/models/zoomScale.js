@@ -8,7 +8,7 @@
 export const CHANGE_ZOOM_SCALE = 'CHANGE_ZOOM_SCALE';
 
 const defaultState = {
-  scale: 10,
+  scale: 0.5,
 };
 
 export default function reduce (state = defaultState, action = {}) {

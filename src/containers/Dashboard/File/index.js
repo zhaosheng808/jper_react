@@ -3,6 +3,7 @@
  */
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {videoTrackList_add} from '@/redux/models/videoTrackList';
 import './index.css';
 import ListCard from './ListCard';
 import dragImg from '@/assets/other/example.png';
@@ -34,6 +35,17 @@ class File extends Component {
           src: 'http://toutiao-cdn-jper.foundao.com/ovesystem/data/material/2017/11/03/ymzcut_117111303101710108182023_e8875e7ab2e1668794363a5f2fc78dec.mp4',
           cover: dragImg,
           origin_time: 91,
+          width: '',
+          height: ''
+        },
+        {
+          type: 'video',
+          name: 'video34',
+          material_uuid: '',
+          size: 0,
+          src: 'http://toutiao-cdn-jper.foundao.com/ovesystem/data/material/2017/11/29/toutiao_11711502901111010818201_dbebeb3c17fbe7eff397b7a40585bb58.mp4',
+          cover: dragImg,
+          origin_time: 692,
           width: '',
           height: ''
         },
@@ -120,20 +132,27 @@ class File extends Component {
               const {list} = this.state;
               const {data = {}} = res;
               console.log(data);
-              list.push({
+              const videoItem = {
                 type: 'video',
                 name: data.name,
                 src: data.src,
                 size: data.info.size,
                 cover: data.head_img,
-                origin_time: data.info.seconds,
+                origin_time: parseFloat(data.info.seconds),
                 material_uuid: data.material_uuid,
                 width: data.info.width,
                 height: data.info.height
-              });
+              };
+              list.push(videoItem);
               this.setState({
                 list
-              })
+              });
+              /*
+              * 将该视频直接放入轨道
+              * */
+              this.add_liveToTrack(videoItem);
+
+
             }else {
               console.log('素材获取失败-.- id: ', resp.data.material_uuid)
             }
@@ -147,6 +166,33 @@ class File extends Component {
 
   upload_click = () => {
     this.refs.upload_source_input.click();
+  };
+
+  // 将央视的在线裁剪的直接放入轨道
+  add_liveToTrack = (videoItem) => {
+    const timestamp = Date.parse(new Date());
+    this.props.videoTrackList_add({
+      ...videoItem,
+      id:  timestamp,                                   // id               轨道元素id 为当前时间戳
+      playerId: 'playerId' + timestamp,              // video播放器       播放器id格式 -- playerId + 时间戳
+                                                    // 类型              video/audio/yaTiao
+                                                     // size              视频大小
+                                             // src              视频源
+                                           // cover            封面
+                                                    // name             描述
+                                              // origin_time      原video时间
+      start_time: 0,                                            // start_time       当前视频的起始时间，相对于轨道
+      time: videoItem.origin_time,                             // time             当前视频的时间长度
+      relative_start: 0,                   // relative_start   裁剪视频的起始时间相对于原视频的起始时间
+                                                     // 视频高度
+      volume:  1,                                   // 视频音量
+      speed:  1,                                     // 播放速度
+      filter: '',                                  // 滤镜类型
+      cutType: '',                                // 转场类型
+      cutTime: '',                                // 转场时间
+      voice_in_time: '',                    // 音频淡入时间
+      voice_out_time: '',                  // 音频淡出时间
+    }, 0);
   };
 
   render() {
@@ -205,4 +251,6 @@ class File extends Component {
 export default  connect(state => ({
   videoTrackList: state.videoTrackList.data,
   admin: state.admin
-}), {})(File);
+}), {
+  videoTrackList_add
+})(File);

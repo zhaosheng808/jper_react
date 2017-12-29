@@ -22,7 +22,7 @@ class ToolBar extends Component {
     super(props);
     this.state = {
       zoom_min: 1,
-      zoom_max: 30,
+      zoom_max: 100,
       isUtilsKeyDown: false,   // 组合按键 是否按下
       default_zoom_scale: 10
     };
@@ -170,8 +170,8 @@ class ToolBar extends Component {
   };
   _change_zoom = (newScale) => {
     const {zoom_scale} = this.props;
-    if (newScale !== zoom_scale) {
-      this.props.change_scale(newScale);
+    if (newScale !== zoom_scale / 10) {
+      this.props.change_scale(newScale / 10);
     }
   };
   // 向右吸附
@@ -652,6 +652,7 @@ class ToolBar extends Component {
 
   render() {
     const {zoom_scale, checkCover} = this.props;
+    const slider_zoomScale = zoom_scale * 10;
     const {zoom_min, zoom_max} = this.state;
 
     return (
@@ -662,7 +663,7 @@ class ToolBar extends Component {
             <span className="zoomNum">{zoom_scale}</span>
             <Slider min={zoom_min}
                     max={zoom_max}
-                    value={zoom_scale}
+                    value={slider_zoomScale}
                     showTooltip={false}
                     showInput={true}
                     onChange={this._change_zoom}/>
