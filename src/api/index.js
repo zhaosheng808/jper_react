@@ -12,5 +12,6 @@ export default {
   login_liveCut: 'https://upload.newscctv.net:1443/ovesystem_1_4/login.php',
   importLiveMaterial: base_url + '/newscctvExportLive.php',
   materialInfo: base_url + '/materialInfo.php',
-  exportLiveCut: base_url + '/newscctvCut.php'
+  exportLiveCut: base_url + '/newscctvCut.php',
+  searchLiveCutStatus: base_url + '/newscctvLiveCutStatus.php'
 }

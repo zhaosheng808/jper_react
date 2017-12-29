@@ -37,7 +37,7 @@ const defaultState = {
       //   voice_out_time: '',                                    // 音频淡出时间
       // }
       ]},
-    {type: 'video', isVisible: true, level: 1, child: []}
+    // {type: 'video', isVisible: true, level: 1, child: []}
     ]
 };
 

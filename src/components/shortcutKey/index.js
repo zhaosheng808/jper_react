@@ -1,0 +1,102 @@
+import React, { Component } from 'react';
+import './index.css'
+import returnImg from '@/assets/other/close-1.png'
+import returnImgHover from '@/assets/other/close-2.png'
+import saveImg from '@/assets/other/save.png'
+import cutImg from '@/assets/other/cut.png'
+import behindCut from '@/assets/other/behindcut.png'
+import frontCut from '@/assets/other/frontcut.png'
+import exportImg  from '@/assets/other/export.png'
+import maxHover  from '@/assets/other/max-hover.png'
+import miniHover  from '@/assets/other/mini-hover.png'
+
+
+export default class ShortCutLayer  extends Component{
+    constructor(props) {
+        super(props);
+        this.state={
+            isShowLayer:this.props.shortCutShow,
+            imgSrc:returnImg,
+            shortList:[
+                {name: '保存',shortcut:'Ctrl + S',img:saveImg},
+                {name: '视频末点',shortcut:'Alt + ]',img:behindCut},
+                {name: '视频起点',shortcut:'Alt + [',img:frontCut},
+                {name: '导出',shortcut:'Ctrl + P',img:exportImg},
+                {name: '放大',shortcut:'Ctrl + +',img:maxHover},
+                {name: '缩小',shortcut:'Ctrl + -',img:miniHover},
+                {name: '裁剪素材',shortcut:'Ctrl + X',img:cutImg},
+                {name: '下一帧',shortcut:' → '},
+                {name: '上一帧',shortcut:' ← '},
+                // {name: '后退一步',shortcut:'Ctrl + Z'},
+
+                {name: '播放/暂停',shortcut:'空格'},
+                // {name: '复制',shortcut:'Ctrl + C'},
+
+
+
+            ]
+        }
+    }
+
+    componentDidMount () {
+
+    }
+    componentWillReceiveProps(nextProps){
+        if(nextProps.shortCutShow!==this.state.isShowLayer){
+            this.state.isShowLayer=nextProps.shortCutShow;
+            this.setState({isShowLayer:  this.state.isShowLayer});
+        }
+
+    }
+    imgMouseEnter=()=>{
+        this.state.imgSrc = returnImgHover;
+        this.setState({imgSrc: this.state.imgSrc});
+    }
+    imgMouseLeave=()=>{
+        this.state.imgSrc = returnImg;
+        this.setState({imgSrc: this.state.imgSrc});
+    }
+    layerHide=()=>{
+        this.state.isShowLayer=false;
+        this.setState({isShowLayer:this.state.isShowLayer})
+    }
+
+    render(){
+        return(
+            <div className="wrap" style={{display:this.state.isShowLayer===true? 'block':'none'}}>
+                <div className="header">
+                    <div className="headerTitle">快捷键</div>
+                    <div className="layerHide"><img src={this.state.imgSrc} onMouseEnter={this.imgMouseEnter} onMouseLeave={this.imgMouseLeave} onClick={this.layerHide}/></div>
+                </div>
+                <div className="container">
+                    <div className="shortCutList">
+                        <ul>
+                        <div className="tableHead">
+                            <div className="tableHeadTr">
+                                <div className="imgTd">图标</div>
+                                <div className="nametTd">命令</div>
+                                <div className="shortcutTd">快捷键</div>
+                            </div>
+                        </div>
+                                <ul  className="tableContent tableScroll">
+                                {
+                                    this.state.shortList.map((item,key) => {
+                                        return (
+                                        <li className="tableRow" key={key}>
+                                            <div className="imgTd"><img src={item.img} /></div>
+                                            <div className="nametTd">{item.name}</div>
+                                            <div className="shortcutTd">{item.shortcut}</div>
+                                        </li>
+                                        )
+                                    })
+                                }
+                            </ul>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+}

@@ -42,14 +42,18 @@
     position: absolute;
     box-sizing: border-box;
     border: 1px solid;
+    background-color: #232323;
 }
 .track_head:hover{
-    background: #313131;
     cursor: pointer;
+    background: #2b2b2b;
     border-color: #b1b1b1;
 }
 .track_head:hover .track_toolbar {
     display: block;
+}
+.track.Video .track_head:hover .track_icon{
+    background-image: url('../../../assets/images/media_truck-hover.png');
 }
 .track_head .track_icon{
     box-sizing: border-box;
@@ -97,22 +101,30 @@
 .track_toolbar_inner{
     width: 102px;
     height: 100%;
-    padding: 0 10px;
     box-sizing: border-box;
     background-color: #313131;
     border:  1px solid #b1b1b1;
     border-radius: 4px;
 }
 .track_toolbar .menu_icon{
-    width: 20px;
-    margin: 0 10px;
+    width: 50%;
     height: 100%;
+}
+.track_toolbar .menu_icon:hover{
+    background-color: #ffc000;
 }
 .track_toolbar .track_add {
     background-image: url('../../../assets/images/plus.png');
 }
+.track_toolbar .track_add:hover {
+    background-image: url('../../../assets/images/plus-hover.png');
+}
+
 .track_toolbar .track_del{
     background-image: url('../../../assets/images/delet.png');
+}
+.track_toolbar .track_del:hover{
+    background-image: url('../../../assets/images/delet-hover.png');
 }
 
 /*==========轨道素材单元=====================*/

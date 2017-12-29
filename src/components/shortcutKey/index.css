@@ -1,0 +1,97 @@
+.wrap{
+    width: 600px;
+    height: 410px;
+    border-radius: 12px;
+    z-index:10000000;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #2b2c30;
+}
+.header{
+    height: 36px;
+    display: inline-block;
+    width: 100%;
+    border-bottom: 1px solid #151515;
+}
+.headerTitle{
+    font-size: 14px;
+    color: #fbfbfb;
+    margin-top: 10px;
+    margin-left: 20px;
+    float: left;
+}
+.layerHide{
+    float: right;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+.layerHide:hover{
+   cursor: pointer;
+}
+.shortCutList{
+    width: 474px;
+    border: 1px solid #151515;
+    margin: 0 auto;
+    margin-top: 36px;
+    color: #919191;
+
+
+}
+.tableContent{
+    font-size: 12px;
+    text-align: left;
+    color: #919191;
+    width: 100%;
+}
+.tableContent .tableRow{
+    border-bottom: 1px solid #151515;
+    height: 30px;
+    width: 100%;
+}
+.tableContent .tableRow:nth-last-child{
+    border-bottom: none;
+}
+ul li{
+    list-style-type: none;
+}
+.tableRow div{
+   float: left;
+    height: 30px;
+    line-height: 30px;
+}
+.imgTd{
+    width: 163px;
+    text-align: center;
+}
+.nametTd{
+    width: 173px;
+}
+.tableHead{
+    width: 100%;
+    height: 30px;
+}
+.tableHeadTr{
+    background: #353639;
+    color: #c6c6c6;
+    font-size: 12px;
+    height: 30px;
+}
+.tableHeadTr td{
+    border: none !important;
+}
+.imgTd img{
+    display: block;
+    width: 30px;
+   margin: 0 auto;
+}
+.tableHeadTr div{
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+}
+.tableScroll {
+    height: 270px;
+    overflow-y: scroll;
+}

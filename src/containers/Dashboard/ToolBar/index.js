@@ -24,6 +24,9 @@ class ToolBar extends Component {
       zoom_min: 1,
       zoom_max: 100,
       isUtilsKeyDown: false,   // 组合按键 是否按下
+      export_status: '导出中',
+      is_exporting: false,      // 正在导出 ？
+      is_show_export_loading: true,
       default_zoom_scale: 10
     };
   }
@@ -253,7 +256,10 @@ class ToolBar extends Component {
   };
   // 导出
   _export = () => {
-
+    const {is_exporting} = this.state;
+    if (is_exporting) {
+      return false
+    }
     const {state} = this.props;
     const {videoTrackList, pointInOut} = state;
     const videoTrackList_data = videoTrackList.data;
@@ -331,9 +337,9 @@ class ToolBar extends Component {
                 console.log('// 前面被裁减掉');
 
                 /*
-                * 前面被裁减掉
-                * 需要修改原数据的开始时间 、 相对于原视频的起始时间 、 时间长度
-                * */
+                 * 前面被裁减掉
+                 * 需要修改原数据的开始时间 、 相对于原视频的起始时间 、 时间长度
+                 * */
                 const cut_time = inPoint_time - childItem.start_time;
 
                 const new_start_time = inPoint_time;
@@ -477,7 +483,7 @@ class ToolBar extends Component {
             };
             origin_arr.splice(i, 0, blank_item);
           }
-        }else {                              // 其他 判断上一个的结束时间是否 = 起始时间，否则添加black
+        } else {                              // 其他 判断上一个的结束时间是否 = 起始时间，否则添加black
           const lastItem = origin_arr[i - 1];
           const lastItem_endTime = lastItem.start_time + lastItem.time;
           if (lastItem_endTime < item.start_time) {
@@ -486,7 +492,7 @@ class ToolBar extends Component {
               start_time: lastItem_endTime,
               time: item.start_time - lastItem_endTime
             };
-            origin_arr.splice(i, 0 , blank_item);
+            origin_arr.splice(i, 0, blank_item);
             i = i - 1;
           }
           if (i === origin_arr.length - 1) { // 最后一个元素需要判断后面是否空白
@@ -554,12 +560,76 @@ class ToolBar extends Component {
       }
     }).done(resp => {
       if (resp.code === 0) {
-
-      }else {
+        this.search_exportStatus();
+      } else {
         console.log('导出失败： ', resp.msg);
         alert('导出失败： ', resp.msg);
       }
     })
+  };
+  // 导出状态查询
+  search_exportStatus = () => {
+    const {admin} = this.props;
+    const interval = setInterval(search_ajax, 3000);
+    const _this = this;
+    _this.setState({
+      export_status: '导出中',
+      is_exporting: true,
+      is_show_export_loading: true,
+    });
+    // 轮训的ajax
+    function search_ajax() {
+      const time = Date.parse(new Date()) / 1000;
+
+      $.ajax({
+        url: api.searchLiveCutStatus,
+        method: 'POST',
+        dataType: 'json',
+        data: {
+          token: admin.token,
+          live_id: admin.live_id,
+          time: time,
+          sign: tools.makeSign({
+            token: admin.token,
+            live_id: admin.live_id,
+            time: time,
+          })
+        }
+      }).done(resp => {
+        if (resp.code === 0) {
+          const {status} = resp.data;
+
+          // 0 未处理  1 处理中  2 处理成功  -1 处理失败
+
+          if (status === 2 || status === -1) {
+            clearInterval(interval);
+            if (status === 2) {
+              console.log('导出成功');
+              _this.setState({
+                export_status: '导出成功',
+                is_show_export_loading: false,
+              })
+
+            } else {
+              console.log('处理失败');
+              _this.setState({
+                export_status: '导出失败',
+                is_show_export_loading: false,
+              })
+            }
+          } else {
+            console.log('处理中');
+            _this.setState({
+              export_status: '导出中',
+              is_show_export_loading: true,
+            })
+          }
+        } else {
+          console.log('错误: ', resp.msg);
+        }
+      })
+    }
+
   };
   // 快捷键
   _keydown = (event) => {
@@ -639,6 +709,7 @@ class ToolBar extends Component {
       this._save();
     }
   }
+
   // 缩放
   quick_scale = (options) => {
     const {isUtilsKeyDown} = this.state;
@@ -669,15 +740,35 @@ class ToolBar extends Component {
     })
   }
 
+  // 导出状态
+  load_exportStatus = () => {
+    const {export_status, is_show_export_loading, is_exporting} = this.state;
+
+    if (is_exporting) {
+      return (
+        <div className="export_status">
+          <span>{export_status}</span>
+          { is_show_export_loading ? <div className="spinner">
+            <div className="bounce1"/>
+            <div className="bounce2"/>
+            <div className="bounce3"/>
+          </div> : ''}
+        </div>
+      )
+    }
+
+
+  };
+
   render() {
     const {zoom_scale, checkCover} = this.props;
     const slider_zoomScale = zoom_scale * 10;
-    const {zoom_min, zoom_max} = this.state;
+    const {zoom_min, zoom_max, is_exporting} = this.state;
 
     return (
       <div className="toolbar">
         <div className="btn_zoom_group btn_group">
-          <div className="icon_mini menu_icon" onClick={this._scaleSmall}  title="缩小"/>
+          <div className="icon_mini menu_icon" onClick={this._scaleSmall} title="缩小"/>
           <div className="zoom_line_box">
             <span className="zoomNum">{zoom_scale}</span>
             <Slider min={zoom_min}
@@ -687,7 +778,7 @@ class ToolBar extends Component {
                     showInput={true}
                     onChange={this._change_zoom}/>
           </div>
-          <div className="icon_max menu_icon" onClick={this._scaleLarge}  title="放大"/>
+          <div className="icon_max menu_icon" onClick={this._scaleLarge} title="放大"/>
         </div>
         <div className="btn_group btn_step_group">
           <div className="menu_icon icon_revoke large_icon" title="上一步"/>
@@ -702,12 +793,13 @@ class ToolBar extends Component {
           <div className={checkCover === 1 ? 'menu_icon large_icon icon_crush' : 'menu_icon large_icon icon_cover'}
                title="覆盖挤压" onClick={this._changeCover}/>
         </div>
-        <div className="ben_group btn_project">
+        <div className="btn_group btn_project">
           <div className="menu_icon large_icon icon_pointIn" title="进点" onClick={this._setPointIn}/>
           <div className="menu_icon large_icon icon_pointOut" title="出点" onClick={this._setPointOut}/>
-          <div className="menu_icon large_icon icon_save" title="保存" onClick={this._save}/>
-          <div className="menu_icon large_icon icon_export" title="导出" onClick={this._export}/>
+          <div className="menu_icon large_icon icon_save is_disabled" title="保存" onClick={this._save}/>
+          <div className= {is_exporting ? 'menu_icon large_icon icon_export is_disabled' : 'menu_icon large_icon icon_export'} title="导出" onClick={this._export}/>
         </div>
+        {this.load_exportStatus()}
         {/*<button id="btn_play" onClick={this.play_video}>播放</button>*/}
         {/*<button id="btn_paused" onClick={this.pause_video}>暂停</button>*/}
         {/*<button onClick={this._fullScreen}>全屏</button>*/}
@@ -716,7 +808,7 @@ class ToolBar extends Component {
     );
   }
 }
-export default  connect(state => ({
+export default connect(state => ({
     videoTrackList: state.videoTrackList.data,
     needleLeft: state.needle.currentTime,
     pointInOut: state.pointInOut,
