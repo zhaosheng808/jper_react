@@ -111,6 +111,9 @@
     right: 0;
     top: 0;
 }
+.right_panel .menu_icon{
+    background-size: contain;
+}
 
 .app_panel .right_panel .panel_body {
     padding-bottom: 30px;
@@ -161,7 +164,6 @@
 .menu_item .menu_icon {
     display: block;
     margin-top: 6px;
-    background-size: contain;
     margin-right: 6px;
 }
 

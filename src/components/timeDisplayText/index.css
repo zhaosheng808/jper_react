@@ -1,0 +1,8 @@
+.two_color span{
+    width: 18px;
+    text-align: center;
+    display: inline-block;
+}
+.two_color span:nth-of-type(3), .two_color span:nth-of-type(6), .two_color span:nth-of-type(9){
+    width: 10px;
+}

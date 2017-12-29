@@ -1,14 +1,15 @@
 /**
  * Created by DELL on 2017/12/7.
  */
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import tools from '@/utils/tools';
 import {active_element_change} from '@/redux/models/activeTrackElement';
 import {change_dragActive} from '@/redux/models/dragActive';
 import {videoTrackList_del, videoTrack_edit} from '@/redux/models/videoTrackList';
 import {add_history} from '@/redux/models/cutVideo/historyStore';
 import $ from 'jquery';
+
 
 class VideoItem extends Component {
   constructor(props) {
@@ -24,6 +25,7 @@ class VideoItem extends Component {
       startMove_time: 0 // 开始移动时video的时间
     };
   }
+
   activeTrackElement = () => {
     const {type} = this.state;
     const {itemIndex, trackIndex} = this.props;
@@ -123,7 +125,12 @@ class VideoItem extends Component {
       if (left < 0) {
         left = 0;
       }
-      this.props.videoTrack_edit(trackIndex, itemIndex, {...itemData, start_time: left / zoom_scale, time: nowTime, relative_start: now_relative_start});
+      this.props.videoTrack_edit(trackIndex, itemIndex, {
+        ...itemData,
+        start_time: left / zoom_scale,
+        time: nowTime,
+        relative_start: now_relative_start
+      });
     }
   };
   left_mouseUp = () => {
@@ -133,6 +140,20 @@ class VideoItem extends Component {
       isMoseDown: false
     });
   };
+  //  监听鼠标右击事件
+  _clip_mouseDown = (e) => {
+    const event = e || window.event;
+    if (event.button === 2) { // 鼠标右键
+      event.preventDefault();
+      this.props.rightBtnTips_show(event.clientX, event.clientY, this.delTrack_item);
+    }
+  };
+  // 删除本轨道
+  delTrack_item = () => {
+    const {trackIndex, itemIndex} = this.props;
+    this.props.videoTrackList_del(trackIndex, itemIndex);
+  };
+
   render() {
     const {itemData, activeElement, zoom_scale} = this.props;
     let isActive = false;
@@ -146,15 +167,16 @@ class VideoItem extends Component {
            draggable="true"
            onDragStart={this._dragStart.bind(this, itemData)}
            onDragEnd={this._dragEnd}
+           onMouseDown={this._clip_mouseDown}
            ref='clip_item'>
-          <div className="clip_inner">
-            <div className="clip_item_img">
-              <img src={itemData.cover} />
-            </div>
-            <div className="clip_item_desc">{itemData.name}</div>
+        <div className="clip_inner">
+          <div className="clip_item_img">
+            <img src={itemData.cover}/>
           </div>
-        <div className="left resize_handel" onMouseDown={this._mouseDown.bind(this, 'left')} />
-        <div className="right resize_handel" onMouseDown={this._mouseDown.bind(this, 'right')} />
+          <div className="clip_item_desc">{itemData.name}</div>
+        </div>
+        <div className="left resize_handel" onMouseDown={this._mouseDown.bind(this, 'left')}/>
+        <div className="right resize_handel" onMouseDown={this._mouseDown.bind(this, 'right')}/>
       </div>
     )
   }
@@ -164,8 +186,10 @@ export default connect(state => ({
     activeElement: state.activeElement,
     history: state.historyStore.history,
     state: state,
-    zoom_scale: state.zoom_scale.scale}),
-  { active_element_change,
+    zoom_scale: state.zoom_scale.scale
+  }),
+  {
+    active_element_change,
     change_dragActive,
     videoTrackList_del,
     add_history,

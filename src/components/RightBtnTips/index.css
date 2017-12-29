@@ -1,0 +1,30 @@
+.right_tips{
+    width: 120px;
+    background: #1b1b1b;
+    border: 1px solid #d6d6d6;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 20;
+    border-radius: 4px;
+    overflow: hidden;
+    text-align: center;
+    display: none;
+    -webkit-box-shadow: rgba(0,0,0,.1) 2px 3px 10px;
+}
+.right_tips.is_show{
+    display: block;
+}
+.right_tips .choose_item{
+    height: 30px;
+    line-height: 30px;
+    cursor: pointer;
+    border-bottom: 1px solid #f1f1f1;
+}
+.right_tips .choose_item:hover{
+    background: #303030;
+    color: #fafafa;
+}
+.right_tips .choose_item:last-child{
+    border-bottom: none;
+}

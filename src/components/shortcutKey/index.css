@@ -11,6 +11,7 @@
 }
 .header{
     height: 36px;
+    line-height: 36px;
     display: inline-block;
     width: 100%;
     border-bottom: 1px solid #151515;
@@ -18,14 +19,19 @@
 .headerTitle{
     font-size: 14px;
     color: #fbfbfb;
-    margin-top: 10px;
+
     margin-left: 20px;
     float: left;
 }
 .layerHide{
     float: right;
+    width: 16px;
+    height: 16px;
     margin-top: 10px;
     margin-right: 10px;
+}
+.layerHide img{
+    float: left;
 }
 .layerHide:hover{
    cursor: pointer;
@@ -34,7 +40,7 @@
     width: 474px;
     border: 1px solid #151515;
     margin: 0 auto;
-    margin-top: 36px;
+    margin-top: 16px;
     color: #919191;
 
 

@@ -4,7 +4,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ShortCutLayer from '@/components/shortcutKey';
-console.log(ShortCutLayer);
 
 class Header extends Component {
   constructor(props){
@@ -33,7 +32,7 @@ class Header extends Component {
         <span className="header_title">闪电新闻矩阵号 - 编辑</span>
         <div className="header_tips">
           <div className="help menu_icon" />
-          <div className="shortcut menu_icon" onMouseEnter={this._showShortCut} onMouseLeave={this._closeShortCut} />
+          <div className="shortcut menu_icon" onClick={this._showShortCut} />
         </div>
         <ShortCutLayer shortCutShow={is_shortCutShow} />
       </div>

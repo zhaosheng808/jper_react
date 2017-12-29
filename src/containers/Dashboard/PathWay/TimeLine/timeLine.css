@@ -13,6 +13,7 @@
 .time_axis{
     position: relative;
     margin-left: 64px;
+    margin-top: 4px;
     overflow: hidden;
 }
 .timeSecond{
@@ -26,6 +27,8 @@
 }
 .timeSecond.highLight{
     opacity: 1;
+    width: 2px;
+    margin-left: -1px;
 }
 .timeSecond i{
     position: absolute;

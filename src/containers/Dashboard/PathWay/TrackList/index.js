@@ -48,7 +48,7 @@ class PathWay extends Component {
         {/*}*/}
         {
           videoTrackList.map((item, index) => {
-            return <TrackVideo key={index} type="video" trackIndex={index} activeDrag={activeDrag} item={item}/>
+            return <TrackVideo rightBtnTips_show={this.props.rightBtnTips_show} key={index} type="video" trackIndex={index} activeDrag={activeDrag} item={item}/>
           })
         }
         {/*{*/}

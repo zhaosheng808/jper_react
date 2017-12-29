@@ -6,14 +6,14 @@ import { connect } from 'react-redux';
 import tools from '@/utils/tools';
 import {shortcut_key} from '@/global_config';
 import {change_needlePosition, change_needleState} from '@/redux/models/needle';
-
-
+import TimeDisplayText from '@/components/timeDisplayText';
 
 class CanvasVideo extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isPlaying: false,
+      needleTime: 0,
       currentVideoId: '',
       isKeyDown: false,   // 键盘是否被按下
       video: document.getElementById('defaultImg')
@@ -281,6 +281,8 @@ class CanvasVideo extends Component {
   };
   render() {
     const {isPlaying} = this.state;
+    const {needle, zoom_scale} = this.props;
+    const needleTime = (needle.currentTime / zoom_scale).toFixed(2);
     return (
       <div className="video_panel">
         <div className="panel_header" />
@@ -288,7 +290,7 @@ class CanvasVideo extends Component {
         <div className="canvas_panel">
           <div className={isPlaying ? 'canvas_btn isPlaying' : 'canvas_btn'} onClick={this.changePlayState} />
           <div className="canvas_time" onClick={this._ceshi}>
-            00:02:50:20
+            <TimeDisplayText second = {needleTime}/>
           </div>
           <div className="canvas_progress">
           </div>

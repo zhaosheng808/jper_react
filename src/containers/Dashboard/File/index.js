@@ -132,7 +132,6 @@ class File extends Component {
             if (res.code === 0) {
               const {list} = this.state;
               const {data = {}} = res;
-              console.log(data);
               const videoItem = {
                 type: 'video',
                 name: data.name,

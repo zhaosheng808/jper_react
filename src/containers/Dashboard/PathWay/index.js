@@ -8,6 +8,7 @@ import './pathWay.css';
 
 import TimeLine  from './TimeLine';
 import InOut  from './InOut';
+import RightBtnTips from '@/components/RightBtnTips';
 // import TrackAudio from './TrackAudio';
 import Needle  from './Needle';
 import TrackList  from './TrackList';
@@ -27,6 +28,7 @@ class PathWay extends Component {
     };
   }
   componentDidMount () {
+
     // console.log(this.props.videoTrackList, 'videoTrackList');
   }
   changeActiveDrag = (type) => {
@@ -34,18 +36,25 @@ class PathWay extends Component {
       activeDrag: type
     })
   };
+
+
+  //  打开右键提示
+  rightBtnTips_show = (left, top, del_fun) => {
+    this.refs.rightBtnTips.show(left, top, del_fun);
+  };
   render() {
     // const {ytTrackList , audioTrackList} = this.state;
     const {pathWayWidth} = this.props;
     return (
-      <div className="pathWay_wrapper">
+      <div className="pathWay_wrapper" onMouseDown={this._clip_mouseDown}>
        <div className="pathWay">
          <div className="pathWay_inner" style={{width: pathWayWidth}}>
            <TimeLine changeNeedle={this.changeNeedle} ref='timeLine'/>
            <Needle ref='needle'/>
            <InOut />
-           <TrackList />
+           <TrackList rightBtnTips_show={this.rightBtnTips_show} />
          </div>
+         <RightBtnTips ref="rightBtnTips" />
        </div>
       </div>
     );

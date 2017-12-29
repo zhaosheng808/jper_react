@@ -19,6 +19,7 @@ class VodeoPlayerItem extends Component {
   }
 
   componentDidMount() {
+    this.check_isCurrentVideo();
     /*通过blob预加载
     * 会导致video切换后 src才加载完毕，导致video顺序变化但src未变化
     *
@@ -55,6 +56,19 @@ class VodeoPlayerItem extends Component {
         // Entire video is downloaded
       }
     }, false);*/
+  };
+  check_isCurrentVideo = () => {
+    const {videoTrackList, current_playing_video} = this.props;
+    let nowPlay = {};
+    if (videoTrackList[current_playing_video.trackIndex]) {
+      nowPlay = videoTrackList[current_playing_video.trackIndex].child[current_playing_video.itemIndex];
+    }
+    const itemPlayerId = this.props.itemData.playerId;
+    if (nowPlay.playerId && nowPlay.playerId === itemPlayerId) {  // 当前播放视频为改对象的视频
+      this.refs.video.oncanplaythrough = () => {
+        this.drawVideoToCanvas();
+      };
+    }
   };
   boble_load = () => {
     /*
@@ -100,11 +114,9 @@ class VodeoPlayerItem extends Component {
       this.refs.video.oncanplaythrough = () => {
       };
       if (!this.refs.video.paused) {
-        console.log('未暂停');
         this.refs.video.pause();
       }
     } else if (itemPlayerId !== undefined){                                                  // 当前渲染的视频为本视频
-      // console.log(111);
       // 如果没有播放 需要将指针当前位置映射到video的currentTime 拖拽进行绘制
       if (this.refs.video.paused) {
         const {itemData} = this.props; // 指针位置 刻度线比例

@@ -26,6 +26,7 @@ class ToolBar extends Component {
       isUtilsKeyDown: false,   // 组合按键 是否按下
       export_status: '导出中',
       is_exporting: false,      // 正在导出 ？
+      is_showExport: false,      // 显示导出 ？
       is_show_export_loading: true,
       default_zoom_scale: 10
     };
@@ -575,6 +576,7 @@ class ToolBar extends Component {
     _this.setState({
       export_status: '导出中',
       is_exporting: true,
+      is_showExport: true,
       is_show_export_loading: true,
     });
     // 轮训的ajax
@@ -607,6 +609,7 @@ class ToolBar extends Component {
               console.log('导出成功');
               _this.setState({
                 export_status: '导出成功',
+                is_exporting: false,
                 is_show_export_loading: false,
               })
 
@@ -614,6 +617,7 @@ class ToolBar extends Component {
               console.log('处理失败');
               _this.setState({
                 export_status: '导出失败',
+                is_exporting: false,
                 is_show_export_loading: false,
               })
             }
@@ -742,9 +746,9 @@ class ToolBar extends Component {
 
   // 导出状态
   load_exportStatus = () => {
-    const {export_status, is_show_export_loading, is_exporting} = this.state;
+    const {export_status, is_show_export_loading, is_showExport} = this.state;
 
-    if (is_exporting) {
+    if (is_showExport) {
       return (
         <div className="export_status">
           <span>{export_status}</span>
@@ -781,8 +785,8 @@ class ToolBar extends Component {
           <div className="icon_max menu_icon" onClick={this._scaleLarge} title="放大"/>
         </div>
         <div className="btn_group btn_step_group">
-          <div className="menu_icon icon_revoke large_icon" title="上一步"/>
-          <div className="menu_icon icon_refresh large_icon" title="撤销"/>
+          <div className="menu_icon icon_revoke large_icon is_disabled" title="上一步"/>
+          <div className="menu_icon icon_refresh large_icon is_disabled" title="撤销"/>
         </div>
         <div className="btn_group">
           <div className="menu_icon large_icon icon_cutLeft" title="裁剪左侧" onClick={this._cutLeft}/>

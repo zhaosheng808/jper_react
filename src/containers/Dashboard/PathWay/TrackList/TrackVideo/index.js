@@ -50,7 +50,6 @@ class TrackVideo extends Component {
           const needleRight = needleLeft + 64 + 200;
           this.props.change_width(needleRight);
         }
-
       }
     }
 
@@ -252,7 +251,7 @@ class TrackVideo extends Component {
         </div>
         <div className={isActiveDrag ? 'track_body activeDrag' : 'track_body'} onDragOver={this._dragover} onDrop={this._drop} ref='drop'>
           {child.map((itemData, index) => {
-            return <VideoItem key={index} itemData={itemData} itemIndex={index} trackIndex={this.props.trackIndex} />
+            return <VideoItem rightBtnTips_show={this.props.rightBtnTips_show} key={index} itemData={itemData} itemIndex={index} trackIndex={this.props.trackIndex} />
           })}
         </div>
       </div>
