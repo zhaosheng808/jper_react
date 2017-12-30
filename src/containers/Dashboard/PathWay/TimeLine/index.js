@@ -98,9 +98,9 @@ class TimeLine extends Component {
           }
         } else if (zoom_scale > 3){
           if (index % 30 === 0) {
-            return <span className="timeSecond highLight" key={index} style={{marginRight: `${(4 * zoom_scale) - 1 }px`}}><i>{item}</i></span>
+            return <span className="timeSecond highLight" key={index} style={{marginRight: `${(3 * zoom_scale) - 1 }px`}}><i>{item}</i></span>
           } else if (index % 3 === 0) {
-            return <span className="timeSecond" key={index} style={{marginRight: `${(4 * zoom_scale) - 1 }px`}}/>
+            return <span className="timeSecond" key={index} style={{marginRight: `${(3 * zoom_scale) - 1 }px`}}/>
           }
         } else if (zoom_scale > 2){
           if (index % 60 === 0) {

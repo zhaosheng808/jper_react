@@ -255,6 +255,7 @@ class ToolBar extends Component {
     console.log(state, 'state');
     console.log(videoTrackList_data, 'videoTrackList_data');
   };
+
   // 导出
   _export = () => {
     const {is_exporting} = this.state;
@@ -374,6 +375,7 @@ class ToolBar extends Component {
       console.log(exportVideo, 'exportVideo');
       return exportVideo;
     };
+
     // 去重 -> 删除掉遮挡的部分 前面的轨道优先级大于后面的，轨道内部前面的优先级小于后面的
     function delete_repeat(exportVideo) {
       for (let i = 0; i < exportVideo.length; i++) {
@@ -579,6 +581,7 @@ class ToolBar extends Component {
       is_showExport: true,
       is_show_export_loading: true,
     });
+
     // 轮训的ajax
     function search_ajax() {
       const time = Date.parse(new Date()) / 1000;
@@ -637,15 +640,15 @@ class ToolBar extends Component {
   };
   // 快捷键
   _keydown = (event) => {
-    const {cut_left, cut_right, ctrl, save, cut, large, small} = shortcut_key;
+    const {cut_left, cut_right, ctrl, save, cut, large, small, point_in, point_out, exportProject} = shortcut_key;
     const e = event || window.event || window.arguments.callee.caller.arguments[0];
     if (e && e.keyCode) {
       switch (e.keyCode) {
-        case cut_left[1]:
+        case cut_left:
           event.preventDefault();
           this.cutVideo(-1);
           break;
-        case cut_right[1]:
+        case cut_right:
           event.preventDefault();
           this.cutVideo(1);
           break;
@@ -653,7 +656,11 @@ class ToolBar extends Component {
           event.preventDefault();
           this.quick_save();
           break;
-        case cut[1]:
+        case exportProject[1]:
+          event.preventDefault();
+          this.quick_export();
+          break;
+        case cut:
           event.preventDefault();
           this.quick_cut();
           break;
@@ -664,6 +671,14 @@ class ToolBar extends Component {
         case small[1]:
           event.preventDefault();
           this.quick_scale(-1);
+          break;
+        case point_in:
+          event.preventDefault();
+          this.quick_point(-1);
+          break;
+        case point_out:
+          event.preventDefault();
+          this.quick_point(1);
           break;
         case ctrl:
           event.preventDefault();
@@ -694,26 +709,30 @@ class ToolBar extends Component {
     /*
      * direction 裁剪方向 -1 ：left 1 right
      * */
-    const {isUtilsKeyDown} = this.state;
-    if (isUtilsKeyDown) {  // 如果shift 按下了才会有反应
-      if (direction === -1) {
-        this._cutLeft();
-      } else if (direction === 1) {
-        this._cutRight();
-      }
+    // const {isUtilsKeyDown} = this.state;
+    // if (isUtilsKeyDown) {  // 如果shift 按下了才会有反应
+    if (direction === -1) {
+      this._cutLeft();
+    } else if (direction === 1) {
+      this._cutRight();
     }
+    // }
   }
 
+  // 快速保存
   quick_save() {
-    /*
-     * direction 裁剪方向 -1 ：left 1 right
-     * */
     const {isUtilsKeyDown} = this.state;
     if (isUtilsKeyDown) {
       this._save();
     }
   }
-
+  // 快速导出
+  quick_export = () => {
+    const {isUtilsKeyDown} = this.state;
+    if (isUtilsKeyDown) {
+      this._export();
+    }
+  };
   // 缩放
   quick_scale = (options) => {
     const {isUtilsKeyDown} = this.state;
@@ -725,11 +744,19 @@ class ToolBar extends Component {
       }
     }
   };
+  // 裁剪成两段
   quick_cut = () => {
-    const {isUtilsKeyDown} = this.state;
-    if (isUtilsKeyDown) {
-      this._cut();
+    this._cut();
+  };
+  // 进出点
+  quick_point = (options) => {
+
+    if (options === -1) { // 进点
+      this._setPointIn();
+    } else if (options === 1) { // 出点
+      this._setPointOut();
     }
+
   };
 
   utilsKeyDown() {
@@ -752,7 +779,7 @@ class ToolBar extends Component {
       return (
         <div className="export_status">
           <span>{export_status}</span>
-          { is_show_export_loading ? <div className="spinner">
+          {is_show_export_loading ? <div className="spinner">
             <div className="bounce1"/>
             <div className="bounce2"/>
             <div className="bounce3"/>
@@ -801,7 +828,9 @@ class ToolBar extends Component {
           <div className="menu_icon large_icon icon_pointIn" title="进点" onClick={this._setPointIn}/>
           <div className="menu_icon large_icon icon_pointOut" title="出点" onClick={this._setPointOut}/>
           <div className="menu_icon large_icon icon_save is_disabled" title="保存" onClick={this._save}/>
-          <div className= {is_exporting ? 'menu_icon large_icon icon_export is_disabled' : 'menu_icon large_icon icon_export'} title="导出" onClick={this._export}/>
+          <div
+            className={is_exporting ? 'menu_icon large_icon icon_export is_disabled' : 'menu_icon large_icon icon_export'}
+            title="导出" onClick={this._export}/>
         </div>
         {this.load_exportStatus()}
         {/*<button id="btn_play" onClick={this.play_video}>播放</button>*/}
@@ -812,6 +841,7 @@ class ToolBar extends Component {
     );
   }
 }
+
 export default connect(state => ({
     videoTrackList: state.videoTrackList.data,
     needleLeft: state.needle.currentTime,

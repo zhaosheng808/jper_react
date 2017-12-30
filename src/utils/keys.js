@@ -79,7 +79,7 @@ export default {
   Slash: 191, ///
 
   EQUALS: 187, //=
-  COMMA: 188, //,
+  COMMA: 188, //, <
   MINUS: 189, //-
-  DOT: 190 //.
+  DOT: 190 //. >
 }

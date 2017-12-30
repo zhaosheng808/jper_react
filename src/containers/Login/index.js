@@ -142,6 +142,7 @@ class Login extends Component {
       <div className="login">
         <div className='login_form' onKeyPress={this._onKeyPress}>
           <h3>闪电新闻矩阵号</h3>
+          {/*<h3>头条视频在线非编平台</h3>*/}
           <Form ref="form" model={this.state.form} rules={this.state.rules} labelWidth="60">
             <Form.Item label="账号" prop="name">
               <Input value={this.state.form.name} onChange={this._onChange.bind(this, 'name')}/>
