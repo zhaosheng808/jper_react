@@ -1,6 +1,6 @@
 /**
  * Created by DELL on 2017/12/8.
- * 指针状态 当前位置，是否播放
+ * 指针状态 当前对应时间线的时间ms为单位，是否播放
  */
 export const CHANGE_NEEDLE_POSITION = 'CHANGE_NEEDLE_POSITION';
 export const CHANGE_NEEDLE_STATE = 'CHANGE_NEEDLE_STATE';
