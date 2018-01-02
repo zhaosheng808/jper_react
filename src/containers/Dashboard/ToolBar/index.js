@@ -519,17 +519,17 @@ class ToolBar extends Component {
           finalResult.push({
             type: 'video',                                                               //
             material_uuid: item.material_uuid || 'blank',
-            ori_start_time: item.relative_start,                                         //截取开始时间   相对于原视频
-            ori_end_time: item.relative_start + item.time,                               //截取结束时间   相对于原视频
-            new_start_time: item.start_time - inPoint_time                               //当前视频在新视频中的开始时间  仅用于排序
+            ori_start_time: item.relative_start / 1000,                                         //截取开始时间   相对于原视频  单位全部由ms -> s
+            ori_end_time: (item.relative_start + item.time) / 1000,                               //截取结束时间   相对于原视频
+            new_start_time: (item.start_time - inPoint_time) / 1000                               //当前视频在新视频中的开始时间  仅用于排序
           })
         } else if (item.type === 'blank') {
           finalResult.push({
             type: 'blank',                                                               //
             material_uuid: '',
             ori_start_time: 0,                                                           //截取开始时间   相对于原视频
-            ori_end_time: item.time,                                                     //截取结束时间   相对于原视频
-            new_start_time: item.start_time - inPoint_time                               //当前视频在新视频中的开始时间  仅用于排序
+            ori_end_time: item.time / 1000,                                                     //截取结束时间   相对于原视频
+            new_start_time: (item.start_time - inPoint_time)  / 1000                               //当前视频在新视频中的开始时间  仅用于排序
           });
         }
       });
