@@ -18,6 +18,7 @@ import OperateMessage  from './OperateMessage';
 import './dashboard.css';
 // import mp4 from '@/assets/media/VID_20171123_124935.mp4';
 
+export default
 class Dashboard extends Component {
   constructor(props) {
     super(props);
@@ -89,6 +90,3 @@ class Dashboard extends Component {
     );
   }
 }
-
-export default connect(state => ({needleLeft: state.needle.currentTime, videoTrackList: state.videoTrackList.data, zoom_scale: state.zoom_scale.scale}),
-  {change_needlePosition})(Dashboard);

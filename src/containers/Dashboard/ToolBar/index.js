@@ -76,9 +76,9 @@ class ToolBar extends Component {
     }
   };
   _setPointIn = () => {
-    const {needleLeft, pointInOut, zoom_scale} = this.props;
+    const {needleTime, pointInOut} = this.props;
     const pointOut_time = pointInOut.outPoint.time;
-    const pointIn_time = needleLeft / zoom_scale;
+    const pointIn_time = needleTime;
     const pointIn_isShow = pointInOut.outPoint.isShow;
     if (pointIn_time <= pointOut_time || !pointIn_isShow) {
       this.props.change_inPoint(pointIn_time);
@@ -88,9 +88,9 @@ class ToolBar extends Component {
 
   };
   _setPointOut = () => {
-    const {needleLeft, pointInOut, zoom_scale} = this.props;
+    const {needleTime, pointInOut} = this.props;
     const pointIn_time = pointInOut.inPoint.time;
-    const pointOut_time = needleLeft / zoom_scale;
+    const pointOut_time = needleTime;
     if (pointIn_time <= pointOut_time) {
       this.props.change_outPoint(pointOut_time);
     } else {
@@ -99,13 +99,12 @@ class ToolBar extends Component {
   };
   // 裁剪掉视频左侧 指针位置划分视频左右
   _cutLeft = () => {
-    const {needleLeft, current_playing_video, zoom_scale, videoTrackList} = this.props;
+    const {needleTime, current_playing_video, videoTrackList} = this.props;
     const {trackIndex, itemIndex} = current_playing_video;
     let playIngVideo = {};
     if (videoTrackList[current_playing_video.trackIndex]) {
       playIngVideo = videoTrackList[current_playing_video.trackIndex].child[current_playing_video.itemIndex];
     }
-    const needleTime = needleLeft / zoom_scale;
     if (playIngVideo.playerId) {
       const cut_time = needleTime - playIngVideo.start_time;  // 本次左侧裁剪掉的时间
       const relative_start = playIngVideo.relative_start + cut_time;
@@ -129,13 +128,12 @@ class ToolBar extends Component {
     /*
      * split 是否将右侧裁剪掉的添加到新的素材中，true :即原视频被裁剪成两段
      * */
-    const {needleLeft, current_playing_video, zoom_scale, videoTrackList} = this.props;
+    const {needleTime, current_playing_video, videoTrackList} = this.props;
     const {trackIndex, itemIndex} = current_playing_video;
     let playIngVideo = {};
     if (videoTrackList[current_playing_video.trackIndex]) {
       playIngVideo = videoTrackList[current_playing_video.trackIndex].child[current_playing_video.itemIndex];
     }
-    const needleTime = needleLeft / zoom_scale;
     if (playIngVideo.playerId) {
       const cut_time = playIngVideo.start_time + playIngVideo.time - needleTime;  // 本次右侧裁剪掉的时间
       const time = playIngVideo.time - cut_time;
@@ -844,7 +842,7 @@ class ToolBar extends Component {
 
 export default connect(state => ({
     videoTrackList: state.videoTrackList.data,
-    needleLeft: state.needle.currentTime,
+    needleTime: state.needle.currentTime,
     pointInOut: state.pointInOut,
     current_playing_video: state.current_playing_video,
     activeElement: state.activeElement,

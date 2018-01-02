@@ -70,8 +70,8 @@ class VideoItem extends Component {
     event.stopPropagation();
     event.preventDefault();
     const {itemData, zoom_scale} = this.props;
-    const startWidth = itemData.time * zoom_scale;
-    const startLeft = itemData.start_time * zoom_scale;
+    const startWidth = itemData.time / 1000 * zoom_scale;
+    const startLeft = itemData.start_time / 1000 * zoom_scale;
     const relative_start = itemData.relative_start;
     const startMove_time = itemData.time;
     this.setState({
@@ -97,7 +97,7 @@ class VideoItem extends Component {
     let nowTime = 0,
       left = 0;
     if (direction === 'right') {             // 右边的把手
-      nowTime = (startWidth + moveX) / zoom_scale;
+      nowTime = (startWidth + moveX) * 1000 / zoom_scale;
 
       if (nowTime > origin_time - relative_start) {
         nowTime = origin_time - relative_start
@@ -111,23 +111,22 @@ class VideoItem extends Component {
     } else {                                // 左边的把手
       /* 只通过起始位置和相对于原视频的起始位置 这两个值计算出left和time*/
 
-      let now_relative_start = relative_start + moveX / zoom_scale;   // 相对于原始视频的起始时间
-
+      let now_relative_start = relative_start + moveX / zoom_scale * 1000;   // 相对于原始视频的起始时间
 
       if (now_relative_start < 0) {                                // 如果向左侧拉动到了原始视频的最开始，则不能拉动了
         now_relative_start = 0;
-      } else if (now_relative_start > (time + relative_start) * zoom_scale) {  // 如果向右拖拽超出现有的item的宽度
+      } else if (now_relative_start > (time + relative_start)) {  // 如果向右拖拽超出现有的item的宽度
         now_relative_start = origin_time - time;
       }
-      const realMoveX = (now_relative_start - relative_start) * zoom_scale; // 节点真实移动的距离
+      const realMoveX = (now_relative_start - relative_start) / 1000 * zoom_scale; // 节点真实移动的距离
       left = startLeft + realMoveX;
-      nowTime = startMove_time - realMoveX / zoom_scale;
+      nowTime = startMove_time - realMoveX / zoom_scale * 1000;
       if (left < 0) {
         left = 0;
       }
       this.props.videoTrack_edit(trackIndex, itemIndex, {
         ...itemData,
-        start_time: left / zoom_scale,
+        start_time: left / zoom_scale * 1000,
         time: nowTime,
         relative_start: now_relative_start
       });
@@ -154,6 +153,10 @@ class VideoItem extends Component {
     this.props.videoTrackList_del(trackIndex, itemIndex);
   };
 
+  /*
+   * item宽度 = 视频时长（ms）/ 1000 * 放大比例
+   * */
+
   render() {
     const {itemData, activeElement, zoom_scale} = this.props;
     let isActive = false;
@@ -162,7 +165,7 @@ class VideoItem extends Component {
     }
     return (
       <div className={isActive ? 'clip_item clip_active' : 'clip_item'}
-           style={{width: `${itemData.time * zoom_scale}px`, left: `${itemData.start_time * zoom_scale}px`}}
+           style={{width: `${itemData.time / 1000 * zoom_scale}px`, left: `${itemData.start_time / 1000 * zoom_scale}px`}}
            onClick={this.activeTrackElement}
            draggable="true"
            onDragStart={this._dragStart.bind(this, itemData)}

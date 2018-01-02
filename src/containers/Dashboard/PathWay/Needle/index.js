@@ -20,24 +20,11 @@ class Needle extends Component {
     // this.check_current_videoPlayer();
   }
   componentWillReceiveProps (nextProps) {
-    // 如果比例尺发生了变化 先修改指针的位置再判断当前的播放器
-    if (nextProps.zoom_scale !== this.props.zoom_scale) {
-      this.changeNeedleLeft(nextProps);
-      return;
-    }
     this.check_current_videoPlayer(nextProps);
   };
-  // 比例尺发生变化 指针对应的位置也将发生变化
-  changeNeedleLeft = (nextProps) => {
-    const origin_scale = this.props.zoom_scale;
-    const next_scale = nextProps.zoom_scale;
-    const origin_left = this.props.needle.currentTime;
-    const next_left = (origin_left / origin_scale) * next_scale;
-    this.props.change_needlePosition(next_left);
-  };
   needle_mouseDown = (event) => {
-    const {needle} = this.props;
-    const startLeft = needle.currentTime;
+    const {needle, zoom_scale} = this.props;
+    const startLeft = needle.currentTime / 1000 * zoom_scale;
 
     this.setState({
       startX: event.clientX,
@@ -51,7 +38,7 @@ class Needle extends Component {
     tools.addEventHandler(document.body, 'mouseup', this.needle_mouseUp);
   };
   changeNeedle_move = (event) => {
-    const {current_playing_video, videoTrackList} = this.props;
+    const {current_playing_video, videoTrackList, zoom_scale} = this.props;
     let playIngVideo = {};
     if (videoTrackList[current_playing_video.trackIndex]) {
       playIngVideo = videoTrackList[current_playing_video.trackIndex].child[current_playing_video.itemIndex];
@@ -69,8 +56,9 @@ class Needle extends Component {
     if (nowLeft < 0) {
       nowLeft = 0
     }
+    const needleTime = nowLeft / zoom_scale * 1000;
     this.props.change_needleState({isMoving: false});
-    this.props.change_needlePosition(nowLeft);
+    this.props.change_needlePosition(needleTime);
   };
   needle_mouseUp = () => {
     tools.removeEventHandler(document.body, 'mousemove', this.changeNeedle_move);
@@ -82,13 +70,13 @@ class Needle extends Component {
 
   // 判断当前应该是哪个video播放
   check_current_videoPlayer = (nextProps) => {
-    const {needle, zoom_scale, current_playing_video, videoTrackList} = nextProps;
+    const {needle, current_playing_video, videoTrackList} = nextProps;
     let next_playIngVideo = {};
     if (videoTrackList[current_playing_video.trackIndex]) {
       next_playIngVideo = videoTrackList[current_playing_video.trackIndex].child[current_playing_video.itemIndex];
     }
     // 根据当前指针时间找到对应播放的视频对象数组
-    const needleLeft_now = needle.currentTime;
+    const needleTime_now = needle.currentTime;   // 当前指针时间
     const canPlay_videos = [];                 // 当前指针指到的videos
     videoTrackList.forEach((item, index) => {
 
@@ -96,7 +84,7 @@ class Needle extends Component {
         const track_canPlay_videos = [];
         item.child.forEach((childItem, childIndex) => {
           const {start_time, time, playerId} = childItem;
-          if ( playerId && needleLeft_now >= start_time * zoom_scale && needleLeft_now <= parseFloat(start_time * zoom_scale) + parseFloat(time * zoom_scale)) {
+          if ( playerId && needleTime_now >= start_time && needleTime_now <= start_time + time ) {
             childItem.level = item.level;
             childItem.trackIndex = index;
             childItem.itemIndex = childIndex;
@@ -136,10 +124,10 @@ class Needle extends Component {
     }
   };
   render() {
-    const {needle} = this.props;
-    const needleLeft = needle.currentTime;
+    const {needle, zoom_scale} = this.props;
+    const currentTime = needle.currentTime;
     return (
-      <div className="needle" ref='needle' onMouseDown={this.needle_mouseDown.bind(this)} style={{'left': `${needleLeft}px`}} >
+      <div className="needle" ref='needle' onMouseDown={this.needle_mouseDown.bind(this)} style={{'left': `${currentTime / 1000 * zoom_scale}px`}} >
         <div className="needle_handle" />
       </div>
     );

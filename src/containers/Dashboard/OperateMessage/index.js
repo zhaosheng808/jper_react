@@ -40,15 +40,15 @@ class OperateMessage extends Component {
             </div>
             <div className="info_item">
               <span className="info_label">开始</span>
-              <div className="info_value">{secondToDate(activeItem.start_time || 0)}</div>
+              <div className="info_value">{secondToDate(activeItem.start_time / 1000 || 0)}</div>
             </div>
             <div className="info_item">
               <span className="info_label">结束</span>
-              <div className="info_value">{secondToDate((activeItem.start_time + activeItem.time) || 0)}</div>
+              <div className="info_value">{secondToDate((activeItem.start_time + activeItem.time) / 1000 || 0)}</div>
             </div>
             <div className="info_item">
               <span className="info_label">时间长度</span>
-              <div className="info_value">{secondToDate(activeItem.time || 0)}</div>
+              <div className="info_value">{secondToDate(activeItem.time / 1000 || 0)}</div>
             </div>
             {/*<div className="info_item">*/}
               {/*<span className="info_label">初始来源</span>*/}

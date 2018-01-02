@@ -15,12 +15,12 @@ class InOut extends Component {
   render() {
     const {pointInOut, zoom_scale} = this.props;
     const {inPoint, outPoint} = pointInOut;
-    const inoutCover_width = (outPoint.time - inPoint.time) * zoom_scale;
+    const inoutCover_width = (outPoint.time - inPoint.time) / 1000 * zoom_scale;
     return (
       <div className="in_out">
-        <div className="inPoint" style={{display: inPoint.isShow ? 'block' : 'none', left: `${inPoint.time * zoom_scale}px`}} />
-        <div className="outPoint" style={{display: outPoint.isShow ? 'block' : 'none', left: `${outPoint.time * zoom_scale}px`}} />
-        <div className="inout_cover" style={{width: `${inoutCover_width}px`, left: `${inPoint.time * zoom_scale}px`}} />
+        <div className="inPoint" style={{display: inPoint.isShow ? 'block' : 'none', left: `${inPoint.time / 1000 * zoom_scale}px`}} />
+        <div className="outPoint" style={{display: outPoint.isShow ? 'block' : 'none', left: `${outPoint.time / 1000 * zoom_scale}px`}} />
+        <div className="inout_cover" style={{width: `${inoutCover_width}px`, left: `${(inPoint.time / 1000) * zoom_scale}px`}} />
       </div>
     );
   }

@@ -58,7 +58,7 @@ class TimeLine extends Component {
 
   changeNeedle = (event) => {
     event.stopPropagation();
-    // const {current_playing_video, videoTrackList} = this.props;
+    const {zoom_scale} = this.props;
     this.props.change_needleState({isMoving: false});
     const pathWay_scrollLeft = document.querySelector('.pathWay').scrollLeft;
     const App_scrollLeft = document.querySelector('.App').scrollLeft;
@@ -79,7 +79,8 @@ class TimeLine extends Component {
     //   }
     // }
 
-    this.props.change_needlePosition(left);
+    const needleTime = left / zoom_scale * 1000;
+    this.props.change_needlePosition(needleTime);
   };
   _renderTimeSecond = () => {
     const {zoom_scale} = this.props;

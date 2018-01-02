@@ -23,7 +23,7 @@ class TrackVideo extends Component {
   }
   componentWillReceiveProps (nextProps) {
     // const {pathWayWidth} = this.props;
-    const {videoTrackList, zoom_scale, pathWayWidth} = nextProps;
+    const {videoTrackList, zoom_scale, pathWayWidth, needleTime} = nextProps;
     let maxTime = 0;
     videoTrackList.forEach((trackItem, trackIndex) => {
       if (trackItem.child) {
@@ -35,12 +35,12 @@ class TrackVideo extends Component {
       }
     });
     /* 64 轨道左侧空白值 200 最长轨道右侧保留值*/
-    const maxWidth = maxTime * zoom_scale + 64 + 200;
+    const maxWidth = maxTime / 1000 * zoom_scale + 64 + 200;
     if (pathWayWidth < maxWidth) {
       this.props.change_width(maxWidth);
     } else {
       if (maxWidth < window.innerWidth) {
-        const {needleLeft} = this.props;
+        const needleLeft = needleTime / 1000 * zoom_scale;
         const pathWay_width = document.querySelector('.pathWay').clientWidth;
 
         if (needleLeft < pathWay_width) {
@@ -149,7 +149,7 @@ class TrackVideo extends Component {
 
 
 
-    const start_time = left / zoom_scale;       // 视频起始时间
+    const start_time = left * 1000 / zoom_scale;       // 视频起始时间
 
 
 
@@ -260,7 +260,7 @@ class TrackVideo extends Component {
 }
 export default  connect(state => ({
     activeElement: state.activeElement,
-    needleLeft: state.needle.currentTime,
+    needleTime: state.needle.currentTime,
     videoTrackList: state.videoTrackList.data,
     pathWayWidth: state.pathWayWidth.width,
     checkCover: state.checkCover.cover,

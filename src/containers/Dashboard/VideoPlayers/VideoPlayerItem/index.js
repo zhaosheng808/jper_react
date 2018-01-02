@@ -120,10 +120,9 @@ class VodeoPlayerItem extends Component {
       // 如果没有播放 需要将指针当前位置映射到video的currentTime 拖拽进行绘制
       if (this.refs.video.paused) {
         const {itemData} = this.props; // 指针位置 刻度线比例
-        const {needleLeft, zoom_scale} = nextProps; // 指针位置 比例
-        const needleTime = needleLeft / zoom_scale;
+        const {needleTime} = nextProps; // 指针位置 比例
         const {start_time, relative_start} = itemData;
-        this.refs.video.currentTime = needleTime - start_time + relative_start;
+        this.refs.video.currentTime = (needleTime - start_time + relative_start) / 1000;
       }
       this.refs.video.oncanplaythrough = () => {
         this.drawVideoToCanvas();
@@ -166,7 +165,7 @@ class VodeoPlayerItem extends Component {
 
 export default connect(state => ({
   videoTrackList: state.videoTrackList.data,
-  needleLeft: state.needle.currentTime,
+  needleTime: state.needle.currentTime,
   zoom_scale: state.zoom_scale.scale,
   current_playing_video: state.current_playing_video
 

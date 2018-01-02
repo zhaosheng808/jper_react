@@ -222,11 +222,11 @@
     background-repeat: no-repeat;
 }
 .inPoint{
-    /*margin-left: -3px;*/
+    margin-left: -1px;
     background-image: url('../../../assets/images/inpoint.png');
 }
 .outPoint{
-    margin-left: -16px;
+    margin-left: -15px;
     background-image: url('../../../assets/images/outpoint.png');
 }
 

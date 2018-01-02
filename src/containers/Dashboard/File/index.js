@@ -138,7 +138,7 @@ class File extends Component {
                 src: data.src,
                 size: data.info.size,
                 cover: data.head_img,
-                origin_time: parseFloat(data.info.seconds),
+                origin_time: parseFloat(data.info.seconds * 1000),
                 material_uuid: data.material_uuid,
                 width: data.info.width,
                 bitrate: data.info.bitrate,

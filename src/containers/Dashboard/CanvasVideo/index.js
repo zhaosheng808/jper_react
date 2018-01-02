@@ -33,7 +33,7 @@ class CanvasVideo extends Component {
     // this.props 当前的props
     // nextProps 下一阶段的props
     const {needle} = nextProps;
-    const {zoom_scale, videoTrackList, current_playing_video} = this.props;
+    const {videoTrackList, current_playing_video} = this.props;
     const next_playing_video = nextProps.current_playing_video;
     const next_videoTrackList = nextProps.videoTrackList;
     const {isPlaying, canvas} = this.state;
@@ -68,7 +68,7 @@ class CanvasVideo extends Component {
         canvas.width = video.clientWidth || 800;
         canvas.height = video.clientHeight || 600;
         // 新新切换视频的当前播放时间 = 相对于原始视频的裁剪 + （指针当前位置 - 视频开始时间）
-        video.currentTime = nextPlay.relative_start + (needle.currentTime / zoom_scale - nextPlay.start_time );
+        video.currentTime = (nextPlay.relative_start + (needle.currentTime - nextPlay.start_time )) / 1000;
         if (isPlaying) {
           video.play();
         }
@@ -173,7 +173,7 @@ class CanvasVideo extends Component {
     if (!timer) {
       timer = setInterval(() => {
         this.time_add();
-      }, 100);
+      }, 50);
       this.setState({
         timer,
         isPlaying: true
@@ -195,11 +195,11 @@ class CanvasVideo extends Component {
   };
   // 指针移动 自然移动 每秒10次
   needle_move = () => {
-    const {needle, zoom_scale} = this.props;
-    const needleLeft = needle.currentTime;
-    // 指针每次运动距离 1s -> 10 * step
-    const step = zoom_scale / 10;
-    this.props.change_needlePosition(needleLeft + step);
+    const {needle} = this.props;
+    const currentTime = needle.currentTime;
+    // 指针每次运动距离 50ms
+    const step = 50;
+    this.props.change_needlePosition(currentTime + step);
   };
   // 指针移动 按帧移动 1s -> 25帧 0.04s
   needle_move_frame = (type) => {
@@ -207,16 +207,16 @@ class CanvasVideo extends Component {
     if (isPlaying) {  // 正在播放 暂停播放
       this.changePlayState();
     }
-    const {needle, zoom_scale} = this.props;
-    const needleLeft = needle.currentTime;
+    const {needle} = this.props;
+    const currentTime = needle.currentTime;
     // 指针每次运动距离 1s -> 10 * step
-    const step = zoom_scale / 25;
+    const step = 0.04 * 1000;
     if (type === -1) {              // 上一帧
-      if (needleLeft > 0) {
-        this.props.change_needlePosition(needleLeft - step);
+      if (currentTime > 0) {
+        this.props.change_needlePosition(currentTime - step);
       }
     } else {                       // 下一帧
-      this.props.change_needlePosition(needleLeft + step);
+      this.props.change_needlePosition(currentTime + step);
     }
 
   };
@@ -281,8 +281,8 @@ class CanvasVideo extends Component {
   };
   render() {
     const {isPlaying} = this.state;
-    const {needle, zoom_scale} = this.props;
-    const needleTime = (needle.currentTime / zoom_scale).toFixed(2);
+    const {needle} = this.props;
+    const needleTime = needle.currentTime / 1000;
     return (
       <div className="video_panel">
         <div className="panel_header" />
